@@ -1,10 +1,4 @@
 // scripts.js
-const supabaseUrl = 'https://rquhkilfwppdfxxaxysb.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxdWhraWxmd3BwZGZ4eGF4eXNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyOTQ5MDYsImV4cCI6MjEwNjg3MDkwNn0.8JaCqSA-tuXZBLkObPqencFMvav8uny0bEuUwbbzU_A';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-
-// scripts.js
 // Supabase initialization and utility functions
 
 // 1. Verify that Supabase JS v2 is loaded correctly
