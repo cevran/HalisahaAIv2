@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Halısaha AI V2</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Dashboard</h1>
+    <div class="dashboard-card">
+      <h2>Kullanıcı Bilgileri</h2>
+      <div class="user-info">
+        <div class="user-avatar" id="userAvatar">
+          <!-- Avatar will be shown here -->
+        </div>
+        <div class="user-details">
+          <p><strong>Ad Soyad:</strong> <span id="fullName"></span></p>
+          <p><strong>Takma Ad:</strong> <span id="nickname"></span></p>
+          <p><strong>Doğum Yılı:</strong> <span id="birthYear"></span></p>
+          <p><strong>Yaş:</strong> <span id="age"></span></p>
+          <p><strong>E-posta:</strong> <span id="email"></span></p>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-card">
+      <h2>Gruplarım</h2>
+      <ul id="groupsList"></ul>
+    </div>
+    <div class="dashboard-card">
+      <h2>Oyunlarım</h2>
+      <ul id="gamesList"></ul>
+    </div>
+    <p>
+      <a href="profile.html">Profilime Dön</a>
+    </p>
+  </div>
+  <script src="scripts.js"></script>
+</body>
+</html>
