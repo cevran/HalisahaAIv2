@@ -194,3 +194,16 @@ button:disabled {
         height: 120px;
     }
 }
+
+.secondary-btn,
+.logout-btn {
+    margin-top: 10px;
+}
+
+.secondary-btn {
+    background: #6c757d;
+}
+
+.secondary-btn:hover {
+    background: #5c636a;
+}
