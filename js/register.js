@@ -88,29 +88,45 @@ document.addEventListener("DOMContentLoaded", () => {
                 email: email,
                 full_name: name,
                 birth_year: parseInt(birthYear),
-                created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString()
             };
 
-            console.log("PROFILES TABLOSUNA YAZILACAK VERİ:");
+            console.log("========== PROFILE PAYLOAD ==========");
             console.log(profileData);
 
-            const { data: profileInsertData, error: profileError } =
-                await supabaseClient
-                    .from("profiles")
-                    .insert([profileData])
-                    .select();
+            const {
+                data: profileInsertData,
+                error: profileError
+            } = await supabaseClient
+                .from("profiles")
+                .upsert(
+                    profileData,
+                    {
+                        onConflict: "id"
+                    }
+                )
+                .select();
 
-            console.log("PROFILE INSERT SONUCU:", {
-                profileInsertData,
-                profileError
-            });
+            console.log("========== UPSERT SONUCU ==========");
+            console.log(profileInsertData);
+            console.log(profileError);
 
             if (profileError) {
                 throw profileError;
             }
 
-            console.log("KAYIT TAMAMLANDI");
+            const {
+                data: verifyProfile,
+                error: verifyError
+            } = await supabaseClient
+                .from("profiles")
+                .select("*")
+                .eq("id", user.id)
+                .single();
+
+            console.log("========== VERITABANI KONTROL ==========");
+            console.log(verifyProfile);
+            console.log(verifyError);
 
             alert("Kayıt başarıyla oluşturuldu.");
 
