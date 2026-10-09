@@ -30,6 +30,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const bioInput =
         document.getElementById("bio");
 
+    const playerName =
+        document.getElementById("playerName");
+
+    const playerAge =
+        document.getElementById("playerAge");
+
     const profilePhoto =
         document.getElementById("profilePhoto");
 
@@ -61,15 +67,25 @@ document.addEventListener("DOMContentLoaded", async () => {
             fullNameInput.value =
                 profile.full_name || "";
 
+            let age = "";
+
             if (profile.birth_year) {
 
                 const currentYear =
                     new Date().getFullYear();
 
-                ageInput.value =
-                    currentYear - profile.birth_year;
+                age =
+                    currentYear -
+                    Number(profile.birth_year);
 
+                ageInput.value = age;
             }
+
+            playerName.textContent =
+                profile.full_name || "Oyuncu";
+
+            playerAge.textContent =
+                age ? `${age} yaş` : "";
 
             nicknameInput.value =
                 profile.nickname || "";
@@ -92,7 +108,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             ) {
 
                 profilePhoto.src =
-                    profile.photo_url;
+                    profile.photo_url + "?t=" + Date.now();
 
             } else {
 
@@ -129,17 +145,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (!file) return;
 
                 const extension =
-                    file.name
-                        .split(".")
-                        .pop();
+                    file.name.split(".").pop();
 
                 const fileName =
                     `${user.id}.${extension}`;
 
                 const {
                     error: uploadError
-                } = await supabaseClient
-                    .storage
+                } = await supabaseClient.storage
                     .from("player-photos")
                     .upload(
                         fileName,
@@ -155,12 +168,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 const {
                     data: publicData
-                } = supabaseClient
-                    .storage
+                } = supabaseClient.storage
                     .from("player-photos")
-                    .getPublicUrl(
-                        fileName
-                    );
+                    .getPublicUrl(fileName);
 
                 const photoUrl =
                     publicData.publicUrl;
@@ -170,83 +180,4 @@ document.addEventListener("DOMContentLoaded", async () => {
                 } = await supabaseClient
                     .from("profiles")
                     .update({
-                        photo_url: photoUrl
-                    })
-                    .eq("id", user.id);
-
-                if (updateError) {
-                    throw updateError;
-                }
-
-                profilePhoto.src =
-                    photoUrl +
-                    "?t=" +
-                    Date.now();
-
-                alert(
-                    "Fotoğraf güncellendi."
-                );
-
-            } catch (err) {
-
-                console.error(err);
-
-                alert(
-                    err.message ||
-                    "Fotoğraf yüklenemedi."
-                );
-            }
-        }
-    );
-
-    profileForm.addEventListener(
-        "submit",
-        async (e) => {
-
-            e.preventDefault();
-
-            try {
-
-                const {
-                    error
-                } = await supabaseClient
-                    .from("profiles")
-                    .update({
-                        nickname:
-                            nicknameInput.value,
-                        preferred_position:
-                            preferredPositionInput.value,
-                        dominant_foot:
-                            dominantFootInput.value,
-                        player_number:
-                            playerNumberInput.value || null,
-                        bio:
-                            bioInput.value,
-                        updated_at:
-                            new Date().toISOString()
-                    })
-                    .eq("id", user.id);
-
-                if (error) {
-                    throw error;
-                }
-
-                alert(
-                    "Profil güncellendi."
-                );
-
-            } catch (err) {
-
-                console.error(err);
-
-                alert(
-                    err.message ||
-                    "Profil güncellenemedi."
-                );
-            }
-        }
-    );
-
-    await loadProfile();
-
-});
+                        photo_url: 

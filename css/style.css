@@ -7,6 +7,7 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     background: #f4f6f9;
+
     min-height: 100vh;
 
     display: flex;
@@ -20,12 +21,13 @@ body {
     width: 100%;
     max-width: 450px;
 
-    background: white;
+    background: #fff;
+
     border-radius: 16px;
 
     padding: 30px;
 
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,.1);
 }
 
 .logo {
@@ -40,7 +42,7 @@ body {
 }
 
 .logo p {
-    color: #666;
+    color: #777;
     font-size: 14px;
 }
 
@@ -51,6 +53,7 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 6px;
+    font-size: 14px;
     font-weight: 600;
     color: #333;
 }
@@ -59,6 +62,7 @@ input,
 select,
 textarea {
     width: 100%;
+
     padding: 12px;
 
     border: 1px solid #ddd;
@@ -75,24 +79,27 @@ textarea:focus {
 }
 
 textarea {
-    resize: vertical;
     min-height: 100px;
+    resize: vertical;
 }
 
 button {
     width: 100%;
+
     border: none;
 
     background: #0d6efd;
     color: white;
 
     padding: 14px;
+
     border-radius: 10px;
 
     font-size: 16px;
+
     cursor: pointer;
 
-    transition: 0.3s;
+    transition: .25s;
 }
 
 button:hover {
@@ -100,7 +107,7 @@ button:hover {
 }
 
 button:disabled {
-    opacity: 0.6;
+    opacity: .6;
     cursor: not-allowed;
 }
 
@@ -118,9 +125,7 @@ button:disabled {
     text-decoration: underline;
 }
 
-/* =====================================
-   PROFILE PAGE
-===================================== */
+/* PROFILE */
 
 .profile-photo-section {
     text-align: center;
@@ -128,49 +133,64 @@ button:disabled {
 }
 
 .profile-avatar {
-    width: 160px;
-    height: 160px;
+    width: 140px;
+    height: 140px;
 
     border-radius: 50%;
     object-fit: cover;
 
     border: 4px solid #0d6efd;
-    background: #f8f9fa;
 
     cursor: pointer;
 
-    transition: all 0.25s ease;
+    transition: .25s;
 }
 
 .profile-avatar:hover {
     transform: scale(1.05);
-    opacity: 0.9;
 }
 
 .photo-hint {
     margin-top: 10px;
     color: #777;
-    font-size: 14px;
+    font-size: 13px;
+}
+
+.player-summary {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.player-summary h2 {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.player-summary span {
+    color: #666;
 }
 
 .readonly-field {
-    background: #f5f5f5;
+    background: #f7f7f7;
 }
 
-/* Mobil */
+.logout-btn {
+    margin-top: 10px;
+    background: #dc3545;
+}
 
-@media (max-width: 768px) {
+.logout-btn:hover {
+    background: #bb2d3b;
+}
+
+@media(max-width:768px) {
 
     .card {
-        padding: 20px;
+        padding: 22px;
     }
 
     .profile-avatar {
-        width: 130px;
-        height: 130px;
-    }
-
-    button {
-        padding: 12px;
+        width: 120px;
+        height: 120px;
     }
 }
