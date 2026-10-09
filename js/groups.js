@@ -150,24 +150,29 @@ document.addEventListener("DOMContentLoaded", async () => {
                             .value
                     );
 
-                const {
-                    data: groupData,
-                    error: groupError
-                } = await supabaseClient
-                    .from("groups")
-                    .insert({
-                        name: groupName,
-                        city: groupCity,
-                        description:
-                            groupDescription,
-                        max_players:
-                            maxPlayers,
-                        created_by:
-                            user.id,
-                        is_active: true
-                    })
-                    .select()
-                    .single();
+const groupPayload = {
+    name: groupName,
+    city: groupCity,
+    description: groupDescription,
+    max_players: maxPlayers,
+    created_by: user.id,
+    is_active: true
+};
+
+console.log("USER ID:", user.id);
+console.log("GROUP PAYLOAD:", groupPayload);
+
+const {
+    data: groupData,
+    error: groupError
+} = await supabaseClient
+    .from("groups")
+    .insert(groupPayload)
+    .select()
+    .single();
+
+console.log("GROUP DATA:", groupData);
+console.log("GROUP ERROR:", groupError);
 
                 if (groupError) {
                     throw groupError;
