@@ -68,13 +68,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     .insert([
                         {
                             id: user.id,
+                            email: email,
                             full_name: name
                         }
                     ]);
 
-            if (profileError) {
-                console.error(profileError);
-            }
+if (profileError) {
+    console.error(profileError);
+}
 
             alert("Kayıt başarıyla oluşturuldu.");
 
