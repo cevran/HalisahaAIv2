@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    console.log("REGISTER JS YÜKLENDİ");
+
     const form = document.getElementById("registerForm");
 
     if (!form) {
@@ -11,11 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         e.preventDefault();
 
+        console.log("FORM SUBMIT BAŞLADI");
+
         const name =
-            document.getElementById("fullName")?.value.trim();
+            document.getElementById("fullName")?.value?.trim();
 
         const email =
-            document.getElementById("email")?.value.trim();
+            document.getElementById("email")?.value?.trim();
 
         const password =
             document.getElementById("password")?.value;
@@ -25,6 +29,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const birthYear =
             document.getElementById("birthYear")?.value;
+
+        console.log("FORM DEĞERLERİ:", {
+            name,
+            email,
+            birthYear,
+            passwordLength: password?.length,
+            password2Length: password2?.length
+        });
 
         if (!name || !email || !password || !birthYear) {
             alert("Lütfen tüm alanları doldurun.");
@@ -46,13 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 submitBtn.innerText = "Kayıt oluşturuluyor...";
             }
 
-            console.log("Kayıt verileri:", {
-                name,
-                email,
-                birthYear
-            });
-
-            // AUTH KAYDI
+            console.log("AUTH SIGNUP BAŞLIYOR");
 
             const { data, error } =
                 await supabaseClient.auth.signUp({
@@ -60,38 +66,51 @@ document.addEventListener("DOMContentLoaded", () => {
                     password
                 });
 
+            console.log("AUTH SONUCU:", {
+                data,
+                error
+            });
+
             if (error) {
                 throw error;
             }
 
             const user = data.user;
 
+            console.log("OLUŞAN USER:", user);
+
             if (!user) {
                 throw new Error("Kullanıcı oluşturulamadı.");
             }
 
-            console.log("Auth user:", user);
+            const profileData = {
+                id: user.id,
+                email: email,
+                full_name: name,
+                birth_year: parseInt(birthYear),
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+            };
 
-            // PROFİL KAYDI
+            console.log("PROFILES TABLOSUNA YAZILACAK VERİ:");
+            console.log(profileData);
 
-            const { error: profileError } =
+            const { data: profileInsertData, error: profileError } =
                 await supabaseClient
                     .from("profiles")
-                    .insert([
-                        {
-                            id: user.id,
-                            email: email,
-                            full_name: name,
-                            birth_year: parseInt(birthYear),
-                            created_at: new Date().toISOString(),
-                            updated_at: new Date().toISOString()
-                        }
-                    ]);
+                    .insert([profileData])
+                    .select();
+
+            console.log("PROFILE INSERT SONUCU:", {
+                profileInsertData,
+                profileError
+            });
 
             if (profileError) {
-                console.error("Profil oluşturma hatası:", profileError);
                 throw profileError;
             }
+
+            console.log("KAYIT TAMAMLANDI");
 
             alert("Kayıt başarıyla oluşturuldu.");
 
@@ -99,10 +118,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (err) {
 
-            console.error("Register Error:", err);
+            console.error("REGISTER HATASI:", err);
 
             alert(
-                err.message ||
+                err?.message ||
                 "Kayıt sırasında hata oluştu."
             );
 
