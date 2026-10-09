@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (profile) {
 
+            console.log("PROFILE DATA:", profile);
+            
             document.getElementById("fullName").value =
                 profile.full_name || "";
 
