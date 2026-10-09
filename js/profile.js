@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (profile) {
 
             console.log("PROFILE DATA:", profile);
-            
+
             document.getElementById("fullName").value =
                 profile.full_name || "";
 
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 document.getElementById("age").value =
                     currentYear - profile.birth_year;
-        }
+            }
 
             document.getElementById("preferredPosition").value =
                 profile.preferred_position || "";
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const reader = new FileReader();
 
-            reader.onload = function(event) {
+            reader.onload = function (event) {
 
                 document.getElementById(
                     "photoPreview"
@@ -114,6 +114,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     document.getElementById("age").value
                 );
 
+            const birthYear =
+                new Date().getFullYear() - age;
+
             const preferredPosition =
                 document.getElementById(
                     "preferredPosition"
@@ -132,7 +135,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             btn.disabled = true;
             btn.innerText = "Kaydediliyor...";
 
-            // FOTO YUKLE
+            // FOTOĞRAF YÜKLE
 
             const photoFile =
                 document.getElementById("photoFile")
@@ -169,7 +172,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     throw uploadError;
                 }
 
-                const { data: publicData } =
+                const {
+                    data: publicData
+                } =
                     supabaseClient
                         .storage
                         .from("player-photos")
@@ -184,16 +189,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                     .from("profiles")
                     .update({
                         full_name: fullName,
-                        age: age,
-                        preferred_position:
-                            preferredPosition,
-                        dominant_foot:
-                            dominantFoot,
-                        photo_url:
-                            uploadedPhotoUrl,
-                        updated_at:
-                            new Date()
-                                .toISOString()
+                        birth_year: birthYear,
+                        preferred_position: preferredPosition,
+                        dominant_foot: dominantFoot,
+                        photo_url: uploadedPhotoUrl,
+                        updated_at: new Date().toISOString()
                     })
                     .eq("id", user.id);
 
@@ -206,4 +206,28 @@ document.addEventListener("DOMContentLoaded", async () => {
             );
 
             window.location.href =
-                "dashboard.html"
+                "dashboard.html";
+
+        } catch (err) {
+
+            console.error(err);
+
+            alert(
+                err.message ||
+                "Profil kaydedilirken hata oluştu."
+            );
+
+        } finally {
+
+            const btn =
+                form.querySelector(
+                    "button[type='submit']"
+                );
+
+            btn.disabled = false;
+            btn.innerText = "Kaydet";
+        }
+
+    });
+
+});
