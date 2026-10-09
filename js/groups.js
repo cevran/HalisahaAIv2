@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         onclick="alert('Grup detay ekranı sonraki adımda gelecek.')"
                     >
                         ${
-                            item.role === "admin"
+                            item.role === "yonetici"
                                 ? "Yönet"
                                 : "Detay"
                         }
@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             groupData.id,
                         user_id:
                             user.id,
-                        role: "admin",
+                        role: "yonetici",
                         active: true
                     });
 
