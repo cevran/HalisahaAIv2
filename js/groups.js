@@ -177,24 +177,7 @@ console.log("GROUP ERROR:", groupError);
                 if (groupError) {
                     throw groupError;
                 }
-
-                const {
-                    error: memberError
-                } = await supabaseClient
-                    .from("group_members")
-                    .insert({
-                        group_id:
-                            groupData.id,
-                        user_id:
-                            user.id,
-                        role: "yonetici",
-                        active: true
-                    });
-
-                if (memberError) {
-                    throw memberError;
-                }
-
+      
                 alert(
                     "Grup başarıyla oluşturuldu."
                 );
