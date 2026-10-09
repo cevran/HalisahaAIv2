@@ -1,3 +1,4 @@
+console.log("LOGIN JS LOADED");
 document.addEventListener("DOMContentLoaded", async () => {
 
     try {
