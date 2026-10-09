@@ -29,8 +29,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             document.getElementById("fullName").value =
                 profile.full_name || "";
 
-            document.getElementById("age").value =
-                profile.age || "";
+            if (profile.birth_year) {
+
+                const currentYear =
+                    new Date().getFullYear();
+
+                document.getElementById("age").value =
+                    currentYear - profile.birth_year;
+        }
 
             document.getElementById("preferredPosition").value =
                 profile.preferred_position || "";
