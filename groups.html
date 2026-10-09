@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gruplarım - Halı Saha AI V2</title>
+    <title>Gruplarım</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
 <div class="card">
 
     <div class="logo">
@@ -14,43 +15,71 @@
         <p>Gruplarım</p>
     </div>
 
-    <form id="createGroupForm">
-
-        <div class="form-group">
-            <label>Grup Adı</label>
-            <input type="text" id="groupName" required>
-        </div>
-
-        <div class="form-group">
-            <label>Şehir</label>
-            <input type="text" id="groupCity">
-        </div>
-
-        <div class="form-group">
-            <label>Açıklama</label>
-            <textarea id="groupDescription"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label>Maksimum Oyuncu Sayısı</label>
-            <input type="number" id="maxPlayers" value="20" min="2" max="100">
-        </div>
-
-        <button type="submit">+ Yeni Grup Oluştur</button>
-    </form>
-
-    <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
-
-    <h3 style="margin-bottom:15px;">Üyesi Olduğum Gruplar</h3>
+    <h3>Üyesi Olduğum Gruplar</h3>
 
     <div id="groupsList">
         <p>Gruplar yükleniyor...</p>
     </div>
 
+    <hr style="margin:20px 0;">
+
+    <h3>Grup Ara</h3>
+
+    <div class="form-group">
+        <input type="text" id="searchText" placeholder="Grup adı yazın...">
+    </div>
+
+    <button type="button" id="searchGroupBtn">
+        Grup Ara
+    </button>
+
+    <div id="searchResults" style="margin-top:15px;"></div>
+
+    <hr style="margin:20px 0;">
+
+    <button type="button" id="toggleCreateGroupBtn">
+        + Yeni Grup Oluştur
+    </button>
+
+    <div id="createGroupArea" style="display:none;margin-top:15px;">
+
+        <form id="createGroupForm">
+
+            <div class="form-group">
+                <label>Grup Adı</label>
+                <input type="text" id="groupName" required>
+            </div>
+
+            <div class="form-group">
+                <label>Şehir</label>
+                <input type="text" id="groupCity">
+            </div>
+
+            <div class="form-group">
+                <label>Açıklama</label>
+                <textarea id="groupDescription"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Maksimum Oyuncu Sayısı</label>
+                <input type="number" id="maxPlayers" value="20" min="2" max="100">
+            </div>
+
+            <button type="submit">
+                Grubu Oluştur
+            </button>
+
+        </form>
+
+    </div>
+
     <br>
 
-    <button type="button" onclick="window.location.href='profile.html'">
-        Profile Dön
+    <button
+        type="button"
+        class="secondary-btn"
+        onclick="window.location.href='profile.html'">
+        ← Profile Dön
     </button>
 
 </div>
@@ -59,5 +88,6 @@
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/groups.js"></script>
+
 </body>
 </html>
