@@ -108,7 +108,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             ) {
 
                 profilePhoto.src =
-                    profile.photo_url + "?t=" + Date.now();
+                    profile.photo_url +
+                    "?t=" +
+                    Date.now();
 
             } else {
 
@@ -129,7 +131,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     profilePhoto.addEventListener(
         "click",
         () => {
+
             photoUpload.click();
+
         }
     );
 
@@ -142,17 +146,22 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const file =
                     e.target.files[0];
 
-                if (!file) return;
+                if (!file) {
+                    return;
+                }
 
                 const extension =
-                    file.name.split(".").pop();
+                    file.name
+                        .split(".")
+                        .pop();
 
                 const fileName =
                     `${user.id}.${extension}`;
 
                 const {
                     error: uploadError
-                } = await supabaseClient.storage
+                } = await supabaseClient
+                    .storage
                     .from("player-photos")
                     .upload(
                         fileName,
@@ -168,7 +177,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 const {
                     data: publicData
-                } = supabaseClient.storage
+                } = supabaseClient
+                    .storage
                     .from("player-photos")
                     .getPublicUrl(fileName);
 
@@ -180,4 +190,97 @@ document.addEventListener("DOMContentLoaded", async () => {
                 } = await supabaseClient
                     .from("profiles")
                     .update({
-                        photo_url: 
+                        photo_url: photoUrl,
+                        updated_at:
+                            new Date().toISOString()
+                    })
+                    .eq("id", user.id);
+
+                if (updateError) {
+                    throw updateError;
+                }
+
+                profilePhoto.src =
+                    photoUrl +
+                    "?t=" +
+                    Date.now();
+
+                alert(
+                    "Fotoğraf başarıyla güncellendi."
+                );
+
+            } catch (err) {
+
+                console.error(err);
+
+                alert(
+                    err.message ||
+                    "Fotoğraf yüklenemedi."
+                );
+            }
+        }
+    );
+
+    profileForm.addEventListener(
+        "submit",
+        async (e) => {
+
+            e.preventDefault();
+
+            try {
+
+                const {
+                    error
+                } = await supabaseClient
+                    .from("profiles")
+                    .update({
+                        nickname:
+                            nicknameInput.value.trim(),
+
+                        preferred_position:
+                            preferredPositionInput.value,
+
+                        dominant_foot:
+                            dominantFootInput.value,
+
+                        player_number:
+                            playerNumberInput.value
+                                ? parseInt(
+                                      playerNumberInput.value
+                                  )
+                                : null,
+
+                        bio:
+                            bioInput.value.trim(),
+
+                        updated_at:
+                            new Date().toISOString()
+
+                    })
+                    .eq("id", user.id);
+
+                if (error) {
+                    throw error;
+                }
+
+                alert(
+                    "Profil başarıyla güncellendi."
+                );
+
+                await loadProfile();
+
+            } catch (err) {
+
+                console.error(err);
+
+                alert(
+                    err.message ||
+                    "Profil güncellenemedi."
+                );
+            }
+        }
+    );
+
+    await loadProfile();
+
+});
