@@ -48,8 +48,16 @@ body {
     margin-bottom: 15px;
 }
 
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
+}
+
 input,
-select {
+select,
+textarea {
     width: 100%;
     padding: 12px;
 
@@ -60,9 +68,15 @@ select {
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
     outline: none;
     border-color: #0d6efd;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
 }
 
 button {
@@ -103,4 +117,60 @@ button:disabled {
 .link a:hover {
     text-decoration: underline;
 }
-`
+
+/* =====================================
+   PROFILE PAGE
+===================================== */
+
+.profile-photo-section {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.profile-avatar {
+    width: 160px;
+    height: 160px;
+
+    border-radius: 50%;
+    object-fit: cover;
+
+    border: 4px solid #0d6efd;
+    background: #f8f9fa;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.photo-hint {
+    margin-top: 10px;
+    color: #777;
+    font-size: 14px;
+}
+
+.readonly-field {
+    background: #f5f5f5;
+}
+
+/* Mobil */
+
+@media (max-width: 768px) {
+
+    .card {
+        padding: 20px;
+    }
+
+    .profile-avatar {
+        width: 130px;
+        height: 130px;
+    }
+
+    button {
+        padding: 12px;
+    }
+}

@@ -5,120 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profilim - Halı Saha AI V2</title>
 
-    <link rel="ss
+    <linktyle.css
 </head>
 <body>
 
-<div class="container">
+    <div class="card">
 
-    <h1>Profilim</h1>
+        <div class="logo">
+            <h1>⚽ Halı Saha AI V2</h1>
+            <p>Oyuncu Profili</p>
+        </div>
 
-    <div class="profile-photo-section">
+        <div class="profile-photo-section">
 
-        <img
-            id="profilePhoto"
-            src="assets="file"
-            id="photoUpload"
-            accept="image/*"
-            style="display:none;"
+            <img
+                id="profilePhoto"
+                class="profile-avatar              id="photoUpload"
+                accept="image/*"
+                hidden
+            >
+
+            <p class="photo-hint">
+                Fotoğraf değiştirmek için resme tıklayın
+            </p>
+
+        </div>
+
+        <form id="profileForm">
+
+            <div class="form-group">
+                <label for="fullName">
+                    Ad Soyad
+                </label>
+
+                <input
+                    type="text"
+                    id="fullName"
+                    class="readonly-field"
+                    readonly
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="age">
+                    Yaş
+                </label>
+
+                <input
+                    type="number"
+                    id="age"
+                    class="readonly-field"
+                    readonly
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="nickname">
+                    Lakap
+                </label>
+
+                <input
+                    type="text"
+                    id="nickname"
+                    placeholder="Örn: Messi"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="preferredPosition">
+                    Tercih Edilen Mevki
+                </label>
+
+                <select id="preferredPosition">
+                    <option value="">Seçiniz</option>
+                    <option value="Kaleci">Kaleci</option>
+                    <option value="Defans">Defans</option>
+                    <option value="Orta Saha">Orta Saha</option>
+                    <option value="Kanat">Kanat</option>
+                    <option value="Forvet">Forvet</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="dominantFoot">
+                    Baskın Ayak
+                </label>
+
+                <select id="dominantFoot">
+                    <option value="">Seçiniz</option>
+                    <option value="Sağ">Sağ</option>
+                    <option value="Sol">Sol</option>
+                    <option value="Çift Ayak">Çift Ayak</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="playerNumber">
+                    Forma Numarası
+                </label>
+
+                <input
+                    type="number"
+                    id="playerNumber"
+                    min="1"
+                    max="99"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="bio">
+                    Hakkımda
+                </label>
+
+                <textarea
+                    id="bio"
+                    placeholder="Kendin hakkında kısa bilgi yaz..."
+                ></textarea>
+            </div>
+
+            <button type="submit">
+                Profili Güncelle
+            </button>
+
+        </form>
+
+        <br>
+
+        <button
+            type="button"
+            onclick="logout()"
         >
-
-        <p class="photo-hint">
-            Fotoğraf değiştirmek için resme tıklayın
-        </p>
-
-    </div>
-
-    <form id="profileForm">
-
-        <div class="form-group">
-            <label for="fullName">Ad Soyad</label>
-            <input
-                type="text"
-                id="fullName"
-                readonly
-            >
-        </div>
-
-        <div class="form-group">
-            <label for="age">Yaş</label>
-            <input
-                type="number"
-                id="age"
-                readonly
-            >
-        </div>
-
-        <div class="form-group">
-            <label for="nickname">Lakap</label>
-            <input
-                type="text"
-                id="nickname"
-            >
-        </div>
-
-        <div class="form-group">
-            <label for="preferredPosition">
-                Tercih Edilen Mevki
-            </label>
-            <select id="preferredPosition">
-                <option value="">Seçiniz</option>
-                <option value="Kaleci">Kaleci</option>
-                <option value="Defans">Defans</option>
-                <option value="Orta Saha">Orta Saha</option>
-                <option value="Kanat">Kanat</option>
-                <option value="Forvet">Forvet</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="dominantFoot">
-                Baskın Ayak
-            </label>
-            <select id="dominantFoot">
-                <option value="">Seçiniz</option>
-                <option value="Sağ">Sağ</option>
-                <option value="Sol">Sol</option>
-                <option value="Çift Ayak">Çift Ayak</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="playerNumber">
-                Forma Numarası
-            </label>
-            <input
-                type="number"
-                id="playerNumber"
-                min="1"
-                max="99"
-            >
-        </div>
-
-        <div class="form-group">
-            <label for="bio">Hakkımda</label>
-            <textarea
-                id="bio"
-                rows="4"
-            ></textarea>
-        </div>
-
-        <button type="submit">
-            Profili Güncelle
+            Çıkış Yap
         </button>
 
-    </form>
-
-    <br>
-
-    <button
-        type="button"
-        onclick="logout()"
-    >
-        Çıkış Yap
-    </button>
-
-</div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/config.js"></script>
@@ -127,4 +147,3 @@
 
 </body>
 </html>
-
