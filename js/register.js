@@ -23,7 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const password2 =
             document.getElementById("passwordConfirm")?.value;
 
-        if (!name || !email || !password) {
+        const birthYear =
+            document.getElementById("birthYear")?.value;
+
+        if (!name || !email || !password || !birthYear) {
             alert("Lütfen tüm alanları doldurun.");
             return;
         }
@@ -35,14 +38,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
 
-            const submitBtn = form.querySelector("button[type='submit']");
+            const submitBtn =
+                form.querySelector("button[type='submit']");
 
             if (submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.innerText = "Kayıt oluşturuluyor...";
             }
 
-            // AUTH USER CREATE
+            console.log("Kayıt verileri:", {
+                name,
+                email,
+                birthYear
+            });
+
+            // AUTH KAYDI
 
             const { data, error } =
                 await supabaseClient.auth.signUp({
@@ -60,7 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error("Kullanıcı oluşturulamadı.");
             }
 
-            // PROFILE CREATE
+            console.log("Auth user:", user);
+
+            // PROFİL KAYDI
 
             const { error: profileError } =
                 await supabaseClient
@@ -69,29 +81,32 @@ document.addEventListener("DOMContentLoaded", () => {
                         {
                             id: user.id,
                             email: email,
-                            full_name: name
+                            full_name: name,
+                            birth_year: parseInt(birthYear),
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
                         }
                     ]);
 
-if (profileError) {
-    console.error(profileError);
-}
+            if (profileError) {
+                console.error("Profil oluşturma hatası:", profileError);
+                throw profileError;
+            }
 
             alert("Kayıt başarıyla oluşturuldu.");
 
             window.location.href = "profile.html";
 
-        }
-        catch (err) {
+        } catch (err) {
 
-            console.error(err);
+            console.error("Register Error:", err);
 
             alert(
                 err.message ||
                 "Kayıt sırasında hata oluştu."
             );
-        }
-        finally {
+
+        } finally {
 
             const submitBtn =
                 form.querySelector("button[type='submit']");
@@ -102,4 +117,5 @@ if (profileError) {
             }
         }
     });
+
 });
