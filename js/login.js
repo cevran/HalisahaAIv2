@@ -1,4 +1,3 @@
-console.log("LOGIN JS LOADED");
 document.addEventListener("DOMContentLoaded", async () => {
 
     try {
@@ -28,10 +27,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
 
         const email =
-            document.getElementById("email")?.value.trim();
+            document.getElementById("email").value.trim();
 
         const password =
-            document.getElementById("password")?.value;
+            document.getElementById("password").value;
 
         if (!email || !password) {
             alert("E-posta ve şifre zorunludur.");
@@ -76,10 +75,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             submitBtn.disabled = false;
             submitBtn.innerText = "Giriş Yap";
         }
+
     });
 
 });
-
 
 async function redirectUser(userId) {
 
@@ -90,4 +89,29 @@ async function redirectUser(userId) {
                 .from("profiles")
                 .select("*")
                 .eq("id", userId)
-                .single
+                .single();
+
+        if (error || !profile) {
+            window.location.href = "profile.html";
+            return;
+        }
+
+        const profileCompleted =
+            profile.full_name &&
+            profile.age &&
+            profile.preferred_position &&
+            profile.dominant_foot;
+
+        if (profileCompleted) {
+            window.location.href = "dashboard.html";
+        } else {
+            window.location.href = "profile.html";
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+        window.location.href = "profile.html";
+    }
+}
