@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
-    // Eğer kullanıcı zaten giriş yaptıysa profile'a gönder
-
     try {
+
         const {
             data: { session }
         } = await supabaseClient.auth.getSession();
 
         if (session) {
-            window.location.href = "profile.html";
+            await redirectUser(session.user.id);
             return;
         }
+
     } catch (err) {
         console.error(err);
     }
@@ -59,10 +59,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 throw new Error("Giriş başarısız.");
             }
 
-            window.location.href = "profile.html";
+            await redirectUser(data.user.id);
 
-        }
-        catch (err) {
+        } catch (err) {
 
             console.error(err);
 
@@ -70,11 +69,24 @@ document.addEventListener("DOMContentLoaded", async () => {
                 err.message ||
                 "Giriş sırasında hata oluştu."
             );
-        }
-        finally {
+
+        } finally {
 
             submitBtn.disabled = false;
             submitBtn.innerText = "Giriş Yap";
         }
     });
+
 });
+
+
+async function redirectUser(userId) {
+
+    try {
+
+        const { data: profile, error } =
+            await supabaseClient
+                .from("profiles")
+                .select("*")
+                .eq("id", userId)
+                .single

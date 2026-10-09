@@ -1,77 +1,69 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profilim - Halısaha AI V2</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halı Saha AI - Profil</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/profile.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Profilim</h1>
-    <div class="profile-card">
-      <div class="profile-header">
-        <div class="avatar" id="avatar">
-          <!-- Avatar will be shown here if no image is uploaded -->
+
+    <div class="card">
+
+        <div class="logo">
+            <h1>⚽ Halı Saha AI</h1>
+            <p>Profil Bilgileri</p>
         </div>
-        <input type="file" id="profileImage" name="profileImage" accept="image/*" />
-        <button id="removeImage">Fotoğrafı Sil</button>
-      </div>
-      <form id="profileForm">
-        <div class="form-group">
-          <label for="full_name">Ad Soyad</label>
-          <input type="text" id="full_name" name="full_name" />
-        </div>
-        <div class="form-group">
-          <label for="nickname">Takma Ad</label>
-          <input type="text" id="nickname" name="nickname" />
-        </div>
-        <div class="form-group">
-          <label for="preferred_position">Tercih Edilen Mevki</label>
-          <select id="preferred_position" name="preferred_position">
-            <option value="">Seç</option>
-            <option value="kaleci">Kaleci</option>
-            <option value="defans">Defans</option>
-            <option value="ortasaha">Ortasaha</option>
-            <option value="forvet">Forvet</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="dominant_foot">Baskın Ayak</label>
-          <select id="dominant_foot" name="dominant_foot">
-            <option value="">Seç</option>
-            <option value="sag">Sağ</option>
-            <option value="sol">Sol</option>
-            <option value="cift">Çift</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="player_number">Forma Numarası</label>
-          <input type="number" id="player_number" name="player_number" />
-        </div>
-        <div class="form-group">
-          <label for="bio">Biyografi</label>
-          <textarea id="bio" name="bio"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="email">E-posta</label>
-          <input type="email" id="email" name="email" readonly />
-        </div>
-        <div class="form-group">
-          <label for="birth_year">Doğum Yılı</label>
-          <input type="number" id="birth_year" name="birth_year" readonly />
-        </div>
-        <div class="form-group">
-          <label for="age">Yaş</label>
-          <input type="number" id="age" name="age" readonly />
-        </div>
-        <button type="submit">Kaydet</button>
-      </form>
+
+        <form id="profileForm">
+
+            <div class="form-group">
+                <input type="text" id="fullName" placeholder="Ad Soyad" required>
+            </div>
+
+            <div class="form-group">
+                <input type="number" id="age" min="10" max="80" placeholder="Yaş" required>
+            </div>
+
+            <div class="form-group">
+                <select id="preferredPosition" required>
+                    <option value="">Tercih Edilen Mevki</option>
+                    <option value="kaleci">Kaleci</option>
+                    <option value="defans">Defans</option>
+                    <option value="ortasaha">Ortasaha</option>
+                    <option value="forvet">Forvet</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <select id="dominantFoot" required>
+                    <option value="">Dominant Ayak</option>
+                    <option value="sag">Sağ</option>
+                    <option value="sol">Sol</option>
+                    <option value="ikiayak">İki Ayak</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="photoFile">Profil Fotoğrafı</label>
+                <input type="file" id="photoFile" accept="image/*">
+            </div>
+
+            <div class="form-group" style="text-align:center;">
+                <img id="photoPreview" src="assets/default-avatar.png" alt="Profil" style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid #ddd;">
+            </div>
+
+            <button type="submit">Kaydet</button>
+
+        </form>
+
     </div>
-    <p>
-      <a href="dashboard.html">Ana Sayfaya Dön</a>
-    </p>
-  </div>
-  <script src="scripts.js"></script>
+
 </body>
 </html>
