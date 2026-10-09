@@ -1,34 +1,64 @@
-let uploadedPhotoUrl = "";
-
 document.addEventListener("DOMContentLoaded", async () => {
 
-    try {
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
 
-        const {
-            data: { user }
-        } = await supabaseClient.auth.getUser();
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
 
-        if (!user) {
-            window.location.href = "login.html";
-            return;
-        }
+    const fullNameInput =
+        document.getElementById("fullName");
 
-        const { data: profile, error } =
-            await supabaseClient
+    const ageInput =
+        document.getElementById("age");
+
+    const nicknameInput =
+        document.getElementById("nickname");
+
+    const preferredPositionInput =
+        document.getElementById("preferredPosition");
+
+    const dominantFootInput =
+        document.getElementById("dominantFoot");
+
+    const playerNumberInput =
+        document.getElementById("playerNumber");
+
+    const bioInput =
+        document.getElementById("bio");
+
+    const profilePhoto =
+        document.getElementById("profilePhoto");
+
+    const photoUpload =
+        document.getElementById("photoUpload");
+
+    const profileForm =
+        document.getElementById("profileForm");
+
+    async function loadProfile() {
+
+        try {
+
+            const {
+                data: profile,
+                error
+            } = await supabaseClient
                 .from("profiles")
                 .select("*")
                 .eq("id", user.id)
                 .single();
 
-        if (error) {
-            console.error(error);
-        }
+            if (error) {
+                throw error;
+            }
 
-        if (profile) {
+            console.log("PROFILE:", profile);
 
-            console.log("PROFILE DATA:", profile);
-
-            document.getElementById("fullName").value =
+            fullNameInput.value =
                 profile.full_name || "";
 
             if (profile.birth_year) {
@@ -36,137 +66,88 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const currentYear =
                     new Date().getFullYear();
 
-                document.getElementById("age").value =
+                ageInput.value =
                     currentYear - profile.birth_year;
+
             }
 
-            document.getElementById("preferredPosition").value =
+            nicknameInput.value =
+                profile.nickname || "";
+
+            preferredPositionInput.value =
                 profile.preferred_position || "";
 
-            document.getElementById("dominantFoot").value =
+            dominantFootInput.value =
                 profile.dominant_foot || "";
 
-            uploadedPhotoUrl =
-                profile.photo_url || "";
+            playerNumberInput.value =
+                profile.player_number || "";
+
+            bioInput.value =
+                profile.bio || "";
 
             if (
-                uploadedPhotoUrl &&
-                document.getElementById("photoPreview")
+                profile.photo_url &&
+                profile.photo_url.trim() !== ""
             ) {
-                document.getElementById("photoPreview").src =
-                    uploadedPhotoUrl;
+
+                profilePhoto.src =
+                    profile.photo_url;
+
+            } else {
+
+                profilePhoto.src =
+                    "assets/default-avatar.png";
             }
+
+        } catch (err) {
+
+            console.error(err);
+
+            alert(
+                "Profil bilgileri yüklenemedi."
+            );
         }
-
-    } catch (err) {
-        console.error(err);
     }
 
-    const photoInput =
-        document.getElementById("photoFile");
+    profilePhoto.addEventListener(
+        "click",
+        () => {
+            photoUpload.click();
+        }
+    );
 
-    if (photoInput) {
+    photoUpload.addEventListener(
+        "change",
+        async (e) => {
 
-        photoInput.addEventListener("change", (e) => {
+            try {
 
-            const file = e.target.files[0];
+                const file =
+                    e.target.files[0];
 
-            if (!file) return;
+                if (!file) return;
 
-            const reader = new FileReader();
-
-            reader.onload = function (event) {
-
-                document.getElementById(
-                    "photoPreview"
-                ).src = event.target.result;
-            };
-
-            reader.readAsDataURL(file);
-        });
-    }
-
-    const form =
-        document.getElementById("profileForm");
-
-    if (!form) {
-        console.error("profileForm bulunamadı.");
-        return;
-    }
-
-    form.addEventListener("submit", async (e) => {
-
-        e.preventDefault();
-
-        try {
-
-            const {
-                data: { user }
-            } = await supabaseClient.auth.getUser();
-
-            const fullName =
-                document.getElementById("fullName")
-                    .value
-                    .trim();
-
-            const age =
-                parseInt(
-                    document.getElementById("age").value
-                );
-
-            const birthYear =
-                new Date().getFullYear() - age;
-
-            const preferredPosition =
-                document.getElementById(
-                    "preferredPosition"
-                ).value;
-
-            const dominantFoot =
-                document.getElementById(
-                    "dominantFoot"
-                ).value;
-
-            const btn =
-                form.querySelector(
-                    "button[type='submit']"
-                );
-
-            btn.disabled = true;
-            btn.innerText = "Kaydediliyor...";
-
-            // FOTOĞRAF YÜKLE
-
-            const photoFile =
-                document.getElementById("photoFile")
-                    .files[0];
-
-            if (photoFile) {
-
-                const fileExt =
-                    photoFile.name
+                const extension =
+                    file.name
                         .split(".")
                         .pop();
 
                 const fileName =
-                    `${user.id}.${fileExt}`;
-
-                const filePath =
-                    `avatars/${fileName}`;
+                    `${user.id}.${extension}`;
 
                 const {
                     error: uploadError
-                } =
-                    await supabaseClient
-                        .storage
-                        .from("player-photos")
-                        .upload(
-                            filePath,
-                            photoFile,
-                            {
-                                upsert: true
-                            }
-                        );
+                } = await supabaseClient
+                    .storage
+                    .from("player-photos")
+                    .upload(
+                        fileName,
+                        file,
+                        {
+                            upsert: true
+                        }
+                    );
 
                 if (uploadError) {
                     throw uploadError;
@@ -174,60 +155,98 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 const {
                     data: publicData
-                } =
-                    supabaseClient
-                        .storage
-                        .from("player-photos")
-                        .getPublicUrl(filePath);
+                } = supabaseClient
+                    .storage
+                    .from("player-photos")
+                    .getPublicUrl(
+                        fileName
+                    );
 
-                uploadedPhotoUrl =
+                const photoUrl =
                     publicData.publicUrl;
-            }
 
-            const { error } =
-                await supabaseClient
+                const {
+                    error: updateError
+                } = await supabaseClient
                     .from("profiles")
                     .update({
-                        full_name: fullName,
-                        birth_year: birthYear,
-                        preferred_position: preferredPosition,
-                        dominant_foot: dominantFoot,
-                        photo_url: uploadedPhotoUrl,
-                        updated_at: new Date().toISOString()
+                        photo_url: photoUrl
                     })
                     .eq("id", user.id);
 
-            if (error) {
-                throw error;
-            }
+                if (updateError) {
+                    throw updateError;
+                }
 
-            alert(
-                "Profil başarıyla kaydedildi."
-            );
+                profilePhoto.src =
+                    photoUrl +
+                    "?t=" +
+                    Date.now();
 
-            window.location.href =
-                "dashboard.html";
-
-        } catch (err) {
-
-            console.error(err);
-
-            alert(
-                err.message ||
-                "Profil kaydedilirken hata oluştu."
-            );
-
-        } finally {
-
-            const btn =
-                form.querySelector(
-                    "button[type='submit']"
+                alert(
+                    "Fotoğraf güncellendi."
                 );
 
-            btn.disabled = false;
-            btn.innerText = "Kaydet";
-        }
+            } catch (err) {
 
-    });
+                console.error(err);
+
+                alert(
+                    err.message ||
+                    "Fotoğraf yüklenemedi."
+                );
+            }
+        }
+    );
+
+    profileForm.addEventListener(
+        "submit",
+        async (e) => {
+
+            e.preventDefault();
+
+            try {
+
+                const {
+                    error
+                } = await supabaseClient
+                    .from("profiles")
+                    .update({
+                        nickname:
+                            nicknameInput.value,
+                        preferred_position:
+                            preferredPositionInput.value,
+                        dominant_foot:
+                            dominantFootInput.value,
+                        player_number:
+                            playerNumberInput.value || null,
+                        bio:
+                            bioInput.value,
+                        updated_at:
+                            new Date().toISOString()
+                    })
+                    .eq("id", user.id);
+
+                if (error) {
+                    throw error;
+                }
+
+                alert(
+                    "Profil güncellendi."
+                );
+
+            } catch (err) {
+
+                console.error(err);
+
+                alert(
+                    err.message ||
+                    "Profil güncellenemedi."
+                );
+            }
+        }
+    );
+
+    await loadProfile();
 
 });
