@@ -1,1 +1,134 @@
-<h1>Group Detail Test</h1>
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grup Detayı</title>
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <style>
+
+        .page-header {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:20px;
+        }
+
+        .summary-card {
+            background:white;
+            border-radius:12px;
+            padding:15px;
+            border:1px solid #ddd;
+            margin-bottom:15px;
+        }
+
+        .group-actions {
+            display:flex;
+            gap:10px;
+            margin-bottom:20px;
+        }
+
+        .group-actions button {
+            padding:10px 15px;
+            cursor:pointer;
+        }
+
+        .player-row {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            border:1px solid #ddd;
+            border-radius:10px;
+            padding:12px;
+            margin-bottom:10px;
+            background:#fff;
+        }
+
+        .player-actions {
+            display:flex;
+            gap:8px;
+        }
+
+        .role-badge {
+            background:#1e88e5;
+            color:white;
+            padding:4px 8px;
+            border-radius:6px;
+            font-size:12px;
+        }
+
+        .danger-btn {
+            background:#e53935;
+            color:white;
+            border:none;
+            padding:8px 12px;
+            border-radius:6px;
+        }
+
+        .primary-btn {
+            background:#43a047;
+            color:white;
+            border:none;
+            padding:8px 12px;
+            border-radius:6px;
+        }
+
+    </style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="page-header">
+
+        <h1 id="groupName">
+            Grup Yükleniyor...
+        </h1>
+
+        <button onclick="location.href='groups.html'">
+            ← Gruplara Dön
+        </button>
+
+    </div>
+
+    <div id="groupInfo" class="summary-card">
+        Yükleniyor...
+    </div>
+
+    <div class="summary-card">
+        <h3>Oyuncu Sayısı</h3>
+        <div id="playerCount">
+            0
+        </div>
+    </div>
+
+    <div class="group-actions">
+
+        <button
+            id="createMatchBtn"
+            class="primary-btn">
+            ⚽ Maç Oluştur
+        </button>
+
+    </div>
+
+    <h2>Oyuncular</h2>
+
+    <div id="playersList"></div>
+
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/group-detail.js"></script>
+
+</body>
+</html>
+
