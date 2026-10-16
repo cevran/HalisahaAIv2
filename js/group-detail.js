@@ -32,6 +32,18 @@ document.addEventListener(
         await loadPlayers();
 
         document
+            .getElementById("ratePlayersBtn")
+            .addEventListener(
+                "click",
+                () => {
+
+                    window.location.href =
+                        `rate-players.html?id=${currentGroupId}`;
+
+                }
+            );
+
+        document
             .getElementById(
                 "createMatchBtn"
             )
