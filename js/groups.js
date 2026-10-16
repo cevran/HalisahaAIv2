@@ -119,11 +119,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <button
                         style="margin-top:10px;"
                     >
-                        ${
-                            item.role === "yonetici"
-                                ? "Yönet"
-                                : "Detay"
-                        }
+                        ${item.role === "yonetici"
+                        ? "Yönet"
+                        : "Detay"
+                    }
                     </button>
                 `;
 
@@ -139,6 +138,51 @@ document.addEventListener("DOMContentLoaded", async () => {
                 "<p>Gruplar yüklenemedi.</p>";
         }
     }
+
+
+    async function sendJoinRequest(groupId) {
+
+        try {
+
+            const { data: existing } = await supabaseClient
+                .from("group_join_requests")
+                .select("id,status")
+                .eq("group_id", groupId)
+                .eq("user_id", user.id)
+                .maybeSingle();
+
+            if (existing) {
+
+                alert(
+                    "Bu grup için daha önce başvuru göndermişsiniz."
+                );
+
+                return;
+            }
+
+            const { error } = await supabaseClient
+                .from("group_join_requests")
+                .insert({
+                    group_id: groupId,
+                    user_id: user.id,
+                    status: "pending"
+                });
+
+            if (error) {
+                throw error;
+            }
+
+            alert("Katılım talebi gönderildi.");
+
+        } catch (err) {
+
+            console.error(err);
+            alert(err.message);
+
+        }
+    }
+
+
 
     searchGroupBtn.addEventListener(
         "click",
@@ -209,13 +253,23 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <h4>${group.name}</h4>
                         <p>📍 ${group.city || "-"}</p>
 
-                        <button>
+                        <button
+                        class="join-btn"
+                        data-group-id="${group.id}"
+                        >
                             Katılım Talebi Gönder
                         </button>
                     `;
+                    const btn =
+                        div.querySelector(".join-btn");
 
-                    searchResults.appendChild(
-                        div
+                    btn.addEventListener(
+                        "click",
+                        () => sendJoinRequest(group.id)
+                    );
+
+                    searchResults.appendChild(div);
+                    
                     );
                 });
 
