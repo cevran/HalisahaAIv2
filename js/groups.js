@@ -143,10 +143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                         for (const req of requests) {
 
-                            const profile =
-                                await getProfile(
-                                    req.user_id
-                                );
+                            const profile = req.profiles;
 
                             const row =
                                 document.createElement("div");
@@ -195,41 +192,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 "<p>Gruplar yüklenemedi.</p>";
         }
     }
-
-
-
-    async function loadPendingRequests(groupId) {
-
-        try {
-
-            const { data, error } = await supabaseClient
-                .from("group_join_requests")
-                .select(`
-                    id,
-                    status,
-                    profiles (
-                        full_name,
-                        nickname
-                    )
-                `)
-                .eq("group_id", groupId)
-                .eq("status", "pending");
-
-            if (error) {
-                throw error;
-            }
-
-            return data || [];
-
-        } catch (err) {
-
-            console.error(err);
-            return [];
-
-        }
-    }
-
-
 
 
     async function sendJoinRequest(groupId) {
@@ -283,7 +245,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 id,
                 user_id,
                 group_id,
-                status
+                status,
+                profiles (
+                    full_name,
+                    nickname
+                )
             `)
             .eq("group_id", groupId)
             .eq("status", "pending");
@@ -294,23 +260,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         return data || [];
-    }
-
-
-    async function getProfile(userId) {
-
-        const { data, error } = await supabaseClient
-            .from("profiles")
-            .select("full_name,nickname")
-            .eq("id", userId)
-            .maybeSingle();
-
-        if (error) {
-            console.error(error);
-            return null;
-        }
-
-        return data;
     }
 
 
