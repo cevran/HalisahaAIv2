@@ -132,8 +132,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 card.querySelector(".group-detail-btn")
                     .addEventListener("click", () => {
 
-                        window.location.href =
-                            `group-detail.html?id=${group.id}`;
+                        alert("tiklandi");
 
                     });
 
