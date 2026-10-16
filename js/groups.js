@@ -129,12 +129,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 `;
 
-                card.querySelector(".group-detail-btn")
-                    .addEventListener("click", () => {
+                    card.querySelector(".group-detail-btn")
+                        .addEventListener("click", () => {
 
-                        alert("tiklandi");
+                            window.location.href =
+                                `group-detail.html?id=${group.id}`;
 
-                    });
+                        });
 
                 if (item.role === "yonetici") {
 
