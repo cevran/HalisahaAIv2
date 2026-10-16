@@ -117,14 +117,25 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </p>
 
                     <button
+                        class="group-detail-btn"
+                        data-group-id="${group.id}"
                         style="margin-top:10px;"
                     >
                         ${item.role === "yonetici"
-                        ? "Yönet"
-                        : "Detay"
-                    }
+                            ? "Yönet"
+                            : "Detay"
+                        }
                     </button>
+
                 `;
+
+                card.querySelector(".group-detail-btn")
+                    .addEventListener("click", () => {
+
+                        window.location.href =
+                            `group-detail.html?id=${group.id}`;
+
+                    });
 
                 if (item.role === "yonetici") {
 
