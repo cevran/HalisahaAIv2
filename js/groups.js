@@ -173,7 +173,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                                     () => approveRequest(req)
                                 );
 
+                            row.querySelector(".reject-btn")
+                                .addEventListener(
+                                    "click",
+                                    () => rejectRequest(req)
+                                );
+
                             pendingDiv.appendChild(row);
+
                         }
 
                         card.appendChild(pendingDiv);
