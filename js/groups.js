@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             groupsList.innerHTML = "";
 
-            memberships.forEach(item => {
+            for (const item of memberships) {
 
                 const group =
                     item.groups;
@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 groupsList.appendChild(card);
 
-            });
+            }
 
         } catch (err) {
 
