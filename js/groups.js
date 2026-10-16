@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                                 <button
                                     class="approve-btn"
-                                    style="margin-left:10px;"
+                                    style="margin-left:5px;"
                                 >
                                     Kabul Et
                                 </button>
@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 <button
                                     class="reject-btn"
                                     style="
-                                        margin-left:10px;
+                                        margin-left:5px;
                                         background:#dc3545;
                                         color:white;
 
