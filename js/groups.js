@@ -169,18 +169,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 <button
                                     class="reject-btn"
                                     style="
-                                        margin-left:5px;
+                                        margin-left:10px;
                                         background:#dc3545;
                                         color:white;
-                                        border:none;
-                                        padding:6px 10px;
-                                        border-radius:5px;
-                                        cursor:pointer;
+
                                     "
                                 >
                                     Reddet
                                 </button>
-                         `;
+                             `;
 
                             row.querySelector(".approve-btn")
                                 .addEventListener(
