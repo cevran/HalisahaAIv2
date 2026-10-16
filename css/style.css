@@ -207,3 +207,28 @@ button:disabled {
 .secondary-btn:hover {
     background: #5c636a;
 }
+
+
+.request-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.request-actions button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.approve-btn {
+    background: #1f6feb;
+    color: white;
+}
+
+.reject-btn {
+    background: #dc3545;
+    color: white;
+}

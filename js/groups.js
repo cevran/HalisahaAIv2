@@ -154,30 +154,21 @@ document.addEventListener("DOMContentLoaded", async () => {
                             row.style.marginBottom = "8px";
 
                             row.innerHTML = `
-                                <strong>
-                                    ${profile?.full_name || ""}
-                                </strong>
-                                (${profile?.nickname || ""})
+                                <div style="margin-bottom:8px;">
+                                    <strong>${profile?.full_name || ""}</strong>
+                                    (${profile?.nickname || ""})
+                                </div>
 
-                                <button
-                                    class="approve-btn"
-                                    style="margin-left:5px;"
-                                >
-                                    Kabul Et
-                                </button>
+                                <div class="request-actions">
+                                    <button class="approve-btn">
+                                        Kabul Et
+                                    </button>
 
-                                <button
-                                    class="reject-btn"
-                                    style="
-                                        margin-left:5px;
-                                        background:#dc3545;
-                                        color:white;
-
-                                    "
-                                >
-                                    Reddet
-                                </button>
-                             `;
+                                    <button class="reject-btn">
+                                        Reddet
+                                    </button>
+                                </div>
+                            `;
 
                             row.querySelector(".approve-btn")
                                 .addEventListener(
