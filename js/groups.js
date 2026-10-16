@@ -126,6 +126,60 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </button>
                 `;
 
+                if (item.role === "yonetici") {
+
+                    const requests =
+                        await loadPendingRequests(group.id);
+
+                    if (requests.length > 0) {
+
+                        const pendingDiv =
+                            document.createElement("div");
+
+                        pendingDiv.style.marginTop = "15px";
+
+                        pendingDiv.innerHTML =
+                            "<h4>Bekleyen Başvurular</h4>";
+
+                        for (const req of requests) {
+
+                            const profile =
+                                await getProfile(
+                                    req.user_id
+                                );
+
+                            const row =
+                                document.createElement("div");
+
+                            row.style.marginBottom = "8px";
+
+                            row.innerHTML = `
+                                <strong>
+                                ${profile?.full_name || ""}
+                                </strong>
+                                (${profile?.nickname || ""})
+
+                                <button
+                                    class="approve-btn"
+                                    style="margin-left:10px;"
+                                >
+                                    Kabul Et
+                                </button>
+                            `;
+
+                            row.querySelector(".approve-btn")
+                                .addEventListener(
+                                    "click",
+                                    () => approveRequest(req)
+                                );
+
+                            pendingDiv.appendChild(row);
+                        }
+
+                        card.appendChild(pendingDiv);
+                    }
+                }
+
                 groupsList.appendChild(card);
 
             });
@@ -138,6 +192,41 @@ document.addEventListener("DOMContentLoaded", async () => {
                 "<p>Gruplar yüklenemedi.</p>";
         }
     }
+
+
+
+    async function loadPendingRequests(groupId) {
+
+        try {
+
+            const { data, error } = await supabaseClient
+                .from("group_join_requests")
+                .select(`
+                    id,
+                    status,
+                    profiles (
+                        full_name,
+                        nickname
+                    )
+                `)
+                .eq("group_id", groupId)
+                .eq("status", "pending");
+
+            if (error) {
+                throw error;
+            }
+
+            return data || [];
+
+        } catch (err) {
+
+            console.error(err);
+            return [];
+
+        }
+    }
+
+
 
 
     async function sendJoinRequest(groupId) {
@@ -173,6 +262,83 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             alert("Katılım talebi gönderildi.");
+
+        } catch (err) {
+
+            console.error(err);
+            alert(err.message);
+
+        }
+    }
+
+
+    async function loadPendingRequests(groupId) {
+
+        const { data, error } = await supabaseClient
+            .from("group_join_requests")
+            .select(`
+                id,
+                user_id,
+                group_id,
+                status
+            `)
+            .eq("group_id", groupId)
+            .eq("status", "pending");
+
+        if (error) {
+            console.error(error);
+            return [];
+        }
+
+        return data || [];
+    }
+
+
+    async function getProfile(userId) {
+
+        const { data } = await supabaseClient
+            .from("profiles")
+            .select("full_name,nickname")
+            .eq("id", userId)
+            .single();
+
+        return data;
+    }
+
+
+    async function approveRequest(request) {
+
+        try {
+
+            const { error: memberError } =
+                await supabaseClient
+                    .from("group_members")
+                    .insert({
+                        group_id: request.group_id,
+                        user_id: request.user_id,
+                        role: "uye",
+                        active: true
+                    });
+
+            if (memberError) {
+                throw memberError;
+            }
+
+            const { error: requestError } =
+                await supabaseClient
+                    .from("group_join_requests")
+                    .update({
+                        status: "approved"
+                    })
+                    .eq("id", request.id);
+
+            if (requestError) {
+                throw requestError;
+            }
+
+            alert("Oyuncu gruba eklendi.");
+
+            await loadGroups();
 
         } catch (err) {
 
