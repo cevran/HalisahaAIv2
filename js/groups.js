@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     searchResults.appendChild(div);
                     
-                    );
+                
                 });
 
             } catch (err) {
