@@ -296,11 +296,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function getProfile(userId) {
 
-        const { data } = await supabaseClient
+        const { data, error } = await supabaseClient
             .from("profiles")
             .select("full_name,nickname")
             .eq("id", userId)
-            .single();
+            .maybeSingle();
+
+        if (error) {
+            console.error(error);
+            return null;
+        }
 
         return data;
     }
