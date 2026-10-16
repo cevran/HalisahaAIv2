@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     .insert({
                         group_id: request.group_id,
                         user_id: request.user_id,
-                        role: "uye",
+                        role: "oyuncu",
                         active: true
                     });
 
