@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                             row.innerHTML = `
                                 <strong>
-                                ${profile?.full_name || ""}
+                                    ${profile?.full_name || ""}
                                 </strong>
                                 (${profile?.nickname || ""})
 
@@ -165,7 +165,22 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 >
                                     Kabul Et
                                 </button>
-                            `;
+
+                                <button
+                                    class="reject-btn"
+                                    style="
+                                        margin-left:5px;
+                                        background:#dc3545;
+                                        color:white;
+                                        border:none;
+                                        padding:6px 10px;
+                                        border-radius:5px;
+                                        cursor:pointer;
+                                    "
+                                >
+                                    Reddet
+                                </button>
+                         `;
 
                             row.querySelector(".approve-btn")
                                 .addEventListener(
@@ -353,7 +368,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
+    async function rejectRequest(request) {
 
+        try {
+
+            const { error } =
+                await supabaseClient
+                    .from("group_join_requests")
+                    .update({
+                        status: "rejected"
+                    })
+                    .eq("id", request.id);
+
+            if (error) {
+                throw error;
+            }
+
+            alert("Başvuru reddedildi.");
+
+            await loadGroups();
+
+        } catch (err) {
+
+            console.error(err);
+
+            alert(err.message);
+
+        }
+    }
 
     searchGroupBtn.addEventListener(
         "click",
