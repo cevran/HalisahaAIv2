@@ -1,47 +1,38 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Halısaha AI V2</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halı Saha AI - Giriş</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/index.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <header class="hero">
-      <div class="logo">
-        <h1>Halısaha AI V2</h1>
-        <p>Akıllı Halısaha Yönetim Platformu</p>
-      </div>
-      <div class="version">
-        <p>v1.0.0 - Beta</p>
-      </div>
-    </header>
+    <div class="card">
+        <div class="logo">
+            <h1>⚽ Halı Saha AI</h1>
+            <p>Hesabınıza giriş yapın</p>
+        </div>
 
-    <main class="buttons-section">
-      <div class="button-card">
-        <a href="login.html" class="button"> Giriş Yap </a>
-      </div>
-      <div class="button-card">
-        <a href="register.html" class="button"> Kayıt Ol </a>
-      </div>
-      <div class="button-card">
-        <a href="dashboard.html" class="button"> Dashboard </a>
-      </div>
-      <div class="button-card">
-        <a href="profile.html" class="button"> Profilim </a>
-      </div>
-    </main>
+        <form id="loginForm">
+            <div class="form-group">
+                <input type="email" id="email" placeholder="E-Posta" required>
+            </div>
 
-    <section class="status-section">
-      <h2>Mevcut Durum</h2>
-      <ul class="status-checklist">
-        <li>✅ Giriş Ekranı</li>
-        <li>✅ Kayıt Ekranı</li>
-        <li>✅ Dashboard</li>
-        <li>✅ Profil Yönetimi</li>
-      </ul>
-    </section>
-  </div>
+            <div class="form-group">
+                <input type="password" id="password" placeholder="Şifre" required>
+            </div>
+
+            <button type="submit">Giriş Yap</button>
+        </form>
+
+        <div class="link">
+            <a href="register.html">Hesabın yok mu? Kayıt Ol</a>
+        </div>
+    </div>
 </body>
 </html>

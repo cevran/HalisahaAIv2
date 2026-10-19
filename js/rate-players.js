@@ -12,7 +12,7 @@ document.addEventListener(
         if (!user) {
 
             location.href =
-                "login.html";
+                "index.html";
 
             return;
         }
