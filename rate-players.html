@@ -1,38 +1,66 @@
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>Oyuncuları Değerlendir</title>
-
-<link rel="stylesheet" href="css/style.css" />
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oyuncu Değerlendirmeleri</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+.rating-card{background:#fff;border:1px solid #ddd;border-radius:12px;padding:15px;margin-bottom:15px}
+.rating-row{margin:10px 0}
+.rating-row label{display:block;font-weight:600;margin-bottom:5px}
+.rating-row select{width:100%;padding:10px}
+.player-name{font-size:18px;font-weight:700;margin-bottom:10px}
+.save-bar{position:sticky;bottom:80px;background:#fff;padding:10px}
+</style>
 </head>
-
 <body>
-
 <div class="container">
+<h1>⭐ Oyuncu Değerlendirmeleri</h1>
+<p>Tüm oyuncular belleğe alınır. Değişiklikler sadece Kaydet'e basınca gönderilir.</p>
 
-    <h1>
-        Oyuncuları Değerlendir
-    </h1>
-
-    <div id="playersList">
-
-    </div>
-
+<div id="playersContainer">
+    <p>Oyuncular yükleniyor...</p>
 </div>
 
-  
-  <script src="js/config.js"></script>
-  <script src="js/rate-players.js"></script>
+<div class="save-bar">
+    <button id="saveRatingsBtn" class="primary-btn" style="width:100%;padding:14px;">
+        💾 Tüm Değerlendirmeleri Kaydet
+    </button>
+</div>
+</div>
+
+<div id="bottom-nav-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/bottom-nav.js"></script>
+<script src="js/rate-players.js"></script>
+
+<script>
+document.getElementById('bottom-nav-container').innerHTML = renderBottomNav('groups');
+</script>
+
+<template id="playerCardTemplate">
+<div class="rating-card">
+    <div class="player-name"></div>
+
+    <div class="rating-row"><label>Kondisyon</label><select data-field="condition_score"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+
+    <div class="rating-row"><label>Teknik</label><select data-field="technique_score"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+
+    <div class="rating-row"><label>Hücum</label><select data-field="attack_score"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+
+    <div class="rating-row"><label>Defans</label><select data-field="defense_score"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+
+    <div class="rating-row"><label>Takım Oyunu</label><select data-field="teamplay_score"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+
+    <div class="rating-row"><label>Kalecilik</label><select data-field="goalkeeper_score"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+
+    <div class="rating-row"><label>Kaptanlık</label><select data-field="captain_score"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+</div>
+</template>
 
 </body>
-
 </html>

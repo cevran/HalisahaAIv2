@@ -38,7 +38,7 @@ document.addEventListener(
                 () => {
 
                     window.location.href =
-                        `rate-players.html?id=${currentGroupId}`;
+                        `rate-players.html?group_id=${currentGroupId}`;
 
                 }
             );
