@@ -274,20 +274,43 @@ async function makeAdmin(
 
 async function loadRatingProgress() {
 
-    const { count: ratingCount }
-        = await supabaseClient
+    try {
+
+        const {
+            count: ratingCount,
+            error: ratingError
+        } = await supabaseClient
             .from("player_ratings")
             .select(
                 "*",
-                { count: "exact", head: true }
+                {
+                    count: "exact",
+                    head: true
+                }
             )
             .eq(
                 "group_id",
                 currentGroupId
             );
 
-    const { data: members }
-        = await supabaseClient
+        if (ratingError) {
+            console.error(
+                "rating error",
+                ratingError
+            );
+
+            document.getElementById(
+                "ratingProgressText"
+            ).innerHTML =
+                "Değerlendirme sayısı okunamadı";
+
+            return;
+        }
+
+        const {
+            data: members,
+            error: memberError
+        } = await supabaseClient
             .from("group_members")
             .select("user_id")
             .eq(
@@ -299,36 +322,93 @@ async function loadRatingProgress() {
                 true
             );
 
-    const playerCount =
-        members?.length || 0;
+        if (memberError) {
 
-    const expectedCount =
-        playerCount *
-        (playerCount - 1);
-
-    const percentage =
-        expectedCount === 0
-            ? 0
-            : Math.round(
-                (
-                    ratingCount /
-                    expectedCount
-                ) * 100
+            console.error(
+                "member error",
+                memberError
             );
 
-    document.getElementById(
-        "ratingProgressBar"
-    ).style.width =
-        percentage + "%";
+            document.getElementById(
+                "ratingProgressText"
+            ).innerHTML =
+                "Oyuncu bilgileri okunamadı";
 
-    document.getElementById(
-        "ratingProgressText"
-    ).innerHTML =
-        `
-        ${ratingCount}
-        /
-        ${expectedCount}
-        değerlendirme tamamlandı
-        (${percentage}%)
-        `;
+            return;
+        }
+
+        const playerCount =
+            members
+                ? members.length
+                : 0;
+
+        const expectedCount =
+            playerCount *
+            Math.max(
+                playerCount - 1,
+                0
+            );
+
+        const completedCount =
+            ratingCount || 0;
+
+        const percentage =
+            expectedCount === 0
+                ? 0
+                : Math.round(
+                    (
+                        completedCount /
+                        expectedCount
+                    ) * 100
+                );
+
+        const progressBar =
+            document.getElementById(
+                "ratingProgressBar"
+            );
+
+        const progressText =
+            document.getElementById(
+                "ratingProgressText"
+            );
+
+        if (progressBar) {
+
+            progressBar.style.width =
+                percentage + "%";
+        }
+
+        if (progressText) {
+
+            progressText.innerHTML =
+                `
+                <strong>
+                ${percentage}%
+                </strong>
+                <br>
+                ${completedCount}
+                / ${expectedCount}
+                değerlendirme tamamlandı
+                `;
+        }
+
+        console.log({
+            playerCount,
+            expectedCount,
+            completedCount,
+            percentage
+        });
+
+    } catch (err) {
+
+        console.error(
+            "loadRatingProgress",
+            err
+        );
+
+        document.getElementById(
+            "ratingProgressText"
+        ).innerHTML =
+            "Hesaplama sırasında hata oluştu";
+    }
 }
