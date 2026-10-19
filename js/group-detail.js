@@ -30,6 +30,7 @@ document.addEventListener(
 
         await loadGroup();
         await loadPlayers();
+        await loadRatingProgress();
 
         document
             .getElementById("ratePlayersBtn")
@@ -268,4 +269,66 @@ async function makeAdmin(
     }
 
     await loadPlayers();
+}
+
+
+async function loadRatingProgress() {
+
+    const { count: ratingCount }
+        = await supabaseClient
+            .from("player_ratings")
+            .select(
+                "*",
+                { count: "exact", head: true }
+            )
+            .eq(
+                "group_id",
+                currentGroupId
+            );
+
+    const { data: members }
+        = await supabaseClient
+            .from("group_members")
+            .select("user_id")
+            .eq(
+                "group_id",
+                currentGroupId
+            )
+            .eq(
+                "active",
+                true
+            );
+
+    const playerCount =
+        members?.length || 0;
+
+    const expectedCount =
+        playerCount *
+        (playerCount - 1);
+
+    const percentage =
+        expectedCount === 0
+            ? 0
+            : Math.round(
+                (
+                    ratingCount /
+                    expectedCount
+                ) * 100
+            );
+
+    document.getElementById(
+        "ratingProgressBar"
+    ).style.width =
+        percentage + "%";
+
+    document.getElementById(
+        "ratingProgressText"
+    ).innerHTML =
+        `
+        ${ratingCount}
+        /
+        ${expectedCount}
+        değerlendirme tamamlandı
+        (${percentage}%)
+        `;
 }
