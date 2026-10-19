@@ -330,3 +330,41 @@ button:disabled {
 body {
     padding-bottom: 90px;
 }
+
+
+.rating-card{
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:15px;
+}
+
+.player-name{
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.rating-line{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:12px 0;
+}
+
+.star-rating{
+    display:flex;
+    gap:3px;
+}
+
+.star{
+    font-size:28px;
+    cursor:pointer;
+    color:#d1d5db;
+    transition:.2s;
+}
+
+.star.active{
+    color:#fbbf24;
+}
