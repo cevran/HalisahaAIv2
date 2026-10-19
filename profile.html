@@ -90,34 +90,34 @@
             <textarea id="bio"></textarea>
         </div>
 
-<button type="submit">
-    Profili Güncelle
-</button>
+        <button type="submit">
+            Profili Güncelle
+        </button>
 
-<button
-    type="button"
-    class="secondary-btn"
-    onclick="window.location.href='groups.html'"
->
-    👥 Gruplarım
-</button>
-
-<button
-    type="button"
-    class="logout-btn"
-    onclick="logout()"
->
-    Çıkış Yap
-</button>
+        <button
+            type="button"
+            class="logout-btn"
+            onclick="logout()"
+        >
+            Çıkış Yap
+        </button>
 
     </form>
 
 </div>
 
+<div id="bottom-nav-container"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/profile.js"></script>
+<script src="js/bottom-nav.js"></script>
+
+<script>
+document.getElementById('bottom-nav-container').innerHTML =
+    renderBottomNav('profile');
+</script>
 
 </body>
 </html>
