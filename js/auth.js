@@ -10,7 +10,7 @@ async function requireLogin() {
     const user = await getCurrentUser();
 
     if (!user) {
-        window.location.href = "login.html";
+        window.location.href = "index.html";
     }
 
     return user;
@@ -18,5 +18,5 @@ async function requireLogin() {
 
 async function logout() {
     await supabaseClient.auth.signOut();
-    window.location.href = "login.html";
+    window.location.href = "index.html";
 }
