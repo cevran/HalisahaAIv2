@@ -121,19 +121,118 @@ body{
     background:
         repeating-linear-gradient(
             to bottom,
-            #2d8b57 0,
-            #2d8b57 60px,
-            #277c4d 60px,
-            #277c4d 120px
+            #2f925c 0,
+            #2f925c 60px,
+            #2a824f 60px,
+            #2a824f 120px
         );
 
     overflow:hidden;
 }
 
+/* ÜST KALE */
+
+.full-pitch::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:50%;
+
+    width:220px;
+
+    height:70px;
+
+    transform:translateX(-50%);
+
+    border:3px solid rgba(
+        255,
+        255,
+        255,
+        .75
+    );
+
+    border-top:none;
+
+    z-index:1;
+}
+
+/* ALT KALE */
+
+.full-pitch::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:0;
+
+    left:50%;
+
+    width:220px;
+
+    height:70px;
+
+    transform:translateX(-50%);
+
+    border:3px solid rgba(
+        255,
+        255,
+        255,
+        .75
+    );
+
+    border-bottom:none;
+
+    z-index:1;
+}
+
 .pitch-half{
     position:relative;
     height:50%;
-    padding:20px;
+}
+
+/* CEZA SAHALARI */
+
+.pitch-half::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:120px;
+
+    height:50px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    border:2px solid rgba(
+        255,
+        255,
+        255,
+        .55
+    );
+
+    z-index:1;
+}
+
+.pitch-half:first-child::before{
+
+    top:0;
+
+    border-top:none;
+}
+
+.pitch-half:last-child::before{
+
+    bottom:0;
+
+    border-bottom:none;
 }
 
 .center-line{
@@ -155,13 +254,9 @@ body{
 
     transform:translateY(-50%);
 
-    z-index:5;
+    z-index:3;
 
     text-align:center;
-
-    font-size:30px;
-
-    line-height:0;
 }
 
 .center-line::after{
@@ -196,64 +291,106 @@ body{
     padding-top:120px;
 }
 
-.line{
-    display:flex;
-    justify-content:center;
-    gap:12px;
-    margin:20px 0;
-    flex-wrap:wrap;
+/* -------- TAKIM ADLARI -------- */
+
+.team-label{
+
+    position:absolute;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    font-size:22px;
+
+    font-weight:900;
+
+    color:white;
+
+    opacity:.25;
+
+    letter-spacing:3px;
+
+    text-shadow:
+        0 2px 4px rgba(
+            0,
+            0,
+            0,
+            .35
+        );
+
+    z-index:1;
 }
 
-.player-card{
+.team-label.top{
+    top:10px;
+}
 
-    width:95px;
+.team-label.bottom{
+    bottom:10px;
+}
 
-    min-height:86px;
+/* -------- OYUNCU KARTLARI -------- */
+
+.field-player{
+
+    position:absolute;
+
+    width:80px;
+
+    min-height:70px;
 
     background:rgba(
         255,
         255,
         255,
-        .95
+        .96
     );
 
-    border-radius:14px;
+    border-radius:12px;
 
-    padding:8px;
+    padding:6px;
 
     text-align:center;
 
+    transform:
+        translate(-50%,-50%);
+
     box-shadow:
-        0 2px 8px rgba(
+        0 3px 10px rgba(
             0,
             0,
             0,
-            .15
+            .18
         );
+
+    z-index:5;
 }
 
 .player-name{
-    font-size:12px;
+    font-size:11px;
     font-weight:700;
+    line-height:1.2;
 }
 
 .player-power{
-    margin-top:4px;
-    font-size:11px;
+    margin-top:3px;
+    font-size:10px;
     color:#ef6c00;
     font-weight:700;
 }
 
 .position{
-    margin-top:4px;
-    font-size:10px;
-    color:#64748b;
+    margin-top:2px;
+    font-size:14px;
 }
 
 .captain{
     color:#f59e0b;
     font-weight:700;
 }
+
+/* -------- ANALİZ -------- */
 
 .analysis-grid{
     display:grid;
@@ -264,6 +401,8 @@ body{
     display:flex;
     justify-content:space-between;
 }
+
+/* -------- BUTONLAR -------- */
 
 .actions{
     display:grid;
@@ -294,6 +433,8 @@ body{
     opacity:.95;
 }
 
+/* -------- MOBİL -------- */
+
 @media (max-width:768px){
 
     .container{
@@ -304,13 +445,17 @@ body{
         height:560px;
     }
 
-    .player-card{
-        width:82px;
-        min-height:78px;
+    .field-player{
+        width:72px;
+        min-height:64px;
     }
 
     .player-name{
-        font-size:11px;
+        font-size:10px;
+    }
+
+    .team-label{
+        font-size:16px;
     }
 
     .single-pitch-header{
