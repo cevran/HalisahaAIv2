@@ -133,6 +133,34 @@ async function loadPlayers() {
         return;
     }
 
+    const {
+        data: ratedPlayers,
+        error: ratedError
+    } = await supabaseClient
+        .from("player_rating_summary")
+        .select(`
+            target_user_id
+        `)
+        .eq(
+            "group_id",
+            currentGroupId
+        );
+
+    if (ratedError) {
+
+        console.error(
+            "rating summary error",
+            ratedError
+        );
+    }
+
+    const ratedSet =
+        new Set(
+            (ratedPlayers || []).map(
+                x => x.target_user_id
+            )
+        );
+
     document.getElementById(
         "playerCount"
     ).innerText =
@@ -150,13 +178,30 @@ async function loadPlayers() {
         const profile =
             member.profiles;
 
+        const isRated =
+            ratedSet.has(
+                member.user_id
+            );
+
+        const statusBadge =
+            isRated
+                ? `<span class="player-status rated">🟢 Değerlendirildi</span>`
+                : `<span class="player-status unrated">🔴 Değerlendirilmedi</span>`;
+
         const div =
             document.createElement(
                 "div"
             );
 
         div.className =
-            "player-row";
+            `player-row ${
+                isRated
+                    ? ""
+                    : "unrated"
+            }`;
+
+        div.dataset.rated =
+            isRated;
 
         let buttons = "";
 
@@ -187,11 +232,13 @@ async function loadPlayers() {
                     ${profile?.full_name || ""}
                 </strong>
 
-                (${profile?.nickname || ""})
+                (${profile?.nickname || "-"})
 
                 <span class="role-badge">
                     ${member.role}
                 </span>
+
+                ${statusBadge}
 
             </div>
 
