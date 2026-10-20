@@ -396,13 +396,14 @@ body {
 
 
 
+
 .match-player-card {
     display: flex;
     align-items: center;
     gap: 14px;
 
     background: #fff;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #ddd;
     border-radius: 12px;
 
     padding: 16px;
@@ -432,16 +433,15 @@ body {
 
     font-size: 14px;
     font-weight: bold;
+    color: white;
 }
 
 .match-player-card.selected .player-check {
     background: #22c55e;
     border-color: #22c55e;
-    color: white;
 }
 
 .player-name {
     font-size: 16px;
     font-weight: 600;
-    color: #111827;
 }
