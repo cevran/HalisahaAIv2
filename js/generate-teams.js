@@ -63,6 +63,9 @@ async function generateTeams() {
                 selectedPlayers
             );
 
+        console.log(players.length);
+        console.log(players);
+
         const result =
             buildBalancedTeams(
                 players
@@ -220,7 +223,7 @@ function buildBalancedTeams(players) {
             );
 
         const half =
-            shuffled.length / 2;
+            Math.floor(shuffled.length / 2);
 
         const whiteTeam =
             shuffled.slice(
