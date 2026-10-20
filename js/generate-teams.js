@@ -1,0 +1,734 @@
+const ITERATION_COUNT = 5000;
+
+let selectedPlayers = [];
+let generatedMatch = null;
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+        selectedPlayers =
+            JSON.parse(
+                sessionStorage.getItem(
+                    "selectedPlayers"
+                ) || "[]"
+            );
+
+        if (
+            !selectedPlayers ||
+            selectedPlayers.length < 6
+        ) {
+            alert(
+                "Oyuncu listesi bulunamadı."
+            );
+
+            window.history.back();
+            return;
+        }
+
+        document
+            .getElementById(
+                "regenerateBtn"
+            )
+            ?.addEventListener(
+                "click",
+                generateTeams
+            );
+
+        document
+            .getElementById(
+                "saveMatchBtn"
+            )
+            ?.addEventListener(
+                "click",
+                () => {
+
+                    console.log(
+                        "Maçı Kaydet"
+                    );
+
+                }
+            );
+
+        await generateTeams();
+    }
+);
+
+async function generateTeams() {
+
+    try {
+
+        const players =
+            await loadPlayerStats(
+                selectedPlayers
+            );
+
+        const result =
+            buildBalancedTeams(
+                players
+            );
+
+        generatedMatch =
+            result;
+
+        renderMatch(
+            result
+        );
+
+    }
+    catch (err) {
+
+        console.error(err);
+
+        alert(
+            "Takımlar oluşturulamadı."
+        );
+    }
+}
+
+async function loadPlayerStats(ids) {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from(
+            "player_rating_summary"
+        )
+        .select(`
+            target_user_id,
+            overall_score,
+            condition_score,
+            technique_score,
+            attack_score,
+            defense_score,
+            teamplay_score,
+            goalkeeper_score,
+            captain_score
+        `)
+        .in(
+            "target_user_id",
+            ids
+        );
+
+    if (error) {
+        throw error;
+    }
+
+    const profileIds =
+        data.map(
+            x => x.target_user_id
+        );
+
+    const {
+        data: profiles,
+        error: profileError
+    } = await supabaseClient
+        .from("profiles")
+        .select(`
+            id,
+            full_name,
+            nickname
+        `)
+        .in(
+            "id",
+            profileIds
+        );
+
+    if (profileError) {
+        throw profileError;
+    }
+
+    return data.map(rating => {
+
+        const profile =
+            profiles.find(
+                p =>
+                    p.id ===
+                    rating.target_user_id
+            );
+
+        return {
+
+            id:
+                rating.target_user_id,
+
+            name:
+                profile?.nickname ||
+                profile?.full_name ||
+                "Oyuncu",
+
+            overall:
+                Number(
+                    rating.overall_score || 0
+                ),
+
+            condition:
+                Number(
+                    rating.condition_score || 0
+                ),
+
+            technique:
+                Number(
+                    rating.technique_score || 0
+                ),
+
+            attack:
+                Number(
+                    rating.attack_score || 0
+                ),
+
+            defense:
+                Number(
+                    rating.defense_score || 0
+                ),
+
+            teamplay:
+                Number(
+                    rating.teamplay_score || 0
+                ),
+
+            goalkeeper:
+                Number(
+                    rating.goalkeeper_score || 0
+                ),
+
+            captain:
+                Number(
+                    rating.captain_score || 0
+                )
+
+        };
+    });
+}
+
+function buildBalancedTeams(players) {
+
+    let best = null;
+
+    for (
+        let i = 0;
+        i < ITERATION_COUNT;
+        i++
+    ) {
+
+        const shuffled =
+            [...players]
+            .sort(
+                () =>
+                    Math.random() - 0.5
+            );
+
+        const half =
+            shuffled.length / 2;
+
+        const whiteTeam =
+            shuffled.slice(
+                0,
+                half
+            );
+
+        const redTeam =
+            shuffled.slice(
+                half
+            );
+
+        const whiteStats =
+            teamStats(
+                whiteTeam
+            );
+
+        const redStats =
+            teamStats(
+                redTeam
+            );
+
+        const score =
+
+            Math.abs(
+                whiteStats.overall -
+                redStats.overall
+            ) * 10 +
+
+            Math.abs(
+                whiteStats.attack -
+                redStats.attack
+            ) * 2 +
+
+            Math.abs(
+                whiteStats.defense -
+                redStats.defense
+            ) * 2 +
+
+            Math.abs(
+                whiteStats.technique -
+                redStats.technique
+            ) * 2 +
+
+            Math.abs(
+                whiteStats.condition -
+                redStats.condition
+            ) +
+
+            Math.abs(
+                whiteStats.teamplay -
+                redStats.teamplay
+            );
+
+        if (
+            !best ||
+            score < best.score
+        ) {
+
+            best = {
+
+                whiteTeam,
+                redTeam,
+
+                whiteStats,
+                redStats,
+
+                score
+
+            };
+        }
+    }
+
+    return best;
+}
+
+function teamStats(team) {
+
+    const total =
+        key =>
+            team.reduce(
+                (sum, player) =>
+                    sum + player[key],
+                0
+            );
+
+    return {
+
+        overall:
+            total(
+                "overall"
+            ),
+
+        attack:
+            total(
+                "attack"
+            ),
+
+        defense:
+            total(
+                "defense"
+            ),
+
+        technique:
+            total(
+                "technique"
+            ),
+
+        condition:
+            total(
+                "condition"
+            ),
+
+        teamplay:
+            total(
+                "teamplay"
+            )
+
+    };
+}
+
+function getCaptain(team) {
+
+    return [...team]
+        .sort((a, b) => {
+
+            if (
+                b.captain !==
+                a.captain
+            ) {
+
+                return (
+                    b.captain -
+                    a.captain
+                );
+            }
+
+            return (
+                b.overall -
+                a.overall
+            );
+
+        })[0];
+}
+
+function buildFormation(team) {
+
+    const available =
+        [...team];
+
+    const goalkeepers = [];
+    const defenders = [];
+    const midfielders = [];
+    const attackers = [];
+
+    available.sort(
+        (a, b) =>
+            b.goalkeeper -
+            a.goalkeeper
+    );
+
+    goalkeepers.push(
+        available.shift()
+    );
+
+    let defenderCount = 2;
+    let midfielderCount = 2;
+
+    if (
+        team.length <= 6
+    ) {
+
+        defenderCount = 1;
+        midfielderCount = 1;
+    }
+
+    const pickBest =
+        (
+            pool,
+            field
+        ) => {
+
+            pool.sort(
+                (a, b) =>
+                    b[field] -
+                    a[field]
+            );
+
+            return pool.shift();
+        };
+
+    for (
+        let i = 0;
+        i < defenderCount;
+        i++
+    ) {
+
+        if (
+            !available.length
+        ) {
+            break;
+        }
+
+        defenders.push(
+            pickBest(
+                available,
+                "defense"
+            )
+        );
+    }
+
+    for (
+        let i = 0;
+        i < midfielderCount;
+        i++
+    ) {
+
+        if (
+            !available.length
+        ) {
+            break;
+        }
+
+        midfielders.push(
+            pickBest(
+                available,
+                "teamplay"
+            )
+        );
+    }
+
+    attackers.push(
+        ...available.sort(
+            (a, b) =>
+                b.attack -
+                a.attack
+        )
+    );
+
+    return {
+
+        goalkeepers,
+        defenders,
+        midfielders,
+        attackers
+
+    };
+}
+
+function renderPitch(
+    team,
+    captain
+) {
+
+    const formation =
+        buildFormation(
+            team
+        );
+
+    const row =
+        (
+            players,
+            position
+        ) => `
+
+        <div class="line">
+
+            ${players
+                .map(player => `
+
+                    <div class="player-card">
+
+                        <div class="player-name">
+
+                            ${
+                                player.id === captain.id
+                                    ? "👑 "
+                                    : ""
+                            }
+
+                            ${player.name}
+
+                        </div>
+
+                        <div class="player-power">
+
+                            ⚡ ${player.overall.toFixed(1)}
+
+                        </div>
+
+                        <div class="position">
+
+                            ${position}
+
+                        </div>
+
+                    </div>
+
+                `)
+                .join("")}
+
+        </div>
+
+    `;
+
+    return `
+
+        ${row(
+            formation.attackers,
+            "FORVET"
+        )}
+
+        ${row(
+            formation.midfielders,
+            "ORTA SAHA"
+        )}
+
+        ${row(
+            formation.defenders,
+            "DEFANS"
+        )}
+
+        ${row(
+            formation.goalkeepers,
+            "KALECİ"
+        )}
+
+    `;
+}
+
+function renderPlayerList(
+    team,
+    captain
+) {
+
+    return `
+
+        <ul>
+
+            ${team
+                .sort(
+                    (a, b) =>
+                        b.overall -
+                        a.overall
+                )
+                .map(player => `
+
+                    <li>
+
+                        <span class="${
+                            player.id === captain.id
+                                ? "captain"
+                                : ""
+                        }">
+
+                            ${
+                                player.id === captain.id
+                                    ? "👑 "
+                                    : ""
+                            }
+
+                            ${player.name}
+
+                        </span>
+
+                        <strong>
+                            ${player.overall.toFixed(1)}
+                        </strong>
+
+                    </li>
+
+                `)
+                .join("")}
+
+        </ul>
+
+    `;
+}
+
+function renderMatch(result) {
+
+    const whiteCaptain =
+        getCaptain(
+            result.whiteTeam
+        );
+
+    const redCaptain =
+        getCaptain(
+            result.redTeam
+        );
+
+    const difference =
+        Math.abs(
+            result.whiteStats.overall -
+            result.redStats.overall
+        );
+
+    document.getElementById(
+        "playerCount"
+    ).innerText =
+        result.whiteTeam.length +
+        result.redTeam.length;
+
+    document.getElementById(
+        "powerDiff"
+    ).innerText =
+        difference.toFixed(1);
+
+    document.getElementById(
+        "whitePower"
+    ).innerText =
+        result.whiteStats.overall
+        .toFixed(1);
+
+    document.getElementById(
+        "redPower"
+    ).innerText =
+        result.redStats.overall
+        .toFixed(1);
+
+    document.getElementById(
+        "whitePitch"
+    ).innerHTML =
+        renderPitch(
+            result.whiteTeam,
+            whiteCaptain
+        );
+
+    document.getElementById(
+        "redPitch"
+    ).innerHTML =
+        renderPitch(
+            result.redTeam,
+            redCaptain
+        );
+
+    document.getElementById(
+        "whiteDetails"
+    ).innerHTML =
+        renderPlayerList(
+            result.whiteTeam,
+            whiteCaptain
+        );
+
+    document.getElementById(
+        "redDetails"
+    ).innerHTML =
+        renderPlayerList(
+            result.redTeam,
+            redCaptain
+        );
+
+    document.getElementById(
+        "analysisWhite"
+    ).innerText =
+        result.whiteStats.overall
+        .toFixed(1);
+
+    document.getElementById(
+        "analysisRed"
+    ).innerText =
+        result.redStats.overall
+        .toFixed(1);
+
+    document.getElementById(
+        "analysisDiff"
+    ).innerText =
+        difference.toFixed(1);
+
+    const average =
+
+        (
+            result.whiteStats.overall +
+            result.redStats.overall
+        ) / 2;
+
+    const percent =
+        (difference / average) *
+        100;
+
+    let stars =
+        "★★★★★";
+
+    let text =
+        "Mükemmele Yakın";
+
+    if (percent > 1) {
+        stars = "★★★★☆";
+        text = "Çok Dengeli";
+    }
+
+    if (percent > 3) {
+        stars = "★★★☆☆";
+        text = "Dengeli";
+    }
+
+    if (percent > 7) {
+        stars = "★☆☆☆☆";
+        text = "Dengesiz";
+    }
+
+    document.getElementById(
+        "analysisBalance"
+    ).innerText =
+        stars;
+
+    document.getElementById(
+        "balanceText"
+    ).innerText =
+        `${stars} ${text}`;
+}

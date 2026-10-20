@@ -135,3 +135,54 @@ async function loadPlayers() {
         );
     });
 }
+
+
+document
+    .getElementById(
+        "generateTeamsBtn"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            if (
+                selectedPlayers.size < 6
+            ) {
+
+                document.getElementById(
+                    "validationMessage"
+                ).innerHTML =
+                    '<div class="warning">En az 6 oyuncu seçmelisiniz.</div>';
+
+                return;
+            }
+
+            if (
+                selectedPlayers.size % 2 !== 0
+            ) {
+
+                document.getElementById(
+                    "validationMessage"
+                ).innerHTML =
+                    '<div class="warning">Oyuncu sayısı çift olmalıdır.</div>';
+
+                return;
+            }
+
+            document.getElementById(
+                "validationMessage"
+            ).innerHTML = "";
+
+            sessionStorage.setItem(
+                "selectedPlayers",
+                JSON.stringify(
+                    Array.from(
+                        selectedPlayers
+                    )
+                )
+            );
+
+            window.location.href =
+                `generate-teams.html?groupId=${currentGroupId}`;
+        }
+    );

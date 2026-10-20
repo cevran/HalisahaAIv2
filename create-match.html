@@ -3,41 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maç Oluştur</title>
-
+    <title>Halı Saha AI - Maç Oluştur</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
 <div class="container">
-
     <h1>⚽ Maç Oluştur</h1>
 
-    <div id="selectedCount">
+    <div id="selectedCount" class="selected-count">
         Seçilen Oyuncu: 0
     </div>
 
     <div id="playersList"></div>
 
+    <div id="validationMessage" class="validation-message"></div>
+
     <div class="match-actions">
-
-    <button
-        id="generateTeamsBtn"
-        class="primary-btn">
-        ⚽ Takımları Oluştur
-    </button>
-
-</div>
-
+        <button id="generateTeamsBtn" class="primary-btn">
+            ⚽ Takımları Oluştur
+        </button>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/create-match.js"></script>
-
-</div>
 
 </body>
 </html>

@@ -481,3 +481,44 @@ body {
 
     z-index: 10;
 }
+
+
+.selected-count {
+    position: sticky;
+    top: 10px;
+    z-index: 10;
+
+    background: #ffffff;
+    padding: 14px;
+    margin-bottom: 16px;
+
+    border-radius: 12px;
+
+    font-weight: 700;
+    text-align: center;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+
+.validation-message {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.validation-message .warning {
+    background: #fee2e2;
+    color: #b91c1c;
+
+    padding: 12px;
+    border-radius: 10px;
+
+    font-weight: 600;
+}
+
+.match-actions {
+    margin-top: 20px;
+}
+
+.match-actions button {
+    width: 100%;
+}
