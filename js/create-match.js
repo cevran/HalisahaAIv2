@@ -10,7 +10,6 @@ document.addEventListener(
             await supabaseClient.auth.getUser();
 
         if (!user) {
-
             window.location.href = "index.html";
             return;
         }
@@ -35,8 +34,7 @@ async function loadPlayers() {
             .select(`
                 user_id,
                 profiles (
-                    full_name,
-                    nickname
+                    full_name
                 )
             `)
             .eq(
@@ -49,7 +47,6 @@ async function loadPlayers() {
             );
 
     if (error) {
-
         console.error(error);
         return;
     }
@@ -69,9 +66,16 @@ async function loadPlayers() {
         card.className =
             "match-player-card";
 
-        
         card.dataset.userId =
             player.user_id;
+
+        card.innerHTML = `
+            <div class="player-check"></div>
+
+            <div class="player-name">
+                ${player.profiles?.full_name || ""}
+            </div>
+        `;
 
         card.addEventListener(
             "click",
@@ -81,10 +85,14 @@ async function loadPlayers() {
                     player.user_id;
 
                 const check =
-                    card.querySelector(".player-check");
+                    card.querySelector(
+                        ".player-check"
+                    );
 
                 if (
-                    selectedPlayers.has(userId)
+                    selectedPlayers.has(
+                        userId
+                    )
                 ) {
 
                     selectedPlayers.delete(
@@ -95,7 +103,7 @@ async function loadPlayers() {
                         "selected"
                     );
 
-                    check.innerHTML = "○";
+                    check.innerHTML = "";
 
                 } else {
 
@@ -117,32 +125,8 @@ async function loadPlayers() {
             }
         );
 
-        card.innerHTML = `
-            <div class="player-info">
-
-                <div class="player-nickname">
-                    ${player.profiles?.nickname?.trim()
-                        ? player.profiles.nickname
-                        : player.profiles?.full_name || ""}
-                </div>
-
-                ${
-                    player.profiles?.nickname?.trim()
-                    ? `
-                        <div class="player-name">
-                            ${player.profiles?.full_name || ""}
-                        </div>
-                    `
-                    : ""
-                }
-
-            </div>
-
-            <div class="player-check">
-                ○
-            </div>
-        `;
-
-        playersList.appendChild(card);
+        playersList.appendChild(
+            card
+        );
     });
 }
