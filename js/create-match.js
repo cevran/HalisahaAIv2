@@ -14,6 +14,11 @@ document.addEventListener(
             return;
         }
 
+        document.getElementById(
+            "selectedCount"
+        ).innerText =
+            "Seçilen Oyuncu: 0";
+
         const params =
             new URLSearchParams(
                 window.location.search
@@ -73,7 +78,7 @@ async function loadPlayers() {
             <div class="player-check"></div>
 
             <div class="player-name">
-                ${player.profiles?.full_name || ""}
+                ${player.profiles?.full_name || "İsimsiz Oyuncu"}
             </div>
         `;
 
