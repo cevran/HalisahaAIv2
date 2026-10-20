@@ -414,3 +414,17 @@ body {
 }
 
 
+.match-player-card {
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.match-player-card.selected {
+    border: 2px solid #43a047;
+    background: #e8f5e9;
+}
+
+.match-player-card:hover {
+    transform: translateY(-2px);
+}
+

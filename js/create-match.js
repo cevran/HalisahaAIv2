@@ -1,3 +1,5 @@
+const selectedPlayers = new Set();
+
 let currentGroupId = null;
 
 document.addEventListener(
@@ -66,6 +68,49 @@ async function loadPlayers() {
 
         card.className =
             "match-player-card";
+
+        
+        card.dataset.userId =
+            player.user_id;
+
+        card.addEventListener(
+            "click",
+            () => {
+
+                const userId =
+                    player.user_id;
+
+                if (
+                    selectedPlayers.has(
+                        userId
+                    )
+                ) {
+
+                    selectedPlayers.delete(
+                        userId
+                    );
+
+                    card.classList.remove(
+                        "selected"
+                    );
+
+                } else {
+
+                    selectedPlayers.add(
+                        userId
+                    );
+
+                    card.classList.add(
+                        "selected"
+                    );
+                }
+
+                document.getElementById(
+                    "selectedCount"
+                ).innerText =
+                    `Seçilen Oyuncu: ${selectedPlayers.size}`;
+            }
+        );    
 
         card.innerHTML = `
             <div class="match-player-name">
