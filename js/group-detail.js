@@ -45,19 +45,18 @@ document.addEventListener(
             );
 
         document
-            .getElementById(
-                "createMatchBtn"
-            )
-            .addEventListener(
-                "click",
-                () => {
+        .getElementById(
+            "createMatchBtn"
+        )
+        .addEventListener(
+            "click",
+            () => {
 
-                    alert(
-                        "Maç oluşturma ekranı sonraki adımda eklenecek."
-                    );
+                window.location.href =
+                    `create-match.html?groupId=${currentGroupId}`;
 
-                }
-            );
+            }
+        );
     }
 );
 
