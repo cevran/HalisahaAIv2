@@ -56,6 +56,33 @@ async function loadPlayers() {
         return;
     }
 
+    const {
+        data: ratedPlayers,
+        error: ratedError
+    } = await supabaseClient
+        .from("player_rating_summary")
+        .select(`
+            target_user_id
+        `)
+        .eq(
+            "group_id",
+            currentGroupId
+        );
+
+    if (ratedError) {
+        console.error(
+            "player_rating_summary",
+            ratedError
+        );
+    }
+
+    const ratedSet =
+        new Set(
+            (ratedPlayers || []).map(
+                p => p.target_user_id
+            )
+        );
+
     const playersList =
         document.getElementById(
             "playersList"
@@ -65,11 +92,18 @@ async function loadPlayers() {
 
     data.forEach(player => {
 
+        const isRated =
+            ratedSet.has(
+                player.user_id
+            );
+
         const card =
             document.createElement("div");
 
         card.className =
-            "match-player-card";
+            isRated
+                ? "match-player-card"
+                : "match-player-card disabled-player";
 
         card.dataset.userId =
             player.user_id;
@@ -80,11 +114,29 @@ async function loadPlayers() {
             <div class="player-name">
                 ${player.profiles?.full_name || "İsimsiz Oyuncu"}
             </div>
+
+            <div class="player-status">
+                ${isRated ? "🟢" : "🔴"}
+            </div>
         `;
 
         card.addEventListener(
             "click",
             () => {
+
+                if (!isRated) {
+
+                    document.getElementById(
+                        "validationMessage"
+                    ).innerHTML =
+                        `
+                        <div class="warning">
+                            Bu oyuncu henüz değerlendirilmemiş.
+                        </div>
+                        `;
+
+                    return;
+                }
 
                 const userId =
                     player.user_id;
@@ -124,6 +176,10 @@ async function loadPlayers() {
                 }
 
                 document.getElementById(
+                    "validationMessage"
+                ).innerHTML = "";
+
+                document.getElementById(
                     "selectedCount"
                 ).innerText =
                     `Seçilen Oyuncu: ${selectedPlayers.size}`;
@@ -135,7 +191,6 @@ async function loadPlayers() {
         );
     });
 }
-
 
 document
     .getElementById(
@@ -152,7 +207,11 @@ document
                 document.getElementById(
                     "validationMessage"
                 ).innerHTML =
-                    '<div class="warning">En az 6 oyuncu seçmelisiniz.</div>';
+                    `
+                    <div class="warning">
+                        En az 6 oyuncu seçmelisiniz.
+                    </div>
+                    `;
 
                 return;
             }
@@ -164,7 +223,11 @@ document
                 document.getElementById(
                     "validationMessage"
                 ).innerHTML =
-                    '<div class="warning">Oyuncu sayısı çift olmalıdır.</div>';
+                    `
+                    <div class="warning">
+                        Oyuncu sayısı çift olmalıdır.
+                    </div>
+                    `;
 
                 return;
             }
@@ -186,3 +249,4 @@ document
                 `generate-teams.html?groupId=${currentGroupId}`;
         }
     );
+    
