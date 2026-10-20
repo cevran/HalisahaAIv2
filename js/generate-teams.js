@@ -475,7 +475,8 @@ function buildFormation(team) {
 
 function renderPitch(
     team,
-    captain
+    captain,
+    reverse = false
 ) {
 
     const formation =
@@ -529,79 +530,36 @@ function renderPitch(
 
     `;
 
-    return `
+    const layout = [
 
-        ${row(
+        row(
             formation.attackers,
             "FORVET"
-        )}
+        ),
 
-        ${row(
+        row(
             formation.midfielders,
             "ORTA SAHA"
-        )}
+        ),
 
-        ${row(
+        row(
             formation.defenders,
             "DEFANS"
-        )}
+        ),
 
-        ${row(
+        row(
             formation.goalkeepers,
-            "KALECİ"
-        )}
+            "🧤 KALECİ"
+        )
 
-    `;
+    ];
+
+    return reverse
+        ? layout.reverse().join("")
+        : layout.join("");
 }
 
-function renderPlayerList(
-    team,
-    captain
-) {
 
-    return `
-
-        <ul>
-
-            ${team
-                .sort(
-                    (a, b) =>
-                        b.overall -
-                        a.overall
-                )
-                .map(player => `
-
-                    <li>
-
-                        <span class="${
-                            player.id === captain.id
-                                ? "captain"
-                                : ""
-                        }">
-
-                            ${
-                                player.id === captain.id
-                                    ? "👑 "
-                                    : ""
-                            }
-
-                            ${player.name}
-
-                        </span>
-
-                        <strong>
-                            ${player.overall.toFixed(1)}
-                        </strong>
-
-                    </li>
-
-                `)
-                .join("")}
-
-        </ul>
-
-    `;
-}
 
 function renderMatch(result) {
 
@@ -649,7 +607,8 @@ function renderMatch(result) {
     ).innerHTML =
         renderPitch(
             result.whiteTeam,
-            whiteCaptain
+            whiteCaptain,
+            false
         );
 
     document.getElementById(
@@ -657,23 +616,8 @@ function renderMatch(result) {
     ).innerHTML =
         renderPitch(
             result.redTeam,
-            redCaptain
-        );
-
-    document.getElementById(
-        "whiteDetails"
-    ).innerHTML =
-        renderPlayerList(
-            result.whiteTeam,
-            whiteCaptain
-        );
-
-    document.getElementById(
-        "redDetails"
-    ).innerHTML =
-        renderPlayerList(
-            result.redTeam,
-            redCaptain
+            redCaptain,
+            true
         );
 
     document.getElementById(
