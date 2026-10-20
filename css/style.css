@@ -368,3 +368,26 @@ body {
 .star.active{
     color:#fbbf24;
 }
+
+
+.match-card {
+    margin-top: 15px;
+}
+
+.match-card-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.match-card-header p {
+    margin: 6px 0 15px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.match-btn {
+    width: 100%;
+    height: 46px;
+    font-size: 16px;
+    font-weight: 600;
+}
