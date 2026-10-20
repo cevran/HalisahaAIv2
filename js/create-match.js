@@ -80,10 +80,11 @@ async function loadPlayers() {
                 const userId =
                     player.user_id;
 
+                const check =
+                    card.querySelector(".player-check");
+
                 if (
-                    selectedPlayers.has(
-                        userId
-                    )
+                    selectedPlayers.has(userId)
                 ) {
 
                     selectedPlayers.delete(
@@ -94,6 +95,8 @@ async function loadPlayers() {
                         "selected"
                     );
 
+                    check.innerHTML = "○";
+
                 } else {
 
                     selectedPlayers.add(
@@ -103,6 +106,8 @@ async function loadPlayers() {
                     card.classList.add(
                         "selected"
                     );
+
+                    check.innerHTML = "✓";
                 }
 
                 document.getElementById(
@@ -110,15 +115,31 @@ async function loadPlayers() {
                 ).innerText =
                     `Seçilen Oyuncu: ${selectedPlayers.size}`;
             }
-        );    
+        );
 
         card.innerHTML = `
-            <div class="match-player-name">
-                ${player.profiles?.full_name || ""}
+            <div class="player-info">
+
+                <div class="player-nickname">
+                    ${player.profiles?.nickname?.trim()
+                        ? player.profiles.nickname
+                        : player.profiles?.full_name || ""}
+                </div>
+
+                ${
+                    player.profiles?.nickname?.trim()
+                    ? `
+                        <div class="player-name">
+                            ${player.profiles?.full_name || ""}
+                        </div>
+                    `
+                    : ""
+                }
+
             </div>
 
-            <div class="match-player-score">
-                ${player.profiles?.nickname || ""}
+            <div class="player-check">
+                ○
             </div>
         `;
 
