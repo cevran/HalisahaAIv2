@@ -13,66 +13,11 @@
 
 <body>
 
-
-
 <div class="container">
 
+    <!-- ÜST ÖZET -->
     <div class="page-header">
-
-        <h1>⚽ Maç Hazır</h1>
-
-        <p>
-            Takımlar oluşturuldu
-        </p>
-
-    </div>
-
-    <!-- ÖZET -->
-
-    <div class="card">
-
-        <div class="summary-grid">
-
-            <div>
-
-                <div
-                    class="summary-value"
-                    id="playerCount">
-                    0
-                </div>
-
-                <div class="summary-label">
-                    Oyuncu
-                </div>
-
-            </div>
-
-            <div>
-
-                <div
-                    class="summary-value balance-good"
-                    id="powerDiff">
-                    0.0
-                </div>
-
-                <div class="summary-label">
-                    Güç Farkı
-                </div>
-
-            </div>
-
-        </div>
-
-        <br>
-
-        <div
-            id="balanceText"
-            class="balance-good">
-
-            ★★★★★ Çok Dengeli
-
-        </div>
-
+        <h1>⚽ Maç oluşturuldu</p>
     </div>
 
     <!-- TEK SAHA -->
@@ -82,54 +27,32 @@
         <div class="single-pitch-header">
 
             <div class="team-score">
-
                 <span>⚪ Beyaz Takım</span>
-
-                <span
-                    id="whitePower"
-                    class="team-power">
+                <span id="whitePower" class="team-power">
                     0.0
                 </span>
-
             </div>
 
             <div class="team-score">
-
                 <span>🔴 Kırmızı Takım</span>
-
-                <span
-                    id="redPower"
-                    class="team-power">
+                <span id="redPower" class="team-power">
                     0.0
                 </span>
-
             </div>
 
         </div>
 
-        <div
-            id="fullPitch"
-            class="full-pitch">
+        <div id="fullPitch" class="full-pitch">
 
-            <div
-                id="whitePitch"
-                class="pitch-half">
-
+            <div id="whitePitch" class="pitch-half">
                 <div class="loading">
                     Takımlar oluşturuluyor...
                 </div>
-
             </div>
 
-            <div class="center-line">
-                ⚽
-            </div>
+            <div class="center-line">⚽</div>
 
-            <div
-                id="redPitch"
-                class="pitch-half">
-
-            </div>
+            <div id="redPitch" class="pitch-half"></div>
 
         </div>
 
@@ -139,60 +62,30 @@
 
     <div class="card">
 
-        <h3>
-            📊 Maç Analizi
-        </h3>
+        <h3>📊 Maç Analizi</h3>
 
         <br>
 
         <div class="analysis-grid">
 
             <div class="analysis-item">
-
-                <span>
-                    ⚪ Beyaz Takım
-                </span>
-
-                <b id="analysisWhite">
-                    0.0
-                </b>
-
+                <span>⚪ Beyaz Takım</span>
+                <b id="analysisWhite">0.0</b>
             </div>
 
             <div class="analysis-item">
-
-                <span>
-                    🔴 Kırmızı Takım
-                </span>
-
-                <b id="analysisRed">
-                    0.0
-                </b>
-
+                <span>🔴 Kırmızı Takım</span>
+                <b id="analysisRed">0.0</b>
             </div>
 
             <div class="analysis-item">
-
-                <span>
-                    Güç Farkı
-                </span>
-
-                <b id="analysisDiff">
-                    0.0
-                </b>
-
+                <span>Güç Farkı</span>
+                <b id="analysisDiff">0.0</b>
             </div>
 
             <div class="analysis-item">
-
-                <span>
-                    Denge Skoru
-                </span>
-
-                <b id="analysisBalance">
-                    ★★★★★
-                </b>
-
+                <span>Denge Skoru</span>
+                <b id="analysisBalance">★★★★★</b>
             </div>
 
         </div>
@@ -203,18 +96,12 @@
 
     <div class="actions">
 
-        <button
-            id="regenerateBtn"
-            class="btn btn-secondary">
-
+        <button id="regenerateBtn" class="btn btn-secondary">
             🔄 Yeniden Oluştur
-
         </button>
 
-        <button            class="btn btn-primary">
-
+        <button class="btn btn-primary">
             ✅ Maçı Kaydet
-
         </button>
 
     </div>
@@ -228,3 +115,4 @@
 
 </body>
 </html>
+
