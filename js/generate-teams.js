@@ -59,13 +59,7 @@ async function generateTeams() {
         const players = await loadPlayerStats(selectedPlayers);
         const result = buildBalancedTeams(players);
         generatedMatch = result;
-
-        // Load the pitch
-        document.getElementById("whitePitch").innerHTML = renderPitch(result.whiteTeam, getCaptain(result.whiteTeam), false);
-        document.getElementById("redPitch").innerHTML = renderPitch(result.redTeam, getCaptain(result.redTeam), true);
-
-        // Hide loading
-        document.querySelector(".loading").style.display = "none";
+        renderMatch(result);
     } catch (err) {
         console.error(err);
         alert("Takımlar oluşturulamadı.");
@@ -609,63 +603,77 @@ function renderMatch(result) {
             result.redStats.overall
         );
 
-    document.getElementById(
-        "playerCount"
-    ).innerText =
+    const setText = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.innerText = value;
+        }
+    };
+
+    const setHtml = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.innerHTML = value;
+        }
+    };
+
+    setText(
+        "playerCount",
         result.whiteTeam.length +
-        result.redTeam.length;
+        result.redTeam.length
+    );
 
-    document.getElementById(
-        "powerDiff"
-    ).innerText =
-        difference.toFixed(1);
+    setText(
+        "powerDiff",
+        difference.toFixed(1)
+    );
 
-    document.getElementById(
-        "whitePower"
-    ).innerText =
+    setText(
+        "whitePower",
         result.whiteStats.overall
-        .toFixed(1);
+        .toFixed(1)
+    );
 
-    document.getElementById(
-        "redPower"
-    ).innerText =
+    setText(
+        "redPower",
         result.redStats.overall
-        .toFixed(1);
+        .toFixed(1)
+    );
 
-    document.getElementById(
-        "whitePitch"
-    ).innerHTML =
+    setHtml(
+        "whitePitch",
         renderPitch(
             result.whiteTeam,
             whiteCaptain,
             false
-        );
+        )
+    );
 
-    document.getElementById(
-        "redPitch"
-    ).innerHTML =
+    setHtml(
+        "redPitch",
         renderPitch(
             result.redTeam,
             redCaptain,
             true
-        );
+        )
+    );
 
-    document.getElementById(
-        "analysisWhite"
-    ).innerText =
+    setText(
+        "analysisWhite",
         result.whiteStats.overall
-        .toFixed(1);
+        .toFixed(1)
+    );
 
-    document.getElementById(
-        "analysisRed"
-    ).innerText =
+    setText(
+        "analysisRed",
         result.redStats.overall
-        .toFixed(1);
+        .toFixed(1)
+    );
 
-    document.getElementById(
-        "analysisDiff"
-    ).innerText =
-        difference.toFixed(1);
+    setText(
+        "analysisDiff",
+        difference.toFixed(1)
+    );
 
     const average =
 
@@ -699,13 +707,13 @@ function renderMatch(result) {
         text = "Dengesiz";
     }
 
-    document.getElementById(
-        "analysisBalance"
-    ).innerText =
-        stars;
+    setText(
+        "analysisBalance",
+        stars
+    );
 
-    document.getElementById(
-        "balanceText"
-    ).innerText =
-        `${stars} ${text}`;
+    setText(
+        "balanceText",
+        `${stars} ${text}`
+    );
 }
