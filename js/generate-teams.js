@@ -485,51 +485,38 @@ function renderPitch(
     const html = [];
 
     const createPlayer =
-        (
-            player,
-            x,
-            y,
-            icon = ""
-        ) => {
+    (
+        player,
+        x,
+        y
+    ) => {
 
-            html.push(`
+        html.push(`
 
-                <div
-                    class="field-player"
-                    style="
-                        left:${x}%;
-                        top:${y}%;
-                    ">
+            <div
+                class="field-player"
+                style="
+                    left:${x}%;
+                    top:${y}%;
+                ">
 
-                    <div class="player-name">
-
-                        ${
-                            player.id === captain.id
-                                ? "👑 "
-                                : ""
-                        }
-
-                        ${player.name}
-
-                    </div>
-
-                    <div class="player-power">
-
-                        ⚡ ${player.overall.toFixed(1)}
-
-                    </div>
-
-                    <div class="position">
-
-                        ${icon}
-
-                    </div>
-
+                <div class="player-name">
+                    ${
+                        player.id === captain.id
+                            ? "👑 "
+                            : ""
+                    }
+                    ${player.name}
                 </div>
 
-            `);
+                <div class="player-power">
+                    ${player.overall.toFixed(1)}
+                </div>
 
-        };
+            </div>
+
+        `);
+    };
 
     if (!reverse) {
 
@@ -544,44 +531,37 @@ function renderPitch(
             p => createPlayer(
                 p,
                 50,
-                15,
-                "🧤"
+                15
             )
         );
 
-        // Defans
         formation.defenders.forEach(
             (p, i) => createPlayer(
                 p,
                 formation.defenders.length === 1
                     ? 50
                     : (i === 0 ? 35 : 65),
-                35,
-                "🛡️"
+                35
             )
         );
 
-        // Orta saha
         formation.midfielders.forEach(
             (p, i) => createPlayer(
                 p,
                 formation.midfielders.length === 1
                     ? 50
                     : (i === 0 ? 35 : 65),
-                60,
-                "⚙️"
+                60
             )
         );
 
-        // Forvet
         formation.attackers.forEach(
             (p, i) => createPlayer(
                 p,
                 formation.attackers.length === 1
                     ? 50
                     : (20 + i * 30),
-                82,
-                "⚽"
+                82
             )
         );
 
@@ -600,42 +580,35 @@ function renderPitch(
                 formation.attackers.length === 1
                     ? 50
                     : (20 + i * 30),
-                18,
-                "⚽"
+                18
             )
         );
 
-        // Orta saha
         formation.midfielders.forEach(
             (p, i) => createPlayer(
                 p,
                 formation.midfielders.length === 1
                     ? 50
                     : (i === 0 ? 35 : 65),
-                40,
-                "⚙️"
+                40
             )
         );
 
-        // Defans
         formation.defenders.forEach(
             (p, i) => createPlayer(
                 p,
                 formation.defenders.length === 1
                     ? 50
                     : (i === 0 ? 35 : 65),
-                65,
-                "🛡️"
+                65
             )
         );
 
-        // Kaleci
         formation.goalkeepers.forEach(
             p => createPlayer(
                 p,
                 50,
-                85,
-                "🧤"
+                85
             )
         );
     }
