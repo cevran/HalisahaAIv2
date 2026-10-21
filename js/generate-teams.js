@@ -55,37 +55,20 @@ document.addEventListener(
 );
 
 async function generateTeams() {
-
     try {
+        const players = await loadPlayerStats(selectedPlayers);
+        const result = buildBalancedTeams(players);
+        generatedMatch = result;
 
-        const players =
-            await loadPlayerStats(
-                selectedPlayers
-            );
+        // Load the pitch
+        document.getElementById("whitePitch").innerHTML = renderPitch(result.whiteTeam, getCaptain(result.whiteTeam), false);
+        document.getElementById("redPitch").innerHTML = renderPitch(result.redTeam, getCaptain(result.redTeam), true);
 
-        console.log(players.length);
-        console.log(players);
-
-        const result =
-            buildBalancedTeams(
-                players
-            );
-
-        generatedMatch =
-            result;
-
-        renderMatch(
-            result
-        );
-
-    }
-    catch (err) {
-
+        // Hide loading
+        document.querySelector(".loading").style.display = "none";
+    } catch (err) {
         console.error(err);
-
-        alert(
-            "Takımlar oluşturulamadı."
-        );
+        alert("Takımlar oluşturulamadı.");
     }
 }
 
@@ -520,12 +503,7 @@ function renderPitch(
 
     if (!reverse) {
 
-        html.push(`
-            <div class="team-label top">
-                ⚪ BEYAZ TAKIM
-            </div>
-        `);
-
+  
         // Kaleci
         formation.goalkeepers.forEach(
             p => createPlayer(
@@ -567,11 +545,6 @@ function renderPitch(
 
     } else {
 
-        html.push(`
-            <div class="team-label bottom">
-                🔴 KIRMIZI TAKIM
-            </div>
-        `);
 
         // Forvet
         formation.attackers.forEach(
