@@ -34,7 +34,7 @@ document.addEventListener(
 
         document
             .getElementById("ratePlayersBtn")
-            .addEventListener(
+            ?.addEventListener(
                 "click",
                 () => {
 
@@ -48,7 +48,7 @@ document.addEventListener(
             .getElementById(
                 "createMatchBtn"
             )
-            .addEventListener(
+            ?.addEventListener(
                 "click",
                 () => {
 
@@ -75,10 +75,6 @@ async function loadGroup() {
         return;
     }
 
-    document.getElementById(
-        "groupName"
-    ).innerText = data.name;
-
     const {
         count: playerCount
     } = await supabaseClient
@@ -93,23 +89,22 @@ async function loadGroup() {
     document.getElementById(
         "groupInfo"
     ).innerHTML = `
-        <div style="font-size:18px;margin-bottom:12px;">
+        <div class="group-title">
+            ${data.name}
+        </div>
+
+        <div class="group-city">
             📍 ${data.city || "-"}
         </div>
 
-        <div style="font-size:16px;margin-bottom:12px;">
-            👥 ${playerCount || 0} / ${data.max_players} Oyuncu
+        <div class="group-player-count">
+            👥 ${playerCount || 0} Oyuncu
         </div>
 
         ${
             data.description
                 ? `
-                <div style="
-                    color:#666;
-                    font-size:14px;
-                    margin-top:12px;
-                    line-height:1.5;
-                ">
+                <div class="group-description">
                     ${data.description}
                 </div>
                 `
@@ -163,34 +158,6 @@ async function loadPlayers() {
         return;
     }
 
-    const {
-        data: ratedPlayers,
-        error: ratedError
-    } = await supabaseClient
-        .from("player_rating_summary")
-        .select(`
-            target_user_id
-        `)
-        .eq(
-            "group_id",
-            currentGroupId
-        );
-
-    if (ratedError) {
-
-        console.error(
-            "rating summary error",
-            ratedError
-        );
-    }
-
-    const ratedSet =
-        new Set(
-            (ratedPlayers || []).map(
-                x => x.target_user_id
-            )
-        );
-
     const playersList =
         document.getElementById(
             "playersList"
@@ -202,24 +169,6 @@ async function loadPlayers() {
 
         const profile =
             member.profiles;
-
-        const isRated =
-            ratedSet.has(
-                member.user_id
-            );
-
-        const statusBadge =
-            isRated
-                ? `
-                <span class="player-status rated">
-                    🟢 Değerlendirildi
-                </span>
-                `
-                : `
-                <span class="player-status unrated">
-                    🔴 Değerlendirilmedi
-                </span>
-                `;
 
         const div =
             document.createElement(
@@ -236,7 +185,8 @@ async function loadPlayers() {
                 : "assets/default-avatar.png";
 
         const roleBadge =
-            member.role === "yonetici"
+            member.role ===
+            "yonetici"
                 ? "👑 Yönetici"
                 : "👤 Oyuncu";
 
@@ -292,8 +242,6 @@ async function loadPlayers() {
             <div class="player-role">
                 ${roleBadge}
             </div>
-
-            ${statusBadge}
 
             <div class="player-actions">
                 ${buttons}
@@ -396,14 +344,13 @@ async function loadRatingProgress() {
         if (ratingError) {
 
             console.error(
-                "rating error",
                 ratingError
             );
 
             document.getElementById(
                 "ratingProgressText"
             ).innerHTML =
-                "Değerlendirme sayısı okunamadı";
+                "Veri okunamadı";
 
             return;
         }
@@ -426,22 +373,14 @@ async function loadRatingProgress() {
         if (memberError) {
 
             console.error(
-                "member error",
                 memberError
             );
-
-            document.getElementById(
-                "ratingProgressText"
-            ).innerHTML =
-                "Oyuncu bilgileri okunamadı";
 
             return;
         }
 
         const playerCount =
-            members
-                ? members.length
-                : 0;
+            members?.length || 0;
 
         const expectedCount =
             playerCount *
@@ -483,15 +422,15 @@ async function loadRatingProgress() {
 
             progressText.innerHTML = `
                 <div style="
-                    font-size:28px;
+                    font-size:32px;
                     font-weight:700;
                     color:#43a047;
+                    margin-bottom:6px;
                 ">
                     ${percentage}%
                 </div>
 
                 <div style="
-                    margin-top:6px;
                     color:#666;
                 ">
                     ${completedCount}
@@ -503,14 +442,11 @@ async function loadRatingProgress() {
 
     } catch (err) {
 
-        console.error(
-            "loadRatingProgress",
-            err
-        );
+        console.error(err);
 
         document.getElementById(
             "ratingProgressText"
         ).innerHTML =
-            "Hesaplama sırasında hata oluştu";
+            "Hesaplama hatası";
     }
 }
