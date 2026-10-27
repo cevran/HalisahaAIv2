@@ -8,90 +8,141 @@
     <link rel="stylesheet" href="css/style.css" />
 
     <style>
-        .page-header {
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
+
+        .page-header{
+            text-align:center;
             margin-bottom:20px;
         }
 
-        .summary-card {
-            background:white;
-            border-radius:12px;
-            padding:15px;
-            border:1px solid #ddd;
-            margin-bottom:15px;
+        .page-header h1{
+            margin:0;
+            font-size:32px;
         }
 
-        .group-actions {
+        .summary-card{
+            background:white;
+            border-radius:16px;
+            padding:20px;
+            border:1px solid #e5e7eb;
+            margin-bottom:15px;
+            text-align:center;
+        }
+
+        .summary-card h3{
+            margin-top:0;
+        }
+
+        .group-actions{
             display:flex;
             gap:10px;
             margin-bottom:20px;
         }
 
-        .group-actions button {
+        .group-actions button{
             padding:10px 15px;
             cursor:pointer;
         }
 
-        .player-row {
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            border:1px solid #ddd;
-            border-radius:10px;
-            padding:12px;
-            margin-bottom:10px;
-            background:#fff;
-        }
-
-        .player-actions {
-            display:flex;
-            gap:8px;
-        }
-
-        .role-badge {
-            background:#1e88e5;
-            color:white;
-            padding:4px 8px;
-            border-radius:6px;
-            font-size:12px;
-        }
-
-        .danger-btn {
-            background:#e53935;
-            color:white;
-            border:none;
-            padding:8px 12px;
-            border-radius:6px;
-        }
-
-        .primary-btn {
+        .primary-btn{
             background:#43a047;
             color:white;
             border:none;
-            padding:8px 12px;
-            border-radius:6px;
+            padding:12px 16px;
+            border-radius:10px;
+            cursor:pointer;
+            font-size:15px;
+            font-weight:600;
+            width:100%;
         }
 
-        .player-status {
-            margin-left: 8px;
-            font-size: 14px;
-            font-weight: 600;
+        .danger-btn{
+            background:#e53935;
+            color:white;
+            border:none;
+            padding:10px 14px;
+            border-radius:8px;
+            cursor:pointer;
         }
 
-        .player-status.rated {
-            color: #2e7d32;
+        .players-title{
+            text-align:center;
+            margin:30px 0 15px;
         }
 
-        .player-status.unrated {
-            color: #d32f2f;
+        .player-row{
+            background:#fff;
+            border:1px solid #e5e7eb;
+            border-radius:16px;
+            padding:18px;
+            margin-bottom:15px;
+            text-align:center;
         }
 
-        .player-row.unrated {
-            background: #fafafa;
+        .player-avatar{
+            width:70px;
+            height:70px;
+            border-radius:50%;
+            object-fit:cover;
+            margin-bottom:10px;
+            border:3px solid #f1f5f9;
         }
 
+        .player-name{
+            font-size:18px;
+            font-weight:600;
+            margin-bottom:10px;
+        }
+
+        .player-role{
+            display:inline-block;
+            background:#f3f4f6;
+            color:#333;
+            padding:6px 12px;
+            border-radius:20px;
+            font-size:13px;
+            margin-bottom:10px;
+        }
+
+        .player-status{
+            display:block;
+            margin-bottom:15px;
+            font-size:14px;
+            font-weight:600;
+        }
+
+        .player-status.rated{
+            color:#2e7d32;
+        }
+
+        .player-status.unrated{
+            color:#d32f2f;
+        }
+
+        .player-actions{
+            display:flex;
+            justify-content:center;
+            gap:10px;
+            flex-wrap:wrap;
+        }
+
+        .match-btn{
+            margin-top:10px;
+        }
+
+        .progress-wrapper{
+            width:100%;
+            height:18px;
+            background:#eee;
+            border-radius:20px;
+            overflow:hidden;
+            margin:15px 0;
+        }
+
+        .progress-bar{
+            width:0%;
+            height:100%;
+            background:#43a047;
+        }
 
     </style>
 
@@ -106,45 +157,33 @@
         <h1 id="groupName">Grup Yükleniyor...</h1>
     </div>
 
+    <!-- Grup Özeti -->
+
     <div id="groupInfo" class="summary-card">
         Yükleniyor...
     </div>
 
-    <div class="summary-card">
-        <h3>Oyuncu Sayısı</h3>
-        <div id="playerCount">0</div>
-    </div>
+    <!-- Değerlendir -->
 
-    <button id="ratePlayersBtn" class="primary-btn">
+    <button
+        id="ratePlayersBtn"
+        class="primary-btn">
         ⭐ Oyuncuları Değerlendir
     </button>
+
+    <!-- İlerleme -->
 
     <div
         id="ratingProgressCard"
         class="summary-card">
 
-        <h3>Oyuncu Değerlendirmeleri</h3>
+        <h3>⭐ Değerlendirme Durumu</h3>
 
-        <div
-            style="
-                width:100%;
-                background:#eee;
-                height:20px;
-                border-radius:10px;
-                overflow:hidden;
-                margin:10px 0;
-            "
-        >
-
+        <div class="progress-wrapper">
             <div
                 id="ratingProgressBar"
-                style="
-                    width:0%;
-                    height:100%;
-                    background:#43a047;
-                "
-            ></div>
-
+                class="progress-bar">
+            </div>
         </div>
 
         <div id="ratingProgressText">
@@ -153,22 +192,23 @@
 
     </div>
 
-    <div class="summary-card match-card">
+    <!-- Maç -->
 
-    <div class="match-card-header">
-        <div>
-            <h3>⚽ Maç Yönetimi</h3>
-            <p>Takım oluştur ve maçlarını yönet.</p>
-        </div>
+    <div class="summary-card">
+
+        <h3>⚽ Maç Yönetimi</h3>
+
+        <button
+            id="createMatchBtn"
+            class="primary-btn match-btn">
+            ⚽ Yeni Maç Oluştur
+        </button>
+
     </div>
 
-    <button id="createMatchBtn" class="primary-btn match-btn">
-        ⚽ Yeni Maç Oluştur
-    </button>
-
-    </div>
-
-    <h2>Oyuncular</h2>
+    <h2 class="players-title">
+        Oyuncular
+    </h2>
 
     <div id="playersList"></div>
 

@@ -45,18 +45,18 @@ document.addEventListener(
             );
 
         document
-        .getElementById(
-            "createMatchBtn"
-        )
-        .addEventListener(
-            "click",
-            () => {
+            .getElementById(
+                "createMatchBtn"
+            )
+            .addEventListener(
+                "click",
+                () => {
 
-                window.location.href =
-                    `create-match.html?groupId=${currentGroupId}`;
+                    window.location.href =
+                        `create-match.html?groupId=${currentGroupId}`;
 
-            }
-        );
+                }
+            );
     }
 );
 
@@ -79,12 +79,42 @@ async function loadGroup() {
         "groupName"
     ).innerText = data.name;
 
+    const {
+        count: playerCount
+    } = await supabaseClient
+        .from("group_members")
+        .select("*", {
+            count: "exact",
+            head: true
+        })
+        .eq("group_id", currentGroupId)
+        .eq("active", true);
+
     document.getElementById(
         "groupInfo"
     ).innerHTML = `
-        <p><b>Şehir:</b> ${data.city || "-"}</p>
-        <p><b>Açıklama:</b> ${data.description || "-"}</p>
-        <p><b>Maks Oyuncu:</b> ${data.max_players}</p>
+        <div style="font-size:18px;margin-bottom:12px;">
+            📍 ${data.city || "-"}
+        </div>
+
+        <div style="font-size:16px;margin-bottom:12px;">
+            👥 ${playerCount || 0} / ${data.max_players} Oyuncu
+        </div>
+
+        ${
+            data.description
+                ? `
+                <div style="
+                    color:#666;
+                    font-size:14px;
+                    margin-top:12px;
+                    line-height:1.5;
+                ">
+                    ${data.description}
+                </div>
+                `
+                : ""
+        }
     `;
 
     const roleResult =
@@ -115,7 +145,7 @@ async function loadPlayers() {
                 role,
                 profiles (
                     full_name,
-                    nickname
+                    photo_url
                 )
             `)
             .eq(
@@ -161,11 +191,6 @@ async function loadPlayers() {
             )
         );
 
-    document.getElementById(
-        "playerCount"
-    ).innerText =
-        data.length;
-
     const playersList =
         document.getElementById(
             "playersList"
@@ -185,8 +210,16 @@ async function loadPlayers() {
 
         const statusBadge =
             isRated
-                ? `<span class="player-status rated">🟢 Değerlendirildi</span>`
-                : `<span class="player-status unrated">🔴 Değerlendirilmedi</span>`;
+                ? `
+                <span class="player-status rated">
+                    🟢 Değerlendirildi
+                </span>
+                `
+                : `
+                <span class="player-status unrated">
+                    🔴 Değerlendirilmedi
+                </span>
+                `;
 
         const div =
             document.createElement(
@@ -194,14 +227,18 @@ async function loadPlayers() {
             );
 
         div.className =
-            `player-row ${
-                isRated
-                    ? ""
-                    : "unrated"
-            }`;
+            "player-row";
 
-        div.dataset.rated =
-            isRated;
+        const photoUrl =
+            profile?.photo_url &&
+            profile.photo_url.trim() !== ""
+                ? profile.photo_url
+                : "assets/default-avatar.png";
+
+        const roleBadge =
+            member.role === "yonetici"
+                ? "👑 Yönetici"
+                : "👤 Oyuncu";
 
         let buttons = "";
 
@@ -210,41 +247,58 @@ async function loadPlayers() {
             "yonetici"
         ) {
 
-            buttons = `
-                <button
-                    class="primary-btn"
-                    onclick="makeAdmin('${member.user_id}')">
-                    Yönetici Yap
-                </button>
+            if (
+                member.role ===
+                "yonetici"
+            ) {
 
-                <button
-                    class="danger-btn"
-                    onclick="removePlayer('${member.user_id}')">
-                    Çıkar
-                </button>
-            `;
+                buttons = `
+                    <button
+                        class="danger-btn"
+                        onclick="removePlayer('${member.user_id}')">
+                        Çıkar
+                    </button>
+                `;
+
+            } else {
+
+                buttons = `
+                    <button
+                        class="primary-btn"
+                        onclick="makeAdmin('${member.user_id}')">
+                        Yönetici Yap
+                    </button>
+
+                    <button
+                        class="danger-btn"
+                        onclick="removePlayer('${member.user_id}')">
+                        Çıkar
+                    </button>
+                `;
+            }
         }
 
         div.innerHTML = `
-            <div>
 
-                <strong>
-                    ${profile?.full_name || ""}
-                </strong>
+            <img
+                class="player-avatar"
+                src="${photoUrl}"
+                alt="Oyuncu">
 
-                (${profile?.nickname || "-"})
-
-                <span class="role-badge">
-                    ${member.role}
-                </span>
-
-                ${statusBadge}
-
+            <div class="player-name">
+                ${profile?.full_name || "Oyuncu"}
             </div>
+
+            <div class="player-role">
+                ${roleBadge}
+            </div>
+
+            ${statusBadge}
 
             <div class="player-actions">
                 ${buttons}
             </div>
+
         `;
 
         playersList.appendChild(
@@ -269,7 +323,7 @@ async function removePlayer(
         await supabaseClient
             .from("group_members")
             .update({
-                active:false
+                active: false
             })
             .eq(
                 "group_id",
@@ -287,6 +341,7 @@ async function removePlayer(
     }
 
     await loadPlayers();
+    await loadGroup();
 }
 
 async function makeAdmin(
@@ -297,7 +352,7 @@ async function makeAdmin(
         await supabaseClient
             .from("group_members")
             .update({
-                role:"yonetici"
+                role: "yonetici"
             })
             .eq(
                 "group_id",
@@ -316,7 +371,6 @@ async function makeAdmin(
 
     await loadPlayers();
 }
-
 
 async function loadRatingProgress() {
 
@@ -340,6 +394,7 @@ async function loadRatingProgress() {
             );
 
         if (ratingError) {
+
             console.error(
                 "rating error",
                 ratingError
@@ -426,24 +481,25 @@ async function loadRatingProgress() {
 
         if (progressText) {
 
-            progressText.innerHTML =
-                `
-                <strong>
-                ${percentage}%
-                </strong>
-                <br>
-                ${completedCount}
-                / ${expectedCount}
-                değerlendirme tamamlandı
-                `;
-        }
+            progressText.innerHTML = `
+                <div style="
+                    font-size:28px;
+                    font-weight:700;
+                    color:#43a047;
+                ">
+                    ${percentage}%
+                </div>
 
-        console.log({
-            playerCount,
-            expectedCount,
-            completedCount,
-            percentage
-        });
+                <div style="
+                    margin-top:6px;
+                    color:#666;
+                ">
+                    ${completedCount}
+                    / ${expectedCount}
+                    değerlendirme tamamlandı
+                </div>
+            `;
+        }
 
     } catch (err) {
 
