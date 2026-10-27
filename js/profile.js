@@ -9,26 +9,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    const fullNameInput =
-        document.getElementById("fullName");
-
-    const ageInput =
-        document.getElementById("age");
-
-    const nicknameInput =
-        document.getElementById("nickname");
-
     const preferredPositionInput =
         document.getElementById("preferredPosition");
 
     const dominantFootInput =
         document.getElementById("dominantFoot");
-
-    const playerNumberInput =
-        document.getElementById("playerNumber");
-
-    const bioInput =
-        document.getElementById("bio");
 
     const playerName =
         document.getElementById("playerName");
@@ -64,9 +49,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             console.log("PROFILE:", profile);
 
-            fullNameInput.value =
-                profile.full_name || "";
-
             let age = "";
 
             if (profile.birth_year) {
@@ -77,8 +59,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 age =
                     currentYear -
                     Number(profile.birth_year);
-
-                ageInput.value = age;
             }
 
             playerName.textContent =
@@ -87,20 +67,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             playerAge.textContent =
                 age ? `${age} yaş` : "";
 
-            nicknameInput.value =
-                profile.nickname || "";
-
             preferredPositionInput.value =
                 profile.preferred_position || "";
 
             dominantFootInput.value =
                 profile.dominant_foot || "";
-
-            playerNumberInput.value =
-                profile.player_number || "";
-
-            bioInput.value =
-                profile.bio || "";
 
             if (
                 profile.photo_url &&
@@ -133,7 +104,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         () => {
 
             photoUpload.click();
-
         }
     );
 
@@ -234,28 +204,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 } = await supabaseClient
                     .from("profiles")
                     .update({
-                        nickname:
-                            nicknameInput.value.trim(),
-
                         preferred_position:
                             preferredPositionInput.value,
 
                         dominant_foot:
                             dominantFootInput.value,
 
-                        player_number:
-                            playerNumberInput.value
-                                ? parseInt(
-                                      playerNumberInput.value
-                                  )
-                                : null,
-
-                        bio:
-                            bioInput.value.trim(),
-
                         updated_at:
                             new Date().toISOString()
-
                     })
                     .eq("id", user.id);
 
