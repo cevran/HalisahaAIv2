@@ -793,9 +793,11 @@ document
                     await html2canvas(
                         area,
                         {
-                            scale: 2,
-                            backgroundColor:
-                                "#ffffff"
+                            scale: 3,
+                            useCORS: true,
+                            backgroundColor: null,
+                            logging: false,
+                            allowTaint: true
                         }
                     );
 
