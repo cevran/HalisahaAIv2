@@ -766,9 +766,7 @@ function renderMatch(result) {
 
 
 document
-    .getElementById(
-        "shareMatchBtn"
-    )
+    .getElementById("shareMatchBtn")
     ?.addEventListener(
         "click",
         async () => {
@@ -789,43 +787,30 @@ document
                     return;
                 }
 
-                const canvas =
-                    await html2canvas(
+                const dataUrl =
+                    await htmlToImage.toPng(
                         area,
                         {
-                            scale: 3,
-                            useCORS: true,
-                            backgroundColor: null,
-                            logging: false,
-                            allowTaint: true
+                            pixelRatio: 3,
+                            cacheBust: true,
+                            backgroundColor: "#ffffff"
                         }
                     );
 
+                const response =
+                    await fetch(
+                        dataUrl
+                    );
+
                 const blob =
-                    await new Promise(
-                        resolve =>
-                            canvas.toBlob(
-                                resolve,
-                                "image/png"
-                            )
-                    );
-
-                if (!blob) {
-
-                    alert(
-                        "PNG oluşturulamadı."
-                    );
-
-                    return;
-                }
+                    await response.blob();
 
                 const file =
                     new File(
                         [blob],
                         "halisaha-ai-takimlar.png",
                         {
-                            type:
-                                "image/png"
+                            type: "image/png"
                         }
                     );
 
@@ -833,48 +818,34 @@ document
                     navigator.share &&
                     navigator.canShare &&
                     navigator.canShare({
-                        files:[file]
+                        files: [file]
                     })
                 ) {
 
                     await navigator.share({
-
-                        files:[file],
-
-                        title:
-                            "Halı Saha AI",
-
-                        text:
-                            "⚽ Takımlar Hazır"
-
+                        files: [file],
+                        title: "Halı Saha AI",
+                        text: "⚽ Maç Kadroları"
                     });
 
                 } else {
-
-                    const url =
-                        URL.createObjectURL(
-                            blob
-                        );
 
                     const a =
                         document.createElement(
                             "a"
                         );
 
-                    a.href = url;
+                    a.href =
+                        dataUrl;
 
                     a.download =
                         "halisaha-ai-takimlar.png";
 
+                    document.body.appendChild(a);
+
                     a.click();
 
-                    URL.revokeObjectURL(
-                        url
-                    );
-
-                    alert(
-                        "PNG indirildi."
-                    );
+                    document.body.removeChild(a);
                 }
 
             } catch (err) {
@@ -882,7 +853,7 @@ document
                 console.error(err);
 
                 alert(
-                    "Paylaşım sırasında hata oluştu."
+                    "PNG oluşturulamadı."
                 );
             }
 
