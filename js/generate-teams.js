@@ -3,6 +3,13 @@ const ITERATION_COUNT = 5000;
 let selectedPlayers = [];
 let generatedMatch = null;
 
+
+const matchDateTime =
+    sessionStorage.getItem("matchDateTime");
+
+const pitchName =
+    sessionStorage.getItem("pitchName");
+
 document.addEventListener(
     "DOMContentLoaded",
     async () => {
@@ -49,10 +56,62 @@ document.addEventListener(
 
                 }
             );
+        
 
+        const matchDateDisplay =
+            document.getElementById(
+                "matchDateDisplay"
+            );
+
+        if (matchDateDisplay) {
+
+            matchDateDisplay.innerHTML =
+                `📅 ${formatMatchDate(matchDateTime)}`;
+
+        }
+
+        const pitchDisplay =
+            document.getElementById(
+                "pitchNameDisplay"
+            );
+
+        if (pitchDisplay) {
+
+            pitchDisplay.innerHTML =
+                `🏟️ ${pitchName || "-"}`;
+
+        }    
         await generateTeams();
     }
 );
+
+
+
+
+function formatMatchDate(
+    dateString
+) {
+
+    if (!dateString) {
+        return "-";
+    }
+
+    const date =
+        new Date(dateString);
+
+    return date.toLocaleString(
+        "tr-TR",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+}
+
+
 
 async function generateTeams() {
     try {
@@ -617,17 +676,7 @@ function renderMatch(result) {
         }
     };
 
-    setText(
-        "playerCount",
-        result.whiteTeam.length +
-        result.redTeam.length
-    );
-
-    setText(
-        "powerDiff",
-        difference.toFixed(1)
-    );
-
+    
     setText(
         "whitePower",
         result.whiteStats.overall
@@ -708,12 +757,132 @@ function renderMatch(result) {
     }
 
     setText(
-        "analysisBalance",
-        stars
+    "analysisBalance",
+    `${stars} ${text}`
     );
 
-    setText(
-        "balanceText",
-        `${stars} ${text}`
-    );
+    
 }
+
+
+document
+    .getElementById(
+        "shareMatchBtn"
+    )
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                const area =
+                    document.getElementById(
+                        "shareArea"
+                    );
+
+                if (!area) {
+
+                    alert(
+                        "Paylaşım alanı bulunamadı."
+                    );
+
+                    return;
+                }
+
+                const canvas =
+                    await html2canvas(
+                        area,
+                        {
+                            scale: 2,
+                            backgroundColor:
+                                "#ffffff"
+                        }
+                    );
+
+                const blob =
+                    await new Promise(
+                        resolve =>
+                            canvas.toBlob(
+                                resolve,
+                                "image/png"
+                            )
+                    );
+
+                if (!blob) {
+
+                    alert(
+                        "PNG oluşturulamadı."
+                    );
+
+                    return;
+                }
+
+                const file =
+                    new File(
+                        [blob],
+                        "halisaha-ai-takimlar.png",
+                        {
+                            type:
+                                "image/png"
+                        }
+                    );
+
+                if (
+                    navigator.share &&
+                    navigator.canShare &&
+                    navigator.canShare({
+                        files:[file]
+                    })
+                ) {
+
+                    await navigator.share({
+
+                        files:[file],
+
+                        title:
+                            "Halı Saha AI",
+
+                        text:
+                            "⚽ Takımlar Hazır"
+
+                    });
+
+                } else {
+
+                    const url =
+                        URL.createObjectURL(
+                            blob
+                        );
+
+                    const a =
+                        document.createElement(
+                            "a"
+                        );
+
+                    a.href = url;
+
+                    a.download =
+                        "halisaha-ai-takimlar.png";
+
+                    a.click();
+
+                    URL.revokeObjectURL(
+                        url
+                    );
+
+                    alert(
+                        "PNG indirildi."
+                    );
+                }
+
+            } catch (err) {
+
+                console.error(err);
+
+                alert(
+                    "Paylaşım sırasında hata oluştu."
+                );
+            }
+
+        }
+    );

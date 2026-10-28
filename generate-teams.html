@@ -18,7 +18,6 @@
     <!-- ÜST ÖZET -->
     <div class="page-header">
         <h1>⚽ Maç oluşturuldu</h1>
-        <p>Takımlar oluşturuldu</p>
     </div>
 
     <div class="card">
@@ -38,8 +37,10 @@
 
     <!-- TEK SAHA -->
 
-    <div class="pitch-card">
-
+    <div 
+        id="shareArea">
+        class="pitch-card">
+         
         <div class="single-pitch-header">
 
             <div class="team-score">
@@ -110,15 +111,31 @@
 
     <div class="actions">
 
-        <button id="regenerateBtn" class="btn btn-secondary">
-            🔄 Yeniden Oluştur
-        </button>
+    <button
+        id="regenerateBtn"
+        class="btn btn-secondary">
 
-        <button class="btn btn-primary">
-            ✅ Maçı Kaydet
-        </button>
+        🔄 Yeniden Oluştur
 
-    </div>
+    </button>
+
+    <button
+        id="shareMatchBtn"
+        class="btn btn-share">
+
+        📤 Paylaş
+
+    </button>
+
+    <button
+        id="saveMatchBtn"
+        class="btn btn-primary">
+
+        ✅ Maçı Kaydet
+
+    </button>
+
+</div>
 
 </div>
 
@@ -126,8 +143,8 @@
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/generate-teams.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 </body>
 </html>
-
 

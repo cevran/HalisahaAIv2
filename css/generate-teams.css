@@ -5,6 +5,7 @@
     --muted:#6b7280;
     --green:#10b981;
     --red:#ef4444;
+    --blue:#2563eb;
     --shadow:0 8px 24px rgba(0,0,0,.08);
     --radius:20px;
 }
@@ -22,42 +23,46 @@ body{
     padding-bottom:120px;
 }
 
-.page-header {
-    max-width: 760px;
-    margin: 24px auto;
-    padding: 22px 28px;
-    border-radius: 20px;
-
-    background: linear-gradient(
-        135deg,
-        #0f172a,
-        #1e293b
-    );
-
-    color: #fff;
-    text-align: center;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.15);
-}
-
-.page-header h1 {
-    margin: 0;
-    font-size: 28px;
-    font-weight: 800;
-}
-
-.page-header p {
-    margin-top: 8px;
-    opacity: .85;
-}
-
 .container{
     width:100%;
     max-width:1100px;
     margin:0 auto;
     padding:16px;
 }
+
+/* HEADER */
+
+.page-header{
+    max-width:760px;
+    margin:24px auto;
+    padding:22px 28px;
+    border-radius:20px;
+
+    background:linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b
+    );
+
+    color:#fff;
+    text-align:center;
+
+    box-shadow:
+        0 10px 30px rgba(
+            0,
+            0,
+            0,
+            .15
+        );
+}
+
+.page-header h1{
+    margin:0;
+    font-size:28px;
+    font-weight:800;
+}
+
+/* CARD */
 
 .card{
     background:white;
@@ -67,27 +72,7 @@ body{
     margin-bottom:16px;
 }
 
-.summary-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.summary-value{
-    font-size:28px;
-    font-weight:800;
-}
-
-.summary-label{
-    color:var(--muted);
-    margin-top:4px;
-    font-size:14px;
-}
-
-.balance-good{
-    color:var(--green);
-    font-weight:700;
-}
+/* SAHA KARTI */
 
 .pitch-card{
     background:white;
@@ -99,12 +84,40 @@ body{
 }
 
 .single-pitch-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
     padding:18px 24px;
     background:#f8fafc;
     border-bottom:1px solid #e5e7eb;
+}
+
+/* MAÇ BİLGİLERİ */
+
+.match-details{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.match-date{
+    font-size:22px;
+    font-weight:900;
+    color:#111827;
+    margin-bottom:8px;
+    line-height:1.2;
+}
+
+.match-pitch{
+    font-size:17px;
+    font-weight:700;
+    color:#4b5563;
+    line-height:1.3;
+}
+
+/* TAKIM BAŞLIKLARI */
+
+.teams-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
 }
 
 .team-score{
@@ -119,6 +132,8 @@ body{
     font-size:22px;
     font-weight:800;
 }
+
+/* SAHA */
 
 .full-pitch{
 
@@ -232,18 +247,16 @@ body{
 }
 
 .pitch-half:first-child::before{
-
     top:0;
-
     border-top:none;
 }
 
 .pitch-half:last-child::before{
-
     bottom:0;
-
     border-bottom:none;
 }
+
+/* ORTA SAHA */
 
 .center-line{
 
@@ -301,7 +314,7 @@ body{
     padding-top:120px;
 }
 
-/* -------- TAKIM ADLARI -------- */
+/* TAKIM ETİKETLERİ */
 
 .team-label{
 
@@ -332,9 +345,7 @@ body{
     z-index:1;
 }
 
-
-
-/* -------- OYUNCU KARTLARI -------- */
+/* OYUNCULAR */
 
 .field-player{
 
@@ -383,13 +394,12 @@ body{
     color:#f97316;
 }
 
-
 .captain{
     color:#f59e0b;
     font-weight:700;
 }
 
-/* -------- ANALİZ -------- */
+/* ANALİZ */
 
 .analysis-grid{
     display:grid;
@@ -401,11 +411,11 @@ body{
     justify-content:space-between;
 }
 
-/* -------- BUTONLAR -------- */
+/* BUTONLAR */
 
 .actions{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 1fr 1fr;
     gap:12px;
     margin-top:24px;
 }
@@ -428,11 +438,16 @@ body{
     color:white;
 }
 
+.btn-share{
+    background:#2563eb;
+    color:white;
+}
+
 .btn:hover{
     opacity:.95;
 }
 
-/* -------- MOBİL -------- */
+/* MOBİL */
 
 @media (max-width:768px){
 
@@ -442,6 +457,23 @@ body{
 
     .full-pitch{
         height:560px;
+    }
+
+    .match-date{
+        font-size:18px;
+    }
+
+    .match-pitch{
+        font-size:14px;
+    }
+
+    .teams-row{
+        flex-direction:column;
+        gap:12px;
+    }
+
+    .team-score{
+        font-size:16px;
     }
 
     .field-player{
@@ -459,11 +491,6 @@ body{
         font-size:18px;
         opacity:.15;
         letter-spacing:2px;
-    }
-
-    .single-pitch-header{
-        flex-direction:column;
-        gap:10px;
     }
 
     .actions{
