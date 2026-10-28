@@ -57,6 +57,7 @@ document.addEventListener(
 
                 }
             );
+
     }
 );
 
@@ -89,27 +90,29 @@ async function loadGroup() {
     document.getElementById(
         "groupInfo"
     ).innerHTML = `
-        <div class="group-title">
+
+        <div class="group-name">
             ${data.name}
         </div>
 
-        <div class="group-city">
+        <div class="group-info">
             📍 ${data.city || "-"}
         </div>
 
-        <div class="group-player-count">
+        <div class="group-info">
             👥 ${playerCount || 0} Oyuncu
         </div>
 
         ${
             data.description
-                ? `
+            ? `
                 <div class="group-description">
                     ${data.description}
                 </div>
-                `
-                : ""
+              `
+            : ""
         }
+
     `;
 
     const roleResult =
@@ -184,9 +187,11 @@ async function loadPlayers() {
                 ? profile.photo_url
                 : "assets/default-avatar.png";
 
+        const isManager =
+            member.role === "yonetici";
+
         const roleBadge =
-            member.role ===
-            "yonetici"
+            isManager
                 ? "👑 Yönetici"
                 : "👤 Oyuncu";
 
@@ -197,50 +202,56 @@ async function loadPlayers() {
             "yonetici"
         ) {
 
-            if (
-                member.role ===
-                "yonetici"
-            ) {
+            buttons = `
 
-                buttons = `
-                    <button
-                        class="danger-btn"
-                        onclick="removePlayer('${member.user_id}')">
-                        Çıkar
-                    </button>
-                `;
+                <button
+                    class="primary-btn"
+                    onclick="${
+                        isManager
+                            ? `removeAdmin('${member.user_id}')`
+                            : `makeAdmin('${member.user_id}')`
+                    }">
 
-            } else {
+                    ${
+                        isManager
+                            ? "Yöneticilikten Çıkar"
+                            : "Yönetici Yap"
+                    }
 
-                buttons = `
-                    <button
-                        class="primary-btn"
-                        onclick="makeAdmin('${member.user_id}')">
-                        Yönetici Yap
-                    </button>
+                </button>
 
-                    <button
-                        class="danger-btn"
-                        onclick="removePlayer('${member.user_id}')">
-                        Çıkar
-                    </button>
-                `;
-            }
+                <button
+                    class="danger-btn"
+                    onclick="removePlayer('${member.user_id}')">
+
+                    Gruptan Çıkar
+
+                </button>
+
+            `;
         }
 
         div.innerHTML = `
 
-            <img
-                class="player-avatar"
-                src="${photoUrl}"
-                alt="Oyuncu">
+            <div class="player-left">
 
-            <div class="player-name">
-                ${profile?.full_name || "Oyuncu"}
-            </div>
+                <img
+                    class="player-avatar"
+                    src="${photoUrl}"
+                    alt="Oyuncu">
 
-            <div class="player-role">
-                ${roleBadge}
+                <div class="player-info">
+
+                    <div class="player-name">
+                        ${profile?.full_name || "Oyuncu"}
+                    </div>
+
+                    <div class="player-role">
+                        ${roleBadge}
+                    </div>
+
+                </div>
+
             </div>
 
             <div class="player-actions">
@@ -252,7 +263,9 @@ async function loadPlayers() {
         playersList.appendChild(
             div
         );
+
     });
+
 }
 
 async function removePlayer(
@@ -301,6 +314,34 @@ async function makeAdmin(
             .from("group_members")
             .update({
                 role: "yonetici"
+            })
+            .eq(
+                "group_id",
+                currentGroupId
+            )
+            .eq(
+                "user_id",
+                userId
+            );
+
+    if (error) {
+
+        alert(error.message);
+        return;
+    }
+
+    await loadPlayers();
+}
+
+async function removeAdmin(
+    userId
+) {
+
+    const { error } =
+        await supabaseClient
+            .from("group_members")
+            .update({
+                role: "oyuncu"
             })
             .eq(
                 "group_id",
@@ -421,6 +462,7 @@ async function loadRatingProgress() {
         if (progressText) {
 
             progressText.innerHTML = `
+
                 <div style="
                     font-size:32px;
                     font-weight:700;
@@ -432,11 +474,14 @@ async function loadRatingProgress() {
 
                 <div style="
                     color:#666;
+                    font-size:16px;
+                    font-weight:500;
                 ">
                     ${completedCount}
                     / ${expectedCount}
                     değerlendirme tamamlandı
                 </div>
+
             `;
         }
 
@@ -449,4 +494,5 @@ async function loadRatingProgress() {
         ).innerHTML =
             "Hesaplama hatası";
     }
+
 }

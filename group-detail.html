@@ -19,6 +19,35 @@
             font-size:32px;
         }
 
+        /* Grup Özeti */
+
+        .group-name{
+            font-size:32px;
+            font-weight:800;
+            color:#222;
+            text-align:center;
+            margin-bottom:10px;
+            line-height:1.2;
+        }
+
+        .group-info{
+            font-size:16px;
+            color:#666;
+            font-weight:500;
+            text-align:center;
+            margin:5px 0;
+        }
+
+        .group-description{
+            font-size:16px;
+            color:#666;
+            font-weight:500;
+            text-align:center;
+            margin-top:8px;
+        }
+
+        /* Genel Kart */
+
         .summary-card{
             background:white;
             border-radius:16px;
@@ -32,16 +61,7 @@
             margin-top:0;
         }
 
-        .group-actions{
-            display:flex;
-            gap:10px;
-            margin-bottom:20px;
-        }
-
-        .group-actions button{
-            padding:10px 15px;
-            cursor:pointer;
-        }
+        /* Butonlar */
 
         .primary-btn{
             background:#43a047;
@@ -59,10 +79,15 @@
             background:#e53935;
             color:white;
             border:none;
-            padding:10px 14px;
-            border-radius:8px;
+            border-radius:10px;
             cursor:pointer;
         }
+
+        .match-btn{
+            margin-top:10px;
+        }
+
+        /* Oyuncular */
 
         .players-title{
             text-align:center;
@@ -73,9 +98,21 @@
             background:#fff;
             border:1px solid #e5e7eb;
             border-radius:16px;
-            padding:18px;
+            padding:16px;
             margin-bottom:15px;
-            text-align:center;
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:15px;
+        }
+
+        .player-left{
+            display:flex;
+            align-items:center;
+            gap:14px;
+            flex:1;
+            min-width:0;
         }
 
         .player-avatar{
@@ -83,51 +120,48 @@
             height:70px;
             border-radius:50%;
             object-fit:cover;
-            margin-bottom:10px;
             border:3px solid #f1f5f9;
+            flex-shrink:0;
+        }
+
+        .player-info{
+            display:flex;
+            flex-direction:column;
+            align-items:flex-start;
+            justify-content:center;
         }
 
         .player-name{
-            font-size:18px;
-            font-weight:600;
-            margin-bottom:10px;
+            font-size:19px;
+            font-weight:700;
+            color:#111;
+            margin-bottom:4px;
+            text-align:left;
         }
 
         .player-role{
-            display:inline-block;
-            background:#f3f4f6;
-            color:#333;
-            padding:6px 12px;
-            border-radius:20px;
             font-size:13px;
-            margin-bottom:10px;
-        }
-
-        .player-status{
-            display:block;
-            margin-bottom:15px;
-            font-size:14px;
-            font-weight:600;
-        }
-
-        .player-status.rated{
-            color:#2e7d32;
-        }
-
-        .player-status.unrated{
-            color:#d32f2f;
+            color:#777;
+            text-align:left;
         }
 
         .player-actions{
             display:flex;
-            justify-content:center;
-            gap:10px;
-            flex-wrap:wrap;
+            flex-direction:column;
+            gap:8px;
+            flex-shrink:0;
         }
 
-        .match-btn{
-            margin-top:10px;
+        .player-actions .primary-btn,
+        .player-actions .danger-btn{
+            width:130px;
+            height:38px;
+            font-size:13px;
+            font-weight:600;
+            padding:0;
         }
+
+        /* Progress */
 
         .progress-wrapper{
             width:100%;
@@ -144,36 +178,23 @@
             background:#43a047;
         }
 
+        /* Mobil */
 
-        .player-row{
-            text-align:center;
-        }
+        @media (max-width:600px){
 
-        .player-avatar{
-            width:80px;
-            height:80px;
-            border-radius:50%;
-            object-fit:cover;
-            margin-bottom:10px;
-        }
+            .player-row{
+                gap:10px;
+            }
 
-        .player-name{
-            font-size:18px;
-            font-weight:700;
-            margin-bottom:8px;
-        }
+            .player-name{
+                font-size:17px;
+            }
 
-        .player-role{
-            color:#666;
-            font-size:14px;
-            margin-bottom:15px;
-        }
+            .player-actions .primary-btn,
+            .player-actions .danger-btn{
+                width:120px;
+            }
 
-        .player-actions{
-            display:flex;
-            justify-content:center;
-            gap:10px;
-            flex-wrap:wrap;
         }
 
     </style>
@@ -185,14 +206,13 @@
 
 <div class="container">
 
-  
     <!-- Grup Özeti -->
 
     <div id="groupInfo" class="summary-card">
         Yükleniyor...
     </div>
 
-    <!-- Değerlendir -->
+    <!-- Oyuncuları Değerlendir -->
 
     <button
         id="ratePlayersBtn"
@@ -200,7 +220,7 @@
         ⭐ Oyuncuları Değerlendir
     </button>
 
-    <!-- İlerleme -->
+    <!-- Değerlendirme Durumu -->
 
     <div
         id="ratingProgressCard"
@@ -221,7 +241,7 @@
 
     </div>
 
-    <!-- Maç -->
+    <!-- Maç Yönetimi -->
 
     <div class="summary-card">
 
