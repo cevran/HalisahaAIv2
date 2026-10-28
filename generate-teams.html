@@ -20,41 +20,59 @@
         <h1>⚽ Maç oluşturuldu</h1>
     </div>
 
-    <div class="card">
-        <div class="summary-grid">
-            <div>
-                <div class="summary-value" id="playerCount">0</div>
-                <div class="summary-label">Oyuncu</div>
-            </div>
-            <div>
-                <div class="summary-value balance-good" id="powerDiff">0.0</div>
-                <div class="summary-label">Güç Farkı</div>
-            </div>
-        </div>
-        <br>
-        <div id="balanceText" class="balance-good">★★★★★ Çok Dengeli</div>
-    </div>
-
+    
     <!-- TEK SAHA -->
 
     <div 
-        id="shareArea">
+        id="shareArea"
         class="pitch-card">
          
         <div class="single-pitch-header">
 
-            <div class="team-score">
-                <span>⚪ Beyaz Takım</span>
-                <span id="whitePower" class="team-power">
-                    0.0
-                </span>
+            <div class="match-details">
+
+                <div
+                    id="matchDateDisplay"
+                    class="match-date">
+                </div>
+
+                <div
+                    id="pitchNameDisplay"
+                    class="match-pitch">
+                </div>
+
             </div>
 
-            <div class="team-score">
-                <span>🔴 Kırmızı Takım</span>
-                <span id="redPower" class="team-power">
-                    0.0
-                </span>
+            <div class="teams-row">
+
+                <div class="team-score">
+
+                    <span>⚪ Beyaz Takım</span>
+
+                    <span
+                        id="whitePower"
+                        class="team-power">
+
+                        0.0
+
+                    </span>
+
+                </div>
+
+                <div class="team-score">
+
+                    <span>🔴 Kırmızı Takım</span>
+
+                    <span
+                        id="redPower"
+                        class="team-power">
+
+                        0.0
+
+                    </span>
+
+                </div>
+
             </div>
 
         </div>
