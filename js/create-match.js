@@ -6,8 +6,9 @@ document.addEventListener(
     "DOMContentLoaded",
     async () => {
 
-        const { data: { user } } =
-            await supabaseClient.auth.getUser();
+        const {
+            data: { user }
+        } = await supabaseClient.auth.getUser();
 
         if (!user) {
             window.location.href = "index.html";
@@ -26,6 +27,25 @@ document.addEventListener(
 
         currentGroupId =
             params.get("groupId");
+
+        const now = new Date();
+
+        now.setMinutes(
+            now.getMinutes() -
+            now.getTimezoneOffset()
+        );
+
+        const dateField =
+            document.getElementById(
+                "matchDateTime"
+            );
+
+        if (dateField) {
+            dateField.value =
+                now
+                    .toISOString()
+                    .slice(0, 16);
+        }
 
         await loadPlayers();
     }
@@ -70,6 +90,7 @@ async function loadPlayers() {
         );
 
     if (ratedError) {
+
         console.error(
             "player_rating_summary",
             ratedError
@@ -98,7 +119,9 @@ async function loadPlayers() {
             );
 
         const card =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         card.className =
             isRated
@@ -200,6 +223,49 @@ document
         "click",
         () => {
 
+            const matchDateTime =
+                document
+                    .getElementById(
+                        "matchDateTime"
+                    )
+                    ?.value;
+
+            const pitchName =
+                document
+                    .getElementById(
+                        "pitchName"
+                    )
+                    ?.value
+                    .trim();
+
+            if (!matchDateTime) {
+
+                document.getElementById(
+                    "validationMessage"
+                ).innerHTML =
+                    `
+                    <div class="warning">
+                        Lütfen maç tarihini seçin.
+                    </div>
+                    `;
+
+                return;
+            }
+
+            if (!pitchName) {
+
+                document.getElementById(
+                    "validationMessage"
+                ).innerHTML =
+                    `
+                    <div class="warning">
+                        Lütfen halı saha bilgisini girin.
+                    </div>
+                    `;
+
+                return;
+            }
+
             if (
                 selectedPlayers.size < 6
             ) {
@@ -245,8 +311,17 @@ document
                 )
             );
 
+            sessionStorage.setItem(
+                "matchDateTime",
+                matchDateTime
+            );
+
+            sessionStorage.setItem(
+                "pitchName",
+                pitchName
+            );
+
             window.location.href =
                 `generate-teams.html?groupId=${currentGroupId}`;
         }
     );
-    

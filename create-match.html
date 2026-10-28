@@ -7,6 +7,48 @@
     <title>Halı Saha AI - Maç Oluştur</title>
 
     <link rel="stylesheet" href="css/style.css">
+
+    <style>
+
+        .summary-card{
+            background:#fff;
+            border:1px solid #e5e7eb;
+            border-radius:16px;
+            padding:20px;
+            margin-bottom:20px;
+        }
+
+        .summary-card h3{
+            margin-top:0;
+            margin-bottom:15px;
+        }
+
+        .form-group{
+            margin-bottom:15px;
+        }
+
+        .form-group label{
+            display:block;
+            margin-bottom:6px;
+            font-weight:600;
+            color:#444;
+        }
+
+        .form-input{
+            width:100%;
+            padding:12px;
+            border:1px solid #d1d5db;
+            border-radius:10px;
+            box-sizing:border-box;
+            font-size:15px;
+        }
+
+        .container{
+            padding-bottom:90px;
+        }
+
+    </style>
+
 </head>
 
 <body>
@@ -15,25 +57,63 @@
 
     <h1>⚽ Maç Oluştur</h1>
 
+    <div class="summary-card">
+
+        <h3>📅 Maç Bilgileri</h3>
+
+        <div class="form-group">
+
+            <label for="matchDateTime">
+                Tarih ve Saat
+            </label>
+
+            <input
+                type="datetime-local"
+                id="matchDateTime"
+                class="form-input">
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="pitchName">
+                🏟️ Halı Saha
+            </label>
+
+            <input
+                type="text"
+                id="pitchName"
+                class="form-input"
+                placeholder="Örn: Beykoz Arena Halı Saha">
+
+        </div>
+
+    </div>
+
     <div id="selectedCount" class="selected-count">
         Seçilen Oyuncu: 0
     </div>
 
     <div id="playersList"></div>
 
-    <div id="validationMessage" class="validation-message"></div>
+    <div
+        id="validationMessage"
+        class="validation-message">
+    </div>
 
     <div class="match-actions">
+
         <button
             id="generateTeamsBtn"
             class="primary-btn">
+
             ⚽ Takımları Oluştur
+
         </button>
+
     </div>
 
 </div>
-
-<!-- Alt Menü -->
 
 <div id="bottom-nav-container"></div>
 
@@ -45,8 +125,12 @@
 <script src="js/bottom-nav.js"></script>
 
 <script>
-document.getElementById('bottom-nav-container').innerHTML =
-    renderBottomNav('groups');
+document.getElementById(
+    "bottom-nav-container"
+).innerHTML =
+    renderBottomNav(
+        "groups"
+    );
 </script>
 
 </body>
