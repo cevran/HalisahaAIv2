@@ -536,7 +536,29 @@ body{
     }
 
     .share-stats-wrapper{
-        grid-template-columns:1fr;
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+    }
+
+    .analysis-box{
+        padding:8px;
+    }
+
+    .analysis-box h3{
+        font-size:11px;
+        margin-bottom:8px;
+    }
+
+    .analysis-item{
+        padding:4px 0;
+    }
+
+    .analysis-item span{
+        font-size:9px;
+    }
+
+    .analysis-item strong{
+        font-size:9px;
     }
 
     .actions{
