@@ -735,7 +735,7 @@ document
                 const exportWidth =
                     isMobile
                         ? 480
-                        : 1080;
+                        : 1200;
 
                 const originalWidth =
                     area.style.width;
@@ -770,10 +770,10 @@ document
                             cacheBust: true,
                             backgroundColor:
                                 "#2d8a42",
-                            width:
-                                exportWidth,
-                            height:
-                                area.scrollHeight
+                            width: area.scrollWidth,
+                            height: area.scrollHeight,
+                            canvasWidth: area.scrollWidth,
+                            canvasHeight: area.scrollHeight
                         }
                     );
 
