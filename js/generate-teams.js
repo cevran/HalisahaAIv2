@@ -729,11 +729,32 @@ document
                     return;
                 }
 
-                const originalWidth = area.style.width;
-                const originalMaxWidth = area.style.maxWidth;
+                const isMobile =
+                    window.innerWidth < 768;
 
-                area.style.width = "1080px";
-                area.style.maxWidth = "1080px";
+                const exportWidth =
+                    isMobile
+                        ? 720
+                        : 1080;
+
+                const originalWidth =
+                    area.style.width;
+
+                const originalMaxWidth =
+                    area.style.maxWidth;
+
+                area.style.width =
+                    exportWidth + "px";
+
+                area.style.maxWidth =
+                    exportWidth + "px";
+
+                await new Promise(
+                    resolve =>
+                        requestAnimationFrame(() =>
+                            resolve()
+                        )
+                );
 
                 const dataUrl =
                     await htmlToImage.toPng(
@@ -741,14 +762,22 @@ document
                         {
                             pixelRatio: 2,
                             cacheBust: true,
-                            backgroundColor: null,
-                            width: 1080,
-                            height: area.scrollHeight
+                            backgroundColor:
+                                "#2d8a42",
+
+                            width:
+                                exportWidth,
+
+                            height:
+                                area.scrollHeight
                         }
                     );
 
-                area.style.width = originalWidth;
-                area.style.maxWidth = originalMaxWidth;
+                area.style.width =
+                    originalWidth;
+
+                area.style.maxWidth =
+                    originalMaxWidth;
 
                 const response =
                     await fetch(
@@ -794,21 +823,26 @@ document
                     a.download =
                         "halisaha-ai-takimlar.png";
 
-                    document.body.appendChild(a);
+                    document.body.appendChild(
+                        a
+                    );
 
                     a.click();
 
-                    document.body.removeChild(a);
+                    document.body.removeChild(
+                        a
+                    );
                 }
 
             } catch (err) {
 
-                console.error(err);
+                console.error(
+                    err
+                );
 
                 alert(
                     "PNG oluşturulamadı."
                 );
             }
-
         }
     );

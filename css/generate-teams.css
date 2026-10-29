@@ -50,7 +50,7 @@ body{
 
     width:100%;
     max-width:1080px;
-
+    box-sizing:border-box;
     margin:0 auto;
 
     background:var(--card);
@@ -518,21 +518,21 @@ body{
     }
 
     .player-card{
-        width:60px;
+        width:56px;
         max-width:60px;
-        min-height:56px;
+        min-height:52px;
     }
 
     .player-name{
-        font-size:10px;
-    }
-
-    .player-rating{
         font-size:9px;
     }
 
+    .player-rating{
+        font-size:8px;
+    }
+
     .player-position{
-        font-size:7px;
+        font-size:6px;
     }
 
     .share-stats-wrapper{
