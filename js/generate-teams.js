@@ -595,12 +595,6 @@ function renderMatch(result) {
             result.redTeam
         );
 
-    const difference =
-        Math.abs(
-            result.whiteStats.overall -
-            result.redStats.overall
-        );
-
     const setText = (id, value) => {
         const el = document.getElementById(id);
         if (el) {
@@ -615,18 +609,19 @@ function renderMatch(result) {
         }
     };
 
-    
+    // Takım güçleri
+
     setText(
         "whitePower",
-        result.whiteStats.overall
-        .toFixed(1)
+        result.whiteStats.overall.toFixed(1)
     );
 
     setText(
         "redPower",
-        result.redStats.overall
-        .toFixed(1)
+        result.redStats.overall.toFixed(1)
     );
+
+    // Kadrolar
 
     setHtml(
         "whitePitch",
@@ -644,61 +639,82 @@ function renderMatch(result) {
         )
     );
 
-    setText(
-        "analysisWhite",
-        result.whiteStats.overall
-        .toFixed(1)
+    // Analiz kutuları
+
+    const buildStatsHtml = (
+        title,
+        stats
+    ) => `
+        <div class="analysis-box">
+            <h3>${title}</h3>
+
+            <div class="analysis-item">
+                <span>⚡ Güç</span>
+                <strong>${stats.overall.toFixed(1)}</strong>
+            </div>
+
+            <div class="analysis-item">
+                <span>⚽ Hücum</span>
+                <strong>${stats.attack.toFixed(1)}</strong>
+            </div>
+
+            <div class="analysis-item">
+                <span>🛡️ Savunma</span>
+                <strong>${stats.defense.toFixed(1)}</strong>
+            </div>
+
+            <div class="analysis-item">
+                <span>🎯 Teknik</span>
+                <strong>${stats.technique.toFixed(1)}</strong>
+            </div>
+
+            <div class="analysis-item">
+                <span>🏃 Kondisyon</span>
+                <strong>${stats.condition.toFixed(1)}</strong>
+            </div>
+
+            <div class="analysis-item">
+                <span>🤝 Takım Oyunu</span>
+                <strong>${stats.teamplay.toFixed(1)}</strong>
+            </div>
+        </div>
+    `;
+
+    const whiteStatsHtml =
+        buildStatsHtml(
+            "⚪ Beyaz Takım",
+            result.whiteStats
+        );
+
+    const redStatsHtml =
+        buildStatsHtml(
+            "🔴 Kırmızı Takım",
+            result.redStats
+        );
+
+    // PNG içindeki analizler
+
+    setHtml(
+        "whiteTeamStatsShare",
+        whiteStatsHtml
     );
 
-    setText(
-        "analysisRed",
-        result.redStats.overall
-        .toFixed(1)
+    setHtml(
+        "redTeamStatsShare",
+        redStatsHtml
     );
 
-    setText(
-        "analysisDiff",
-        difference.toFixed(1)
+    // Ekrandaki analizler
+
+    setHtml(
+        "whiteTeamStats",
+        whiteStatsHtml
     );
 
-    const average =
-
-        (
-            result.whiteStats.overall +
-            result.redStats.overall
-        ) / 2;
-
-    const percent =
-        (difference / average) *
-        100;
-
-    let stars =
-        "★★★★★";
-
-    let text =
-        "Mükemmele Yakın";
-
-    if (percent > 1) {
-        stars = "★★★★☆";
-        text = "Çok Dengeli";
-    }
-
-    if (percent > 3) {
-        stars = "★★★☆☆";
-        text = "Dengeli";
-    }
-
-    if (percent > 7) {
-        stars = "★☆☆☆☆";
-        text = "Dengesiz";
-    }
-
-    setText(
-    "analysisBalance",
-    `${stars} ${text}`
+    setHtml(
+        "redTeamStats",
+        redStatsHtml
     );
-
-    
 }
 
 

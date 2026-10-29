@@ -753,3 +753,150 @@ body{
         grid-template-columns: 1fr;
     }
 }
+
+
+/* =========================================
+   YENI V1 PAYLASIM GORUNUMU
+========================================= */
+
+.teams-layout{
+    display:flex;
+    gap:24px;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.team-side{
+    width:48%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.position-row{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    width:100%;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+}
+
+.player-card{
+    width:115px;
+    min-height:92px;
+
+    background:rgba(
+        255,
+        255,
+        255,
+        .18
+    );
+
+    backdrop-filter:blur(4px);
+
+    border-radius:18px;
+
+    padding:10px 8px;
+
+    text-align:center;
+
+    color:#fff;
+
+    box-shadow:
+        0 4px 12px rgba(
+            0,
+            0,
+            0,
+            .18
+        );
+}
+
+.player-name{
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.player-rating{
+    font-size:18px;
+    font-weight:800;
+    color:#ffd54f;
+    margin-bottom:4px;
+}
+
+.player-position{
+    font-size:11px;
+    font-weight:600;
+    opacity:.95;
+    letter-spacing:.5px;
+}
+
+.share-stats-wrapper{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    padding:16px;
+}
+
+.analysis-box{
+    background:rgba(
+        255,
+        255,
+        255,
+        .15
+    );
+
+    color:#fff;
+
+    border-radius:18px;
+
+    padding:16px;
+}
+
+.analysis-box h3{
+    margin-bottom:12px;
+    text-align:center;
+    font-size:18px;
+}
+
+.analysis-item{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+}
+
+.analysis-item strong{
+    font-weight:800;
+}
+
+/* Mobil */
+
+@media(max-width:768px){
+
+    .teams-layout{
+        gap:12px;
+    }
+
+    .player-card{
+        width:92px;
+        min-height:82px;
+    }
+
+    .player-name{
+        font-size:13px;
+    }
+
+    .player-rating{
+        font-size:15px;
+    }
+
+    .player-position{
+        font-size:10px;
+    }
+
+    .share-stats-wrapper{
+        grid-template-columns:1fr;
+    }
+
+}
