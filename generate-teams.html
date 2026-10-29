@@ -20,87 +20,130 @@
         <h1>⚽ Maç oluşturuldu</h1>
     </div>
 
-    
+    <!-- PAYLAŞIM ALANI -->
+    <div id="shareArea" class="pitch-card">
 
-        <div 
-            id="shareArea"
-            class="pitch-card">
-            <div class="share-title">
-                ⚽ HALI SAHA AI
-            </div>
-            <div class="single-pitch-header">
+        <div class="share-title">
+            ⚽ HALI SAHA AI
+        </div>
 
-                <div class="match-details">
+        <div class="single-pitch-header">
 
-                    <div
-                        id="matchDateDisplay"
-                        class="match-date">
-                    </div>
+            <div class="match-details">
 
-                    <div
-                        id="pitchNameDisplay"
-                        class="match-pitch">
-                    </div>
-
+                <div
+                    id="matchDateDisplay"
+                    class="match-date">
                 </div>
 
-                <div class="teams-row">
-
-                    <div class="team-score">
-
-                        <span>⚪ Beyaz Takım</span>
-
-                        <span
-                            id="whitePower"
-                            class="team-power">
-
-                            0.0
-
-                        </span>
-
-                    </div>
-
-                    <div class="team-score">
-
-                        <span>🔴 Kırmızı Takım</span>
-
-                        <span
-                            id="redPower"
-                            class="team-power">
-
-                            0.0
-
-                        </span>
-
-                    </div>
-
+                <div
+                    id="pitchNameDisplay"
+                    class="match-pitch">
                 </div>
 
             </div>
 
+            <div class="teams-row">
 
-            <div class="share-stats-wrapper">
+                <div class="team-score">
 
-                <div id="whiteTeamStatsShare" class="share-team-stats">
+                    <span>
+                        ⚪ Beyaz Takım
+                    </span>
+
+                    <span
+                        id="whitePower"
+                        class="team-power">
+                        0.0
+                    </span>
+
                 </div>
 
-                <div id="redTeamStatsShare" class="share-team-stats">
+                <div class="team-score">
+
+                    <span>
+                        🔴 Kırmızı Takım
+                    </span>
+
+                    <span
+                        id="redPower"
+                        class="team-power">
+                        0.0
+                    </span>
+
                 </div>
 
             </div>
 
         </div>
 
-   
+        <!-- TAKIM DİZİLİMLERİ -->
 
-    <!-- TAKIM ANALİZLERİ -->
+        <div class="teams-layout">
+
+            <div class="team-side">
+
+                <div class="side-title">
+                    ⚪ BEYAZ TAKIM
+                </div>
+
+                <div
+                    id="whitePitch"
+                    class="team-formation">
+
+                    <div class="loading">
+                        Takımlar oluşturuluyor...
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="team-side">
+
+                <div class="side-title">
+                    🔴 KIRMIZI TAKIM
+                </div>
+
+                <div
+                    id="redPitch"
+                    class="team-formation">
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PAYLAŞIM ANALİZLERİ -->
+
+        <div class="share-stats-wrapper">
+
+            <div
+                id="whiteTeamStatsShare"
+                class="share-team-stats">
+            </div>
+
+            <div
+                id="redTeamStatsShare"
+                class="share-team-stats">
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- SAYFA ANALİZLERİ -->
 
     <div class="team-stats-section">
 
-        <div id="whiteTeamStats" class="team-stats-card">
+        <div
+            id="whiteTeamStats"
+            class="team-stats-card">
         </div>
 
-        <div id="redTeamStats" class="team-stats-card">
+        <div
+            id="redTeamStats"
+            class="team-stats-card">
         </div>
 
     </div>
@@ -109,31 +152,31 @@
 
     <div class="actions">
 
-    <button
-        id="regenerateBtn"
-        class="btn btn-secondary">
+        <button
+            id="regenerateBtn"
+            class="btn btn-secondary">
 
-        🔄 Yeniden Oluştur
+            🔄 Yeniden Oluştur
 
-    </button>
+        </button>
 
-    <button
-        id="shareMatchBtn"
-        class="btn btn-share">
+        <button
+            id="shareMatchBtn"
+            class="btn btn-share">
 
-        📤 Paylaş
+            📤 Paylaş
 
-    </button>
+        </button>
 
-    <button
-        id="saveMatchBtn"
-        class="btn btn-primary">
+        <button
+            id="saveMatchBtn"
+            class="btn btn-primary">
 
-        ✅ Maçı Kaydet
+            ✅ Maçı Kaydet
 
-    </button>
+        </button>
 
-</div>
+    </div>
 
 </div>
 
@@ -144,5 +187,7 @@
 <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
 
 </body>
+
+
 </html>
 
