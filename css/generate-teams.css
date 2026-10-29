@@ -1,5 +1,5 @@
 /* ==================================================
-   GENERATE TEAMS - FINAL RESPONSIVE
+   GENERATE TEAMS - SINGLE RESPONSIVE VERSION
 ================================================== */
 
 *{
@@ -19,12 +19,12 @@ body{
     background:var(--bg);
     font-family:Inter,system-ui,sans-serif;
     color:#fff;
-    padding:20px;
+    padding:10px;
 }
 
 .container{
     width:100%;
-    max-width:1400px;
+    max-width:900px;
     margin:0 auto;
 }
 
@@ -34,11 +34,11 @@ body{
 
 .page-header{
     text-align:center;
-    margin-bottom:20px;
+    margin-bottom:16px;
 }
 
 .page-header h1{
-    font-size:32px;
+    font-size:24px;
     font-weight:800;
 }
 
@@ -49,17 +49,17 @@ body{
 #shareArea{
 
     width:100%;
-    max-width:1080px;
-    box-sizing:border-box;
+    max-width:700px;
+
     margin:0 auto;
 
     background:var(--card);
 
-    border:8px solid rgba(255,255,255,.95);
+    border:6px solid rgba(255,255,255,.95);
 
-    border-radius:35px;
+    border-radius:24px;
 
-    padding:24px;
+    padding:14px;
 
     color:#fff;
 
@@ -69,7 +69,6 @@ body{
 }
 
 #shareArea::before{
-
     display:none;
 }
 
@@ -81,14 +80,11 @@ body{
 
     text-align:center;
 
-    font-size:36px;
+    font-size:22px;
 
     font-weight:900;
 
-    margin-bottom:20px;
-
-    position:relative;
-    z-index:2;
+    margin-bottom:16px;
 }
 
 /* ==================================================
@@ -97,24 +93,27 @@ body{
 
 .single-pitch-header{
     position:relative;
-    z-index:2;
 }
 
 .match-details{
     text-align:center;
-    margin-bottom:20px;
+    margin-bottom:14px;
 }
 
 .match-date{
-    font-size:20px;
+    font-size:15px;
     font-weight:700;
-    margin-bottom:6px;
+    margin-bottom:4px;
 }
 
 .match-pitch{
-    font-size:17px;
+    font-size:13px;
     opacity:.9;
 }
+
+/* ==================================================
+   TEAM POWERS
+================================================== */
 
 .teams-row{
 
@@ -122,12 +121,9 @@ body{
 
     justify-content:space-between;
 
-    gap:20px;
+    gap:10px;
 
-    margin-bottom:30px;
-
-    position:relative;
-    z-index:2;
+    margin-bottom:16px;
 }
 
 .team-score{
@@ -137,14 +133,14 @@ body{
 
 .team-score span:first-child{
     display:block;
-    font-size:22px;
+    font-size:13px;
     font-weight:800;
-    margin-bottom:8px;
+    margin-bottom:4px;
 }
 
 .team-power{
     display:block;
-    font-size:40px;
+    font-size:22px;
     font-weight:900;
 }
 
@@ -158,13 +154,11 @@ body{
 
     grid-template-columns:1fr 1fr;
 
-    gap:20px;
+    gap:10px;
 
-    margin-bottom:25px;
+    margin-bottom:16px;
 
     position:relative;
-
-    z-index:2;
 }
 
 .teams-layout::after{
@@ -177,10 +171,10 @@ body{
     bottom:0;
     left:50%;
 
-    width:2px;
+    width:1px;
 
     background:
-    rgba(255,255,255,.18);
+    rgba(255,255,255,.15);
 
     transform:translateX(-50%);
 }
@@ -193,11 +187,11 @@ body{
 
     text-align:center;
 
-    font-size:22px;
+    font-size:14px;
 
-    font-weight:900;
+    font-weight:800;
 
-    margin-bottom:18px;
+    margin-bottom:8px;
 }
 
 /* ==================================================
@@ -210,7 +204,7 @@ body{
 
     flex-direction:column;
 
-    gap:14px;
+    gap:8px;
 }
 
 .position-row{
@@ -219,33 +213,31 @@ body{
 
     justify-content:center;
 
-    gap:10px;
+    gap:6px;
 
     flex-wrap:wrap;
 }
 
 /* ==================================================
-   PLAYER
+   PLAYER CARD
 ================================================== */
 
 .player-card{
 
-    width:100%;
+    width:56px;
 
-    max-width:95px;
+    max-width:60px;
 
-    min-height:72px;
+    min-height:52px;
 
     background:
     rgba(255,255,255,.14);
 
-    border-radius:16px;
+    border-radius:12px;
 
-    padding:10px 8px;
+    padding:4px;
 
     text-align:center;
-
-    backdrop-filter:blur(4px);
 
     box-shadow:
     inset 0 0 0 1px
@@ -254,31 +246,33 @@ body{
 
 .player-name{
 
-    font-size:14px;
+    font-size:9px;
 
     font-weight:700;
 
-    line-height:1.2;
+    line-height:1.1;
 
     word-break:break-word;
 
-    margin-bottom:4px;
+    min-height:22px;
+
+    margin-bottom:2px;
 }
 
 .player-rating{
 
-    font-size:13px;
+    font-size:8px;
 
     color:var(--gold);
 
     font-weight:800;
 
-    margin-bottom:4px;
+    margin-bottom:2px;
 }
 
 .player-position{
 
-    font-size:10px;
+    font-size:6px;
 
     opacity:.95;
 }
@@ -291,37 +285,37 @@ body{
 
     display:flex;
 
-    gap:16px;
+    gap:8px;
 
     width:100%;
-
-    align-items:stretch;
 }
 
 .share-team-stats{
+
     flex:1;
+
     min-width:0;
 }
 
 .analysis-box{
 
     width:100%;
-    box-sizing:border-box;
 
-    background:rgba(255,255,255,.12);
+    background:
+    rgba(255,255,255,.12);
 
-    border-radius:18px;
+    border-radius:12px;
 
-    padding:16px;
+    padding:8px;
 }
 
 .analysis-box h3{
 
     text-align:center;
 
-    margin-bottom:12px;
+    margin-bottom:8px;
 
-    font-size:18px;
+    font-size:11px;
 }
 
 .analysis-item{
@@ -332,12 +326,12 @@ body{
 
     align-items:center;
 
-    gap:10px;
+    gap:6px;
 
-    padding:8px 0;
+    padding:4px 0;
 
     border-bottom:
-    1px solid rgba(255,255,255,.1);
+    1px solid rgba(255,255,255,.08);
 }
 
 .analysis-item:last-child{
@@ -345,12 +339,11 @@ body{
 }
 
 .analysis-item span{
-    min-width:0;
-    font-size:14px;
+    font-size:9px;
 }
 
 .analysis-item strong{
-    font-size:14px;
+    font-size:9px;
 }
 
 /* ==================================================
@@ -359,34 +352,28 @@ body{
 
 .actions{
 
-    margin-top:24px;
+    margin-top:20px;
 
     display:grid;
 
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:1fr;
 
-    gap:12px;
+    gap:10px;
 }
 
 .btn{
 
     border:none;
 
-    height:56px;
+    height:52px;
 
-    border-radius:16px;
+    border-radius:14px;
 
-    font-size:15px;
+    font-size:14px;
 
     font-weight:700;
 
     cursor:pointer;
-
-    transition:.2s;
-}
-
-.btn:hover{
-    transform:translateY(-2px);
 }
 
 .btn-secondary{
@@ -411,213 +398,5 @@ body{
 .loading{
     text-align:center;
     opacity:.8;
-    padding:30px;
-}
-
-/* ==================================================
-   TABLET
-================================================== */
-
-@media(max-width:900px){
-
-    body{
-        padding:10px;
-    }
-
-    #shareArea{
-        padding:14px;
-        border-radius:24px;
-    }
-
-    .share-title{
-        font-size:28px;
-    }
-
-    .teams-layout{
-        gap:10px;
-    }
-
-    .side-title{
-        font-size:16px;
-    }
-
-    .team-power{
-        font-size:26px;
-    }
-
-    .team-score span:first-child{
-        font-size:15px;
-    }
-
-    .player-card{
-        max-width:72px;
-        min-height:60px;
-        padding:6px;
-    }
-
-    .player-name{
-        font-size:11px;
-    }
-
-    .player-rating{
-        font-size:10px;
-    }
-
-    .player-position{
-        font-size:8px;
-    }
-
-    .analysis-box{
-        padding:10px;
-    }
-
-    .analysis-box h3{
-        font-size:14px;
-    }
-
-    .analysis-item span,
-    .analysis-item strong{
-        font-size:11px;
-    }
-}
-
-/* ==================================================
-   MOBILE
-================================================== */
-
-@media(max-width:600px){
-
-    .share-title{
-        font-size:22px;
-    }
-
-    .match-date{
-        font-size:15px;
-    }
-
-    .match-pitch{
-        font-size:13px;
-    }
-
-    .team-power{
-        font-size:22px;
-    }
-
-    .team-score span:first-child{
-        font-size:13px;
-    }
-
-    .player-card{
-        width:56px;
-        max-width:60px;
-        min-height:52px;
-    }
-
-    .player-name{
-        font-size:9px;
-    }
-
-    .player-rating{
-        font-size:8px;
-    }
-
-    .player-position{
-        font-size:6px;
-    }
-
-    .share-stats-wrapper{
-        grid-template-columns:1fr 1fr;
-        gap:8px;
-    }
-
-    .analysis-box{
-        padding:8px;
-    }
-
-    .analysis-box h3{
-        font-size:11px;
-        margin-bottom:8px;
-    }
-
-    .analysis-item{
-        padding:4px 0;
-    }
-
-    .analysis-item span{
-        font-size:9px;
-    }
-
-    .analysis-item strong{
-        font-size:9px;
-    }
-
-    .actions{
-        grid-template-columns:1fr;
-    }
-}
-
-
-/* ==================================================
-   MOBILE EXPORT MODE
-================================================== */
-
-.export-mobile .share-title{
-    font-size:18px;
-}
-
-.export-mobile .match-date{
-    font-size:12px;
-}
-
-.export-mobile .match-pitch{
-    font-size:11px;
-}
-
-.export-mobile .team-power{
-    font-size:18px;
-}
-
-.export-mobile .team-score span:first-child{
-    font-size:11px;
-}
-
-.export-mobile .side-title{
-    font-size:12px;
-}
-
-.export-mobile .player-card{
-    width:44px;
-    min-height:42px;
-    padding:3px;
-}
-
-.export-mobile .player-name{
-    font-size:9px;
-    line-height:1.1;
-}
-
-.export-mobile .player-rating{
-    font-size:8px;
-}
-
-.export-mobile .player-position{
-    font-size:6px;
-}
-
-.export-mobile .analysis-box{
-    padding:6px;
-}
-
-.export-mobile .analysis-box h3{
-    font-size:10px;
-    margin-bottom:4px;
-}
-
-.export-mobile .analysis-item{
-    padding:2px 0;
-}
-
-.export-mobile .analysis-item span,
-.export-mobile .analysis-item strong{
-    font-size:8px;
+    padding:20px;
 }
