@@ -65,7 +65,7 @@ body{
 
     position:relative;
 
-    overflow:hidden;
+    overflow:visible;
 }
 
 #shareArea::before{
