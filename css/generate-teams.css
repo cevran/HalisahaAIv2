@@ -602,16 +602,16 @@ body{
 }
 
 .export-mobile .player-name{
-    font-size:7px;
+    font-size:8px;
     line-height:1.1;
 }
 
 .export-mobile .player-rating{
-    font-size:6px;
+    font-size:7px;
 }
 
 .export-mobile .player-position{
-    font-size:5px;
+    font-size:6px;
 }
 
 .export-mobile .analysis-box{
@@ -629,5 +629,5 @@ body{
 
 .export-mobile .analysis-item span,
 .export-mobile .analysis-item strong{
-    font-size:7px;
+    font-size:8px;
 }
