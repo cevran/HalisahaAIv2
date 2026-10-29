@@ -734,7 +734,7 @@ document
 
                 const exportWidth =
                     isMobile
-                        ? 720
+                        ? 480
                         : 1080;
 
                 const originalWidth =
