@@ -734,7 +734,7 @@ document
 
                 const exportWidth =
                     isMobile
-                        ? 480
+                        ? 720
                         : 1200;
 
                 const originalWidth =
@@ -742,12 +742,6 @@ document
 
                 const originalMaxWidth =
                     area.style.maxWidth;
-
-                if (isMobile) {
-                    area.classList.add(
-                        "export-mobile"
-                    );
-                }
 
                 area.style.width =
                     exportWidth + "px";
@@ -770,10 +764,12 @@ document
                             cacheBust: true,
                             backgroundColor:
                                 "#2d8a42",
-                            width: area.scrollWidth,
-                            height: area.scrollHeight,
-                            canvasWidth: area.scrollWidth,
-                            canvasHeight: area.scrollHeight
+
+                            width:
+                                area.scrollWidth,
+
+                            height:
+                                area.scrollHeight
                         }
                     );
 
@@ -782,10 +778,6 @@ document
 
                 area.style.maxWidth =
                     originalMaxWidth;
-
-                area.classList.remove(
-                    "export-mobile"
-                );
 
                 const response =
                     await fetch(
