@@ -737,18 +737,8 @@ document
                         ? 720
                         : 1200;
 
-                const originalWidth =
-                    area.style.width;
-
-                const originalMaxWidth =
-                    area.style.maxWidth;
-
-                area.style.width =
-                    exportWidth + "px";
-
-                area.style.maxWidth =
-                    exportWidth + "px";
-
+                
+                
                 await new Promise(
                     resolve =>
                         requestAnimationFrame(
@@ -760,24 +750,12 @@ document
                     await htmlToImage.toPng(
                         area,
                         {
-                            pixelRatio: 2,
+                            pixelRatio: 3,
                             cacheBust: true,
-                            backgroundColor:
-                                "#2d8a42",
-
-                            width:
-                                area.scrollWidth,
-
-                            height:
-                                area.scrollHeight
+                            backgroundColor: "#2d8a42"
                         }
                     );
 
-                area.style.width =
-                    originalWidth;
-
-                area.style.maxWidth =
-                    originalMaxWidth;
 
                 const response =
                     await fetch(
