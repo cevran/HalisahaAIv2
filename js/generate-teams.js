@@ -508,140 +508,79 @@ function buildFormation(team) {
 
     };
 }
+ 
+function renderPitch(team, captain) {
+    const formation = buildFormation(team);
 
-function renderPitch(
-    team,
-    captain,
-    reverse = false
-) {
-
-    const formation =
-        buildFormation(team);
-
-    const html = [];
-
-    const createPlayer =
-    (
-        player,
-        x,
-        y
-    ) => {
-
-        html.push(`
-
-            <div
-                class="field-player"
-                style="
-                    left:${x}%;
-                    top:${y}%;
-                ">
-
-                <div class="player-name">
-                    ${
-                        player.id === captain.id
-                            ? "👑 "
-                            : ""
-                    }
-                    ${player.name}
-                </div>
-
-                <div class="player-power">
-                    ${player.overall.toFixed(1)}
-                </div>
-
+    const playerCard = (player, position) => `
+        <div class="player-card">
+            <div class="player-name">
+                ${player.id === captain.id ? "👑 " : ""}
+                ${player.name}
             </div>
 
-        `);
-    };
+            <div class="player-rating">
+                ⚡ ${player.overall.toFixed(1)}
+            </div>
 
-    if (!reverse) {
+            <div class="player-position">
+                ${position}
+            </div>
+        </div>
+    `;
 
-  
-        // Kaleci
-        formation.goalkeepers.forEach(
-            p => createPlayer(
-                p,
-                50,
-                15
-            )
-        );
+    let html = "";
 
-        formation.defenders.forEach(
-            (p, i) => createPlayer(
-                p,
-                formation.defenders.length === 1
-                    ? 50
-                    : (i === 0 ? 35 : 65),
-                35
-            )
-        );
+    // FORVETLER
+    if (formation.attackers.length) {
 
-        formation.midfielders.forEach(
-            (p, i) => createPlayer(
-                p,
-                formation.midfielders.length === 1
-                    ? 50
-                    : (i === 0 ? 35 : 65),
-                60
-            )
-        );
-
-        formation.attackers.forEach(
-            (p, i) => createPlayer(
-                p,
-                formation.attackers.length === 1
-                    ? 50
-                    : (20 + i * 30),
-                82
-            )
-        );
-
-    } else {
-
-
-        // Forvet
-        formation.attackers.forEach(
-            (p, i) => createPlayer(
-                p,
-                formation.attackers.length === 1
-                    ? 50
-                    : (20 + i * 30),
-                18
-            )
-        );
-
-        formation.midfielders.forEach(
-            (p, i) => createPlayer(
-                p,
-                formation.midfielders.length === 1
-                    ? 50
-                    : (i === 0 ? 35 : 65),
-                40
-            )
-        );
-
-        formation.defenders.forEach(
-            (p, i) => createPlayer(
-                p,
-                formation.defenders.length === 1
-                    ? 50
-                    : (i === 0 ? 35 : 65),
-                65
-            )
-        );
-
-        formation.goalkeepers.forEach(
-            p => createPlayer(
-                p,
-                50,
-                85
-            )
-        );
+        html += `
+            <div class="position-row">
+                ${formation.attackers.map(
+                    p => playerCard(p, "⚽ FORVET")
+                ).join("")}
+            </div>
+        `;
     }
 
-    return html.join("");
-}
+    // ORTA SAHALAR
+    if (formation.midfielders.length) {
 
+        html += `
+            <div class="position-row">
+                ${formation.midfielders.map(
+                    p => playerCard(p, "⚽ ORTA SAHA")
+                ).join("")}
+            </div>
+        `;
+    }
+
+    // DEFANSLAR
+    if (formation.defenders.length) {
+
+        html += `
+            <div class="position-row">
+                ${formation.defenders.map(
+                    p => playerCard(p, "🛡️ DEFANS")
+                ).join("")}
+            </div>
+        `;
+    }
+
+    // KALECİ
+    if (formation.goalkeepers.length) {
+
+        html += `
+            <div class="position-row">
+                ${formation.goalkeepers.map(
+                    p => playerCard(p, "🥅 KALECİ")
+                ).join("")}
+            </div>
+        `;
+    }
+
+    return html;
+}
 
 
 function renderMatch(result) {
@@ -693,8 +632,7 @@ function renderMatch(result) {
         "whitePitch",
         renderPitch(
             result.whiteTeam,
-            whiteCaptain,
-            false
+            whiteCaptain
         )
     );
 
@@ -702,8 +640,7 @@ function renderMatch(result) {
         "redPitch",
         renderPitch(
             result.redTeam,
-            redCaptain,
-            true
+            redCaptain
         )
     );
 

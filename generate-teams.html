@@ -79,72 +79,59 @@
 
             </div>
 
-            <div id="fullPitch" class="full-pitch">
+            <div id="fullPitch" class="share-pitch-layout">
 
-                <!-- ÜST KALE -->
-                <div class="goal goal-top"></div>
+                <div class="teams-header">
 
-                <!-- ÜST CEZA SAHASI -->
-                <div class="penalty penalty-top"></div>
+                    <div class="side-title">
+                        ⚪ BEYAZ TAKIM
+                    </div>
 
-                <!-- ORTA SAHA ÇİZGİSİ -->
-                <div class="center-line">⚽</div>
-
-                <!-- ORTA SAHA ÇEMBERİ -->
-                <div class="center-circle"></div>
-
-                <!-- ALT CEZA SAHASI -->
-                <div class="penalty penalty-bottom"></div>
-
-                <!-- ALT KALE -->
-                <div class="goal goal-bottom"></div>
-
-                <!-- BEYAZ TAKIM -->
-                <div id="whitePitch" class="pitch-half">
-
-                    <div class="loading">
-                        Takımlar oluşturuluyor...
+                    <div class="side-title">
+                        🔴 KIRMIZI TAKIM
                     </div>
 
                 </div>
 
-                <!-- KIRMIZI TAKIM -->
-                <div id="redPitch" class="pitch-half"></div>
+                <div class="teams-layout">
+
+                    <div id="whitePitch" class="team-side">
+
+                        <div class="loading">
+                            Takımlar oluşturuluyor...
+                        </div>
+
+                    </div>
+
+                    <div id="redPitch" class="team-side">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="share-stats-wrapper">
+
+                <div id="whiteTeamStatsShare" class="share-team-stats">
+                </div>
+
+                <div id="redTeamStatsShare" class="share-team-stats">
+                </div>
 
             </div>
 
         </div>
 
-    <!-- ANALİZ -->
+   
 
-    <div class="card">
+    <!-- TAKIM ANALİZLERİ -->
 
-        <h3>📊 Maç Analizi</h3>
+    <div class="team-stats-section">
 
-        <br>
+        <div id="whiteTeamStats" class="team-stats-card">
+        </div>
 
-        <div class="analysis-grid">
-
-            <div class="analysis-item">
-                <span>⚪ Beyaz Takım</span>
-                <b id="analysisWhite">0.0</b>
-            </div>
-
-            <div class="analysis-item">
-                <span>🔴 Kırmızı Takım</span>
-                <b id="analysisRed">0.0</b>
-            </div>
-
-            <div class="analysis-item">
-                <span>Güç Farkı</span>
-                <b id="analysisDiff">0.0</b>
-            </div>
-
-            <div class="analysis-item">
-                <span>Denge Skoru</span>
-                <b id="analysisBalance">★★★★★</b>
-            </div>
-
+        <div id="redTeamStats" class="team-stats-card">
         </div>
 
     </div>
