@@ -70,20 +70,7 @@ body{
 
 #shareArea::before{
 
-    content:"";
-
-    position:absolute;
-
-    top:20px;
-    bottom:20px;
-    left:20px;
-    right:20px;
-
-    border:3px solid rgba(255,255,255,.60);
-
-    border-radius:24px;
-
-    pointer-events:none;
+    display:none;
 }
 
 /* ==================================================
