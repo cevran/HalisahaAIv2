@@ -318,6 +318,9 @@ body{
 
 .analysis-box{
 
+    width:100%;
+    max-width:100%;
+    overflow:hidden;
     background:
     rgba(255,255,255,.12);
 
@@ -356,6 +359,7 @@ body{
 }
 
 .analysis-item span{
+    min-width:0;
     font-size:14px;
 }
 
