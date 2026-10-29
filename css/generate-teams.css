@@ -184,14 +184,7 @@ body{
 }
 
 .side-title{
-
-    text-align:center;
-
-    font-size:14px;
-
-    font-weight:800;
-
-    margin-bottom:8px;
+    display:none;
 }
 
 /* ==================================================
@@ -295,6 +288,8 @@ body{
     flex:1;
 
     min-width:0;
+}    font-weight:800;
+    margin-bottom:8px;
 }
 
 .analysis-box{

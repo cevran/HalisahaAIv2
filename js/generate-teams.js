@@ -729,15 +729,7 @@ document
                     return;
                 }
 
-                const isMobile =
-                    window.innerWidth < 768;
-
-                const exportWidth =
-                    isMobile
-                        ? 720
-                        : 1200;
-
-                
+              
                 
                 await new Promise(
                     resolve =>
