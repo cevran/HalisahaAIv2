@@ -900,3 +900,67 @@ body{
     }
 
 }
+
+
+.team-formation{
+    width:100%;
+}
+
+.player-card{
+    width:110px !important;
+    min-height:90px !important;
+
+    background:#ffffff !important;
+
+    color:#111827 !important;
+
+    border-radius:16px !important;
+
+    padding:10px !important;
+
+    text-align:center !important;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.15) !important;
+
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:center !important;
+}
+
+.player-name{
+    font-size:14px !important;
+    font-weight:700 !important;
+    color:#111827 !important;
+    margin-bottom:6px !important;
+}
+
+.player-rating{
+    font-size:16px !important;
+    font-weight:800 !important;
+    color:#f59e0b !important;
+    margin-bottom:5px !important;
+}
+
+.player-position{
+    font-size:11px !important;
+    font-weight:600 !important;
+    color:#6b7280 !important;
+}
+
+.position-row{
+    display:flex !important;
+    justify-content:center !important;
+    gap:12px !important;
+    flex-wrap:wrap !important;
+    margin-bottom:14px !important;
+}
+
+.analysis-box{
+    background:#f8fafc !important;
+    color:#111827 !important;
+    border:1px solid #e5e7eb !important;
+}
+
+.analysis-box h3{
+    color:#111827 !important;
+}
