@@ -565,3 +565,69 @@ body{
         grid-template-columns:1fr;
     }
 }
+
+
+/* ==================================================
+   MOBILE EXPORT MODE
+================================================== */
+
+.export-mobile .share-title{
+    font-size:18px;
+}
+
+.export-mobile .match-date{
+    font-size:12px;
+}
+
+.export-mobile .match-pitch{
+    font-size:11px;
+}
+
+.export-mobile .team-power{
+    font-size:18px;
+}
+
+.export-mobile .team-score span:first-child{
+    font-size:11px;
+}
+
+.export-mobile .side-title{
+    font-size:12px;
+}
+
+.export-mobile .player-card{
+    width:44px;
+    min-height:42px;
+    padding:3px;
+}
+
+.export-mobile .player-name{
+    font-size:7px;
+    line-height:1.1;
+}
+
+.export-mobile .player-rating{
+    font-size:6px;
+}
+
+.export-mobile .player-position{
+    font-size:5px;
+}
+
+.export-mobile .analysis-box{
+    padding:6px;
+}
+
+.export-mobile .analysis-box h3{
+    font-size:10px;
+    margin-bottom:4px;
+}
+
+.export-mobile .analysis-item{
+    padding:2px 0;
+}
+
+.export-mobile .analysis-item span,
+.export-mobile .analysis-item strong{
+    font-size:7px;
+}

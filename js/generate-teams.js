@@ -743,6 +743,12 @@ document
                 const originalMaxWidth =
                     area.style.maxWidth;
 
+                if (isMobile) {
+                    area.classList.add(
+                        "export-mobile"
+                    );
+                }
+
                 area.style.width =
                     exportWidth + "px";
 
@@ -751,8 +757,8 @@ document
 
                 await new Promise(
                     resolve =>
-                        requestAnimationFrame(() =>
-                            resolve()
+                        requestAnimationFrame(
+                            resolve
                         )
                 );
 
@@ -764,10 +770,8 @@ document
                             cacheBust: true,
                             backgroundColor:
                                 "#2d8a42",
-
                             width:
                                 exportWidth,
-
                             height:
                                 area.scrollHeight
                         }
@@ -778,6 +782,10 @@ document
 
                 area.style.maxWidth =
                     originalMaxWidth;
+
+                area.classList.remove(
+                    "export-mobile"
+                );
 
                 const response =
                     await fetch(
