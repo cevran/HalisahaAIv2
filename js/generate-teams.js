@@ -704,17 +704,6 @@ function renderMatch(result) {
         redStatsHtml
     );
 
-    // Ekrandaki analizler
-
-    setHtml(
-        "whiteTeamStats",
-        whiteStatsHtml
-    );
-
-    setHtml(
-        "redTeamStats",
-        redStatsHtml
-    );
 }
 
 
