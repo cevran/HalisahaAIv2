@@ -964,3 +964,42 @@ body{
 .analysis-box h3{
     color:#111827 !important;
 }
+
+
+.teams-layout{
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #349b5f 0,
+            #349b5f 60px,
+            #2f8d57 60px,
+            #2f8d57 120px
+        );
+
+    border-top:3px solid rgba(255,255,255,.25);
+
+    border-bottom:3px solid rgba(255,255,255,.25);
+
+    padding:20px;
+
+    display:flex;
+    justify-content:space-between;
+
+    gap:20px;
+}
+
+
+
+.teams-layout{
+    position:relative;
+}
+
+.teams-layout::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    width:3px;
+    background:rgba(255,255,255,.6);
+}
