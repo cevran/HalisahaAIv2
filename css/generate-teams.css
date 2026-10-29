@@ -46,9 +46,11 @@ body{
 ================================================== */
 
 #shareArea{
-    
-    min-height:1200px;
-    
+
+    width:100%;
+    max-width:1080px;
+    margin:0 auto;
+
     background:var(--card);
 
     border:8px solid rgba(255,255,255,.95);
@@ -62,6 +64,10 @@ body{
     position:relative;
 
     overflow:hidden;
+
+    aspect-ratio:1 / 1;
+
+    min-height:auto;
 }
 
 #shareArea::before{
@@ -236,9 +242,9 @@ body{
 
 .player-card{
 
-    width:150px;
-
-    min-height:100px;
+    width:100%;
+    max-width:120px;
+    min-height:80px;
 
     background:
         rgba(255,255,255,.14);
@@ -413,8 +419,15 @@ body{
     }
 
     #shareArea{
-        padding:18px;
+        padding:16px;
         border-radius:24px;
+    }
+
+    #shareArea::before{
+        top:10px;
+        bottom:10px;
+        left:10px;
+        right:10px;
     }
 
     .share-title{
@@ -422,12 +435,12 @@ body{
     }
 
     .teams-layout{
-        grid-template-columns:1fr;
-        gap:24px;
+        grid-template-columns:1fr 1fr;
+        gap:12px;
     }
 
     .teams-layout::after{
-        display:none;
+        display:block;
     }
 
     .side-title{
@@ -443,8 +456,9 @@ body{
     }
 
     .player-card{
-        width:110px;
-        min-height:80px;
+        width:100px;
+        min-height:70px;
+        max-width:95px;
         padding:8px;
     }
 
