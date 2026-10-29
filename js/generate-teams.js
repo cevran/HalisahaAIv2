@@ -729,15 +729,26 @@ document
                     return;
                 }
 
+                const originalWidth = area.style.width;
+                const originalMaxWidth = area.style.maxWidth;
+
+                area.style.width = "1080px";
+                area.style.maxWidth = "1080px";
+
                 const dataUrl =
                     await htmlToImage.toPng(
                         area,
                         {
-                            pixelRatio: 3,
+                            pixelRatio: 2,
                             cacheBust: true,
-                            backgroundColor: "#ffffff"
+                            backgroundColor: null,
+                            width: 1080,
+                            height: area.scrollHeight
                         }
                     );
+
+                area.style.width = originalWidth;
+                area.style.maxWidth = originalMaxWidth;
 
                 const response =
                     await fetch(
