@@ -181,6 +181,25 @@ document.addEventListener(
             document.getElementById(
                 "saveProfileBtn"
             );
+        
+        const avatarLoader =
+            document.getElementById(
+                "avatarLoader"
+            );
+
+        function showProfilePhoto() {
+
+            profilePhoto.style.display =
+                "block";
+
+            if (avatarLoader) {
+
+                avatarLoader.style.display =
+                    "none";
+            }
+        }
+
+
 
         function renderAvatars(
             activeAvatar
@@ -240,6 +259,9 @@ document.addEventListener(
 
                         selectedAvatar =
                             `assets/avatar${i}.png`;
+
+                        profilePhoto.onload =
+                            showProfilePhoto;
 
                         profilePhoto.src =
                             selectedAvatar;
@@ -325,21 +347,30 @@ document.addEventListener(
                         )
                     ) {
 
+                        profilePhoto.onload =
+                            showProfilePhoto;
+
                         profilePhoto.src =
                             profile.photo_url;
 
                     } else {
 
+                        profilePhoto.onload =
+                            showProfilePhoto;
+
                         profilePhoto.src =
-                            profile.photo_url +
+                            profile.photo_url;
                             "?t=" +
                             Date.now();
                     }
 
                 } else {
 
-                    profilePhoto.src =
-                        "assets/default-avatar.png";
+                        profilePhoto.onload =
+                            showProfilePhoto;
+
+                        profilePhoto.src =
+                            "assets/default-avatar.png";
                 }
 
                 const {

@@ -682,6 +682,34 @@ body {
     border:4px solid #0d6efd;
 }
 
+.avatar-loader{
+    width:110px;
+    height:110px;
+
+    margin:0 auto;
+
+    border-radius:50%;
+
+    background:#e5e7eb;
+
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+
+    0%{
+        opacity:.5;
+    }
+
+    50%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:.5;
+    }
+}
+
 .photo-hint{
     display:none;
 }
