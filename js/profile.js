@@ -1,5 +1,4 @@
 async function compressImage(file) {
-
     return new Promise((resolve, reject) => {
 
         const reader = new FileReader();
@@ -29,7 +28,8 @@ async function compressImage(file) {
                             height *
                             (MAX_SIZE / width);
 
-                        width = MAX_SIZE;
+                        width =
+                            MAX_SIZE;
                     }
 
                 } else {
@@ -40,12 +40,16 @@ async function compressImage(file) {
                             width *
                             (MAX_SIZE / height);
 
-                        height = MAX_SIZE;
+                        height =
+                            MAX_SIZE;
                     }
                 }
 
-                canvas.width = width;
-                canvas.height = height;
+                canvas.width =
+                    width;
+
+                canvas.height =
+                    height;
 
                 ctx.drawImage(
                     img,
@@ -59,11 +63,13 @@ async function compressImage(file) {
                     (blob) => {
 
                         if (!blob) {
+
                             reject(
                                 new Error(
                                     "Resim sıkıştırılamadı."
                                 )
                             );
+
                             return;
                         }
 
@@ -83,282 +89,495 @@ async function compressImage(file) {
                 );
             };
 
-            img.onerror = reject;
-            img.src = e.target.result;
+            img.onerror =
+                reject;
+
+            img.src =
+                e.target.result;
         };
 
-        reader.onerror = reject;
+        reader.onerror =
+            reject;
 
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(
+            file
+        );
     });
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
 
-    const {
-        data: { user }
-    } = await supabaseClient.auth.getUser();
+        const {
+            data: { user }
+        } =
+            await supabaseClient
+                .auth
+                .getUser();
 
-    if (!user) {
-        window.location.href = "index.html";
-        return;
-    }
+        if (!user) {
 
-    const preferredPositionInput =
-        document.getElementById("preferredPosition");
+            window.location.href =
+                "index.html";
 
-    const dominantFootInput =
-        document.getElementById("dominantFoot");
+            return;
+        }
 
-    const playerName =
-        document.getElementById("playerName");
+        let selectedAvatar =
+            null;
 
-    const playerAge =
-        document.getElementById("playerAge");
+        const preferredPositionInput =
+            document.getElementById(
+                "preferredPosition"
+            );
 
-    const profilePhoto =
-        document.getElementById("profilePhoto");
+        const dominantFootInput =
+            document.getElementById(
+                "dominantFoot"
+            );
 
-    const photoUpload =
-        document.getElementById("photoUpload");
+        const nicknameInput =
+            document.getElementById(
+                "nickname"
+            );
 
-    const profileForm =
-        document.getElementById("profileForm");
+        const playerName =
+            document.getElementById(
+                "playerName"
+            );
 
-    async function loadProfile() {
+        const playerAge =
+            document.getElementById(
+                "playerAge"
+            );
 
-        try {
+        const profilePhoto =
+            document.getElementById(
+                "profilePhoto"
+            );
 
-            const {
-                data: profile,
-                error
-            } = await supabaseClient
-                .from("profiles")
-                .select("*")
-                .eq("id", user.id)
-                .single();
+        const photoUpload =
+            document.getElementById(
+                "photoUpload"
+            );
 
-            if (error) {
-                throw error;
-            }
+        const avatarGrid =
+            document.getElementById(
+                "avatarGrid"
+            );
 
-            let age = "";
+        const editProfileBtn =
+            document.getElementById(
+                "editProfileBtn"
+            );
 
-            if (profile.birth_year) {
+        const editProfilePanel =
+            document.getElementById(
+                "editProfilePanel"
+            );
 
-                const currentYear =
-                    new Date().getFullYear();
+        const saveProfileBtn =
+            document.getElementById(
+                "saveProfileBtn"
+            );
 
-                age =
-                    currentYear -
-                    Number(profile.birth_year);
-            }
+        function renderAvatars(
+            activeAvatar
+        ) {
 
-            playerName.textContent =
-                profile.full_name || "Oyuncu";
+            if (!avatarGrid)
+                return;
 
-            playerAge.textContent =
-                age ? `${age} yaş` : "";
+            avatarGrid.innerHTML =
+                "";
 
-            preferredPositionInput.value =
-                profile.preferred_position || "";
-
-            dominantFootInput.value =
-                profile.dominant_foot || "";
-
-            if (
-                profile.photo_url &&
-                profile.photo_url.trim() !== ""
+            for (
+                let i = 1;
+                i <= 10;
+                i++
             ) {
 
-                profilePhoto.src =
-                    profile.photo_url +
-                    "?t=" +
-                    Date.now();
+                const img =
+                    document.createElement(
+                        "img"
+                    );
 
-            } else {
+                img.src =
+                    `assets/avatar${i}.png`;
 
-                profilePhoto.src =
-                    "assets/default-avatar.png";
+                img.className =
+                    "avatar-option";
+
+                if (
+                    activeAvatar ===
+                    `assets/avatar${i}.png`
+                ) {
+
+                    img.classList.add(
+                        "selected"
+                    );
+                }
+
+                img.addEventListener(
+                    "click",
+                    () => {
+
+                        document
+                            .querySelectorAll(
+                                ".avatar-option"
+                            )
+                            .forEach(
+                                el =>
+                                    el.classList.remove(
+                                        "selected"
+                                    )
+                            );
+
+                        img.classList.add(
+                            "selected"
+                        );
+
+                        selectedAvatar =
+                            `assets/avatar${i}.png`;
+
+                        profilePhoto.src =
+                            selectedAvatar;
+                    }
+                );
+
+                avatarGrid.appendChild(
+                    img
+                );
             }
+        }
 
-        } catch (err) {
+        async function loadProfile() {
 
-            console.error(err);
+            try {
 
-            alert(
-                "Profil bilgileri yüklenemedi."
+                const {
+                    data: profile,
+                    error
+                } =
+                    await supabaseClient
+                        .from(
+                            "profiles"
+                        )
+                        .select("*")
+                        .eq(
+                            "id",
+                            user.id
+                        )
+                        .single();
+
+                if (error)
+                    throw error;
+
+                let age = "";
+
+                if (
+                    profile.birth_year
+                ) {
+
+                    age =
+                        new Date().getFullYear() -
+                        Number(
+                            profile.birth_year
+                        );
+                }
+
+                playerName.textContent =
+                    profile.full_name ||
+                    "Oyuncu";
+
+                playerAge.textContent =
+                    age
+                        ? `${age} yaş`
+                        : "";
+
+                preferredPositionInput.value =
+                    profile.preferred_position ||
+                    "";
+
+                dominantFootInput.value =
+                    profile.dominant_foot ||
+                    "";
+
+                if (
+                    nicknameInput
+                ) {
+
+                    nicknameInput.value =
+                        profile.nickname ||
+                        "";
+                }
+
+                if (
+                    profile.photo_url &&
+                    profile.photo_url.trim() !==
+                        ""
+                ) {
+
+                    if (
+                        profile.photo_url.startsWith(
+                            "assets/"
+                        )
+                    ) {
+
+                        profilePhoto.src =
+                            profile.photo_url;
+
+                    } else {
+
+                        profilePhoto.src =
+                            profile.photo_url +
+                            "?t=" +
+                            Date.now();
+                    }
+
+                } else {
+
+                    profilePhoto.src =
+                        "assets/default-avatar.png";
+                }
+
+                renderAvatars(
+                    profile.photo_url
+                );
+
+                if (
+                    !profile.profile_completed ||
+                    !profile.preferred_position ||
+                    !profile.dominant_foot
+                ) {
+
+                    editProfilePanel.style.display =
+                        "block";
+                }
+
+            } catch (err) {
+
+                console.error(
+                    err
+                );
+
+                alert(
+                    "Profil bilgileri yüklenemedi."
+                );
+            }
+        }
+
+        if (
+            editProfileBtn
+        ) {
+
+            editProfileBtn.addEventListener(
+                "click",
+                () => {
+
+                    editProfilePanel.style.display =
+                        editProfilePanel.style
+                            .display ===
+                        "none"
+                            ? "block"
+                            : "none";
+                }
             );
         }
-    }
 
-    profilePhoto.addEventListener(
-        "click",
-        () => {
+        if (
+            photoUpload
+        ) {
 
-            photoUpload.click();
-        }
-    );
+            photoUpload.addEventListener(
+                "change",
+                async e => {
 
-    photoUpload.addEventListener(
-        "change",
-        async (e) => {
+                    try {
 
-            try {
+                        const originalFile =
+                            e.target
+                                .files[0];
 
-                const originalFile =
-                    e.target.files[0];
+                        if (
+                            !originalFile
+                        )
+                            return;
 
-                if (!originalFile) {
-                    return;
+                        const file =
+                            await compressImage(
+                                originalFile
+                            );
+
+                        const fileName =
+                            `${user.id}.jpg`;
+
+                        const {
+                            error:
+                                uploadError
+                        } =
+                            await supabaseClient
+                                .storage
+                                .from(
+                                    "player-photos"
+                                )
+                                .upload(
+                                    fileName,
+                                    file,
+                                    {
+                                        upsert:
+                                            true
+                                    }
+                                );
+
+                        if (
+                            uploadError
+                        )
+                            throw uploadError;
+
+                        const {
+                            data:
+                                publicData
+                        } =
+                            supabaseClient
+                                .storage
+                                .from(
+                                    "player-photos"
+                                )
+                                .getPublicUrl(
+                                    fileName
+                                );
+
+                        const photoUrl =
+                            publicData.publicUrl;
+
+                        const {
+                            error:
+                                updateError
+                        } =
+                            await supabaseClient
+                                .from(
+                                    "profiles"
+                                )
+                                .update({
+                                    photo_url:
+                                        photoUrl,
+                                    updated_at:
+                                        new Date().toISOString()
+                                })
+                                .eq(
+                                    "id",
+                                    user.id
+                                );
+
+                        if (
+                            updateError
+                        )
+                            throw updateError;
+
+                        profilePhoto.src =
+                            photoUrl +
+                            "?t=" +
+                            Date.now();
+
+                    } catch (
+                        err
+                    ) {
+
+                        console.error(
+                            err
+                        );
+
+                        alert(
+                            "Fotoğraf yüklenemedi."
+                        );
+                    }
                 }
+            );
+        }
 
-                const file =
-                    await compressImage(
-                        originalFile
-                    );
+        if (
+            saveProfileBtn
+        ) {
 
-                console.log(
-                    "Orijinal:",
-                    (
-                        originalFile.size /
-                        1024 /
-                        1024
-                    ).toFixed(2),
-                    "MB"
-                );
+            saveProfileBtn.addEventListener(
+                "click",
+                async () => {
 
-                console.log(
-                    "Sıkıştırılmış:",
-                    (
-                        file.size /
-                        1024 /
-                        1024
-                    ).toFixed(2),
-                    "MB"
-                );
+                    try {
 
-                const fileName =
-                    `${user.id}.jpg`;
+                        const updateData =
+                            {
 
-                const {
-                    error: uploadError
-                } = await supabaseClient
-                    .storage
-                    .from("player-photos")
-                    .upload(
-                        fileName,
-                        file,
-                        {
-                            upsert: true
+                                nickname:
+                                    nicknameInput.value.trim(),
+
+                                preferred_position:
+                                    preferredPositionInput.value,
+
+                                dominant_foot:
+                                    dominantFootInput.value,
+
+                                profile_completed:
+                                    true,
+
+                                updated_at:
+                                    new Date().toISOString()
+                            };
+
+                        if (
+                            selectedAvatar
+                        ) {
+
+                            updateData.photo_url =
+                                selectedAvatar;
                         }
-                    );
 
-                if (uploadError) {
-                    console.error(
-                        "UPLOAD ERROR",
-                        uploadError
-                    );
-                    throw uploadError;
+                        const {
+                            error
+                        } =
+                            await supabaseClient
+                                .from(
+                                    "profiles"
+                                )
+                                .update(
+                                    updateData
+                                )
+                                .eq(
+                                    "id",
+                                    user.id
+                                );
+
+                        if (error)
+                            throw error;
+
+                        alert(
+                            "Profil güncellendi."
+                        );
+
+                        editProfilePanel.style.display =
+                            "none";
+
+                        await loadProfile();
+
+                    } catch (
+                        err
+                    ) {
+
+                        console.error(
+                            err
+                        );
+
+                        alert(
+                            err.message ||
+                                "Profil güncellenemedi."
+                        );
+                    }
                 }
-
-                const {
-                    data: publicData
-                } = supabaseClient
-                    .storage
-                    .from("player-photos")
-                    .getPublicUrl(fileName);
-
-                const photoUrl =
-                    publicData.publicUrl;
-
-                const {
-                    error: updateError
-                } = await supabaseClient
-                    .from("profiles")
-                    .update({
-                        photo_url: photoUrl,
-                        updated_at:
-                            new Date().toISOString()
-                    })
-                    .eq("id", user.id);
-
-                if (updateError) {
-                    console.error(
-                        "PROFILE UPDATE ERROR",
-                        updateError
-                    );
-                    throw updateError;
-                }
-
-                profilePhoto.src =
-                    photoUrl +
-                    "?t=" +
-                    Date.now();
-
-                alert(
-                    `Fotoğraf güncellendi.\nDosya boyutu: ${(
-                        file.size / 1024
-                    ).toFixed(0)} KB`
-                );
-
-            } catch (err) {
-
-                console.error(err);
-
-                alert(
-                    err.message ||
-                    "Fotoğraf yüklenemedi."
-                );
-            }
+            );
         }
-    );
 
-    profileForm.addEventListener(
-        "submit",
-        async (e) => {
-
-            e.preventDefault();
-
-            try {
-
-                const {
-                    error
-                } = await supabaseClient
-                    .from("profiles")
-                    .update({
-                        preferred_position:
-                            preferredPositionInput.value,
-
-                        dominant_foot:
-                            dominantFootInput.value,
-
-                        updated_at:
-                            new Date().toISOString()
-                    })
-                    .eq("id", user.id);
-
-                if (error) {
-                    throw error;
-                }
-
-                alert(
-                    "Profil başarıyla güncellendi."
-                );
-
-                await loadProfile();
-
-            } catch (err) {
-
-                console.error(err);
-
-                alert(
-                    err.message ||
-                    "Profil güncellenemedi."
-                );
-            }
-        }
-    );
-
-    await loadProfile();
-});
+        await loadProfile();
+    }
+);
