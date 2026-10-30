@@ -1,3 +1,98 @@
+async function compressImage(file) {
+
+    return new Promise((resolve, reject) => {
+
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+
+            const img = new Image();
+
+            img.onload = () => {
+
+                const canvas =
+                    document.createElement("canvas");
+
+                const ctx =
+                    canvas.getContext("2d");
+
+                const MAX_SIZE = 800;
+
+                let width = img.width;
+                let height = img.height;
+
+                if (width > height) {
+
+                    if (width > MAX_SIZE) {
+
+                        height =
+                            height *
+                            (MAX_SIZE / width);
+
+                        width = MAX_SIZE;
+                    }
+
+                } else {
+
+                    if (height > MAX_SIZE) {
+
+                        width =
+                            width *
+                            (MAX_SIZE / height);
+
+                        height = MAX_SIZE;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                ctx.drawImage(
+                    img,
+                    0,
+                    0,
+                    width,
+                    height
+                );
+
+                canvas.toBlob(
+                    (blob) => {
+
+                        if (!blob) {
+                            reject(
+                                new Error(
+                                    "Resim sıkıştırılamadı."
+                                )
+                            );
+                            return;
+                        }
+
+                        resolve(
+                            new File(
+                                [blob],
+                                "profile.jpg",
+                                {
+                                    type: "image/jpeg"
+                                }
+                            )
+                        );
+
+                    },
+                    "image/jpeg",
+                    0.8
+                );
+            };
+
+            img.onerror = reject;
+            img.src = e.target.result;
+        };
+
+        reader.onerror = reject;
+
+        reader.readAsDataURL(file);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
 
     const {
@@ -46,8 +141,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (error) {
                 throw error;
             }
-
-            console.log("PROFILE:", profile);
 
             let age = "";
 
@@ -113,20 +206,40 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             try {
 
-                const file =
+                const originalFile =
                     e.target.files[0];
 
-                if (!file) {
+                if (!originalFile) {
                     return;
                 }
 
-                const extension =
-                    file.name
-                        .split(".")
-                        .pop();
+                const file =
+                    await compressImage(
+                        originalFile
+                    );
+
+                console.log(
+                    "Orijinal:",
+                    (
+                        originalFile.size /
+                        1024 /
+                        1024
+                    ).toFixed(2),
+                    "MB"
+                );
+
+                console.log(
+                    "Sıkıştırılmış:",
+                    (
+                        file.size /
+                        1024 /
+                        1024
+                    ).toFixed(2),
+                    "MB"
+                );
 
                 const fileName =
-                    `${user.id}.${extension}`;
+                    `${user.id}.jpg`;
 
                 const {
                     error: uploadError
@@ -176,7 +289,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     Date.now();
 
                 alert(
-                    "Fotoğraf başarıyla güncellendi."
+                    `Fotoğraf güncellendi.\nDosya boyutu: ${(
+                        file.size / 1024
+                    ).toFixed(0)} KB`
                 );
 
             } catch (err) {
@@ -238,5 +353,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
     await loadProfile();
-
 });
