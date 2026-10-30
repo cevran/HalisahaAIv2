@@ -260,6 +260,15 @@ document.addEventListener(
                         selectedAvatar =
                             `assets/avatar${i}.png`;
 
+                        profilePhoto.style.display =
+                            "none";
+
+                        if (avatarLoader) {
+
+                            avatarLoader.style.display =
+                                "block";
+                        }
+
                         profilePhoto.onload =
                             showProfilePhoto;
 
@@ -277,7 +286,14 @@ document.addEventListener(
         async function loadProfile() {
 
             try {
+                profilePhoto.style.display =
+                    "none";
 
+                if (avatarLoader) {
+
+                    avatarLoader.style.display =
+                        "block";
+                }
                 const {
                     data: profile,
                     error
@@ -359,7 +375,7 @@ document.addEventListener(
                             showProfilePhoto;
 
                         profilePhoto.src =
-                            profile.photo_url;
+                            profile.photo_url +
                             "?t=" +
                             Date.now();
                     }
@@ -658,6 +674,18 @@ document.addEventListener(
                             updateError
                         )
                             throw updateError;
+
+                        profilePhoto.style.display =
+                            "none";
+
+                        if (avatarLoader) {
+
+                            avatarLoader.style.display =
+                                "block";
+                        }
+
+                        profilePhoto.onload =
+                            showProfilePhoto;
 
                         profilePhoto.src =
                             photoUrl +
