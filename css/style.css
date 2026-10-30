@@ -585,7 +585,7 @@ body {
 .rating-list{
     display:flex;
     flex-direction:column;
-    gap:8px;
+    gap:5px;
 }
 
 .rating-row{
@@ -595,7 +595,7 @@ body {
 
     background:#ffffff;
 
-    padding:9px 12px;
+    padding:7px 12px;
 
     border-radius:12px;
 
@@ -692,7 +692,7 @@ body {
 }
 
 .player-summary h2{
-    font-size:28px;
+    font-size:30px;
     font-weight:800;
     margin-bottom:4px;
 }
@@ -713,12 +713,10 @@ body {
 }
 
 .profile-main-score{
-    margin-top:8px;
-
-    font-size:34px;
+    margin-top:10px;
+    font-size:48px;
     font-weight:800;
-
     color:#22c55e;
-
     line-height:1;
+    text-align:center;
 }
