@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 {
                                     redirectTo:
                                         window.location.origin +
-                                        "/reset-password.html"
+                                        "/HalisahaAIv2/reset-password.html"
                                 }
                             );
 
