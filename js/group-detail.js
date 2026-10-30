@@ -96,6 +96,10 @@ async function loadGroup() {
         </div>
 
         <div class="group-info">
+        🏟️ ${data.field_name || "-"}
+         </div>
+        
+         <div class="group-info">
             📍 ${data.city || "-"}
         </div>
 
