@@ -386,26 +386,64 @@ document.addEventListener(
                     const captain =
                         avg("captain_score");
 
-                    document.getElementById("conditionRating").textContent =
-                        condition.toFixed(1);
+                    const conditionEl =
+                        document.getElementById("conditionRating");
 
-                    document.getElementById("techniqueRating").textContent =
-                        technique.toFixed(1);
+                    const techniqueEl =
+                        document.getElementById("techniqueRating");
 
-                    document.getElementById("attackRating").textContent =
-                        attack.toFixed(1);
+                    const attackEl =
+                        document.getElementById("attackRating");
 
-                    document.getElementById("defenseRating").textContent =
-                        defense.toFixed(1);
+                    const defenseEl =
+                        document.getElementById("defenseRating");
 
-                    document.getElementById("teamplayRating").textContent =
-                        teamplay.toFixed(1);
+                    const teamplayEl =
+                        document.getElementById("teamplayRating");
 
-                    document.getElementById("goalkeeperRating").textContent =
-                        goalkeeper.toFixed(1);
+                    const goalkeeperEl =
+                        document.getElementById("goalkeeperRating");
 
-                    document.getElementById("captainRating").textContent =
-                        captain.toFixed(1);
+                    const captainEl =
+                        document.getElementById("captainRating");
+
+                    console.log({
+                        conditionEl,
+                        techniqueEl,
+                        attackEl,
+                        defenseEl,
+                        teamplayEl,
+                        goalkeeperEl,
+                        captainEl
+                    });
+
+                    if (conditionEl)
+                        conditionEl.textContent =
+                            condition.toFixed(1);
+
+                    if (techniqueEl)
+                        techniqueEl.textContent =
+                            technique.toFixed(1);
+
+                    if (attackEl)
+                        attackEl.textContent =
+                            attack.toFixed(1);
+
+                    if (defenseEl)
+                        defenseEl.textContent =
+                            defense.toFixed(1);
+
+                    if (teamplayEl)
+                        teamplayEl.textContent =
+                            teamplay.toFixed(1);
+
+                    if (goalkeeperEl)
+                        goalkeeperEl.textContent =
+                            goalkeeper.toFixed(1);
+
+                    if (captainEl)
+                        captainEl.textContent =
+                            captain.toFixed(1);
 
                     const totalWeight =
                         weights.condition_weight +
@@ -449,7 +487,7 @@ document.addEventListener(
                     if (topScore) {
 
                         topScore.textContent =
-                            "0.0";
+                            "⭐ 0.0";
                     }
                 }
 
