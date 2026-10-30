@@ -427,8 +427,21 @@ document.addEventListener(
                             captain * weights.captain_weight
                         ) / totalWeight;
 
-                    document.getElementById("overallRating").textContent =
+                    document.getElementById(
+                        "overallRating"
+                    ).textContent =
                         overall.toFixed(1);
+
+                    const topScore =
+                        document.getElementById(
+                            "overallRatingTop"
+                        );
+
+                    if (topScore) {
+
+                        topScore.textContent =
+                            overall.toFixed(1);
+                    }
 
                 } else {
 
