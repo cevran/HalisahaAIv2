@@ -59,11 +59,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 .select(`
                     role,
                     groups (
-                        id,
-                        name,
-                        city,
-                        description,
-                        max_players
+                    id,
+                    name,
+                    city,
+                    field_name,
+                    description,
+                    max_players
                     )
                 `)
                 .eq("user_id", user.id)
@@ -109,6 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 card.innerHTML = `
                     <h3>${group.name}</h3>
 
+                    <p>🏟️ ${group.field_name || "-"}</p>
                     <p>📍 ${group.city || "-"}</p>
 
                     <p>
@@ -419,11 +421,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     div.innerHTML = `
                         <h4>${group.name}</h4>
+
+                        <p>🏟️ ${group.field_name || "-"}</p>
                         <p>📍 ${group.city || "-"}</p>
 
                         <button
-                        class="join-btn"
-                        data-group-id="${group.id}"
+                            class="join-btn"
+                            data-group-id="${group.id}"
                         >
                             Katılım Talebi Gönder
                         </button>
@@ -481,7 +485,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                                     )
                                     .value
                                     .trim(),
-
+                            field_name:
+                                document
+                                    .getElementById("fieldName")
+                                    .value
+                                    .trim(),
+                                    
                             description:
                                 document
                                     .getElementById(
