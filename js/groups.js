@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     city,
                     field_name,
                     description
+                    )
                `)
                 .eq("user_id", user.id)
                 .eq("active", true);
