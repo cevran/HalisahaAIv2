@@ -255,6 +255,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                     );
 
                 if (uploadError) {
+                    console.error(
+                        "UPLOAD ERROR",
+                        uploadError
+                    );
                     throw uploadError;
                 }
 
@@ -280,6 +284,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                     .eq("id", user.id);
 
                 if (updateError) {
+                    console.error(
+                        "PROFILE UPDATE ERROR",
+                        updateError
+                    );
                     throw updateError;
                 }
 
