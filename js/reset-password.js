@@ -1,6 +1,6 @@
 document.addEventListener(
     "DOMContentLoaded",
-    () => {
+    async () => {
 
         const form =
             document.getElementById(
@@ -8,11 +8,28 @@ document.addEventListener(
             );
 
         if (!form) {
+
             console.error(
                 "resetPasswordForm bulunamadı."
             );
+
             return;
         }
+
+        console.log(
+            "Reset password sayfası açıldı"
+        );
+
+        const {
+            data: sessionData
+        } =
+            await supabaseClient.auth
+                .getSession();
+
+        console.log(
+            "SESSION:",
+            sessionData
+        );
 
         form.addEventListener(
             "submit",
@@ -65,13 +82,30 @@ document.addEventListener(
 
                 try {
 
-                    const { error } =
+                    console.log(
+                        "Şifre güncelleme başladı"
+                    );
+
+                    const {
+                        data,
+                        error
+                    } =
                         await supabaseClient
                             .auth
                             .updateUser({
                                 password:
                                     password
                             });
+
+                    console.log(
+                        "UPDATE DATA:",
+                        data
+                    );
+
+                    console.log(
+                        "UPDATE ERROR:",
+                        error
+                    );
 
                     if (error) {
                         throw error;
@@ -86,7 +120,10 @@ document.addEventListener(
 
                 } catch (err) {
 
-                    console.error(err);
+                    console.error(
+                        "ŞİFRE GÜNCELLEME HATASI:",
+                        err
+                    );
 
                     alert(
                         err.message ||
