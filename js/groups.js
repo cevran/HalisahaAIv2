@@ -63,10 +63,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     name,
                     city,
                     field_name,
-                    description,
-                    max_players
-                    )
-                `)
+                    description
+               `)
                 .eq("user_id", user.id)
                 .eq("active", true);
 
@@ -490,7 +488,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                     .getElementById("fieldName")
                                     .value
                                     .trim(),
-                                    
+
                             description:
                                 document
                                     .getElementById(
@@ -499,14 +497,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                                     .value
                                     .trim(),
 
-                            max_players:
-                                parseInt(
-                                    document
-                                        .getElementById(
-                                            "maxPlayers"
-                                        )
-                                        .value
-                                ),
 
                             created_by:
                                 user.id,
@@ -524,9 +514,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 createGroupForm.reset();
 
-                document.getElementById(
-                    "maxPlayers"
-                ).value = 20;
 
                 createGroupArea.style.display =
                     "none";
