@@ -8,6 +8,8 @@
 </head>
 <body>
 
+<br><br>
+
 <div class="card">
 
     <div class="logo">
@@ -24,15 +26,8 @@
             alt="Profil Fotoğrafı"
         >
 
-        <input
-            type="file"
-            id="photoUpload"
-            accept="image/*"
-            hidden
-        >
-
         <div class="photo-hint">
-            Fotoğraf değiştirmek için tıkla
+            Oyuncu Profili
         </div>
 
     </div>
@@ -42,10 +37,97 @@
         <span id="playerAge"></span>
     </div>
 
-    <form id="profileForm">
+    <!-- PUAN KARTI -->
+
+    <div class="player-rating-card">
+
+        <div class="overall-rating">
+            <span class="rating-title">
+                ⭐ Genel Puan
+            </span>
+
+            <span
+                id="overallRating"
+                class="rating-value"
+            >
+                -
+            </span>
+        </div>
+
+        <div class="rating-list">
+
+            <div class="rating-row">
+                <span>🏃 Kondisyon</span>
+                <span id="conditionRating">-</span>
+            </div>
+
+            <div class="rating-row">
+                <span>🎯 Teknik</span>
+                <span id="techniqueRating">-</span>
+            </div>
+
+            <div class="rating-row">
+                <span>⚔️ Hücum</span>
+                <span id="attackRating">-</span>
+            </div>
+
+            <div class="rating-row">
+                <span>🛡️ Savunma</span>
+                <span id="defenseRating">-</span>
+            </div>
+
+            <div class="rating-row">
+                <span>🤝 Takım Oyunu</span>
+                <span id="teamplayRating">-</span>
+            </div>
+
+            <div class="rating-row">
+                <span>🥅 Kalecilik</span>
+                <span id="goalkeeperRating">-</span>
+            </div>
+
+            <div class="rating-row">
+                <span>👑 Kaptanlık</span>
+                <span id="captainRating">-</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PROFİL GÜNCELLE -->
+
+    <button
+        type="button"
+        id="editProfileBtn"
+        class="secondary-btn"
+    >
+        Profilimi Güncelle
+    </button>
+
+    <!-- GİZLİ PANEL -->
+
+    <div
+        id="editProfilePanel"
+        class="edit-profile-panel"
+        style="display:none;"
+    >
 
         <div class="form-group">
+            <label>Lakap</label>
+
+            <input
+                type="text"
+                id="nickname"
+                maxlength="30"
+                placeholder="İsteğe bağlı"
+            >
+        </div>
+
+        <div class="form-group">
+
             <label>Tercih Edilen Mevki</label>
+
             <select id="preferredPosition">
                 <option value="">Seçiniz</option>
                 <option value="kaleci">Kaleci</option>
@@ -53,31 +135,62 @@
                 <option value="ortasaha">Orta Saha</option>
                 <option value="forvet">Forvet</option>
             </select>
+
         </div>
 
         <div class="form-group">
+
             <label>Baskın Ayak</label>
+
             <select id="dominantFoot">
                 <option value="">Seçiniz</option>
                 <option value="sag">Sağ</option>
                 <option value="sol">Sol</option>
                 <option value="cift">Çift Ayak</option>
             </select>
+
         </div>
-        
-        <button type="submit">
-            Profili Güncelle
-        </button>
+
+        <div class="form-group">
+
+            <label>Fotoğraf Yükle</label>
+
+            <input
+                type="file"
+                id="photoUpload"
+                accept="image/*"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Hazır Avatar Seç</label>
+
+            <div
+                id="avatarGrid"
+                class="avatar-grid"
+            >
+            </div>
+
+        </div>
 
         <button
             type="button"
-            class="logout-btn"
-            onclick="logout()"
+            id="saveProfileBtn"
         >
-            Çıkış Yap
+            Kaydet
         </button>
 
-    </form>
+    </div>
+
+    <button
+        type="button"
+        class="logout-btn"
+        onclick="logout()"
+    >
+        Çıkış Yap
+    </button>
 
 </div>
 
