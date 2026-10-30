@@ -342,6 +342,103 @@ document.addEventListener(
                         "assets/default-avatar.png";
                 }
 
+                const {
+                    data: ratings
+                } = await supabaseClient
+                    .from("player_ratings")
+                    .select("*")
+                    .eq("target_user_id", user.id);
+
+                const {
+                    data: weights
+                } = await supabaseClient
+                    .from("rating_weights")
+                    .select("*")
+                    .eq("id", 1)
+                    .single();
+
+                if (ratings && ratings.length > 0) {
+
+                    const avg = field =>
+                        ratings.reduce(
+                            (sum, r) => sum + (r[field] || 0),
+                            0
+                        ) / ratings.length;
+
+                    const condition =
+                        avg("condition_score");
+
+                    const technique =
+                        avg("technique_score");
+
+                    const attack =
+                        avg("attack_score");
+
+                    const defense =
+                        avg("defense_score");
+
+                    const teamplay =
+                        avg("teamplay_score");
+
+                    const goalkeeper =
+                        avg("goalkeeper_score");
+
+                    const captain =
+                        avg("captain_score");
+
+                    document.getElementById("conditionRating").textContent =
+                        condition.toFixed(1);
+
+                    document.getElementById("techniqueRating").textContent =
+                        technique.toFixed(1);
+
+                    document.getElementById("attackRating").textContent =
+                        attack.toFixed(1);
+
+                    document.getElementById("defenseRating").textContent =
+                        defense.toFixed(1);
+
+                    document.getElementById("teamplayRating").textContent =
+                        teamplay.toFixed(1);
+
+                    document.getElementById("goalkeeperRating").textContent =
+                        goalkeeper.toFixed(1);
+
+                    document.getElementById("captainRating").textContent =
+                        captain.toFixed(1);
+
+                    const totalWeight =
+                        weights.condition_weight +
+                        weights.technique_weight +
+                        weights.attack_weight +
+                        weights.defense_weight +
+                        weights.teamplay_weight +
+                        weights.goalkeeper_weight +
+                        weights.captain_weight;
+
+                    const overall =
+                        (
+                            condition * weights.condition_weight +
+                            technique * weights.technique_weight +
+                            attack * weights.attack_weight +
+                            defense * weights.defense_weight +
+                            teamplay * weights.teamplay_weight +
+                            goalkeeper * weights.goalkeeper_weight +
+                            captain * weights.captain_weight
+                        ) / totalWeight;
+
+                    document.getElementById("overallRating").textContent =
+                        overall.toFixed(1);
+
+                } else {
+
+                    document.getElementById("overallRating").textContent =
+                        "0.0";
+                }
+
+
+
+
                 renderAvatars(
                     profile.photo_url
                 );
