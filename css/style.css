@@ -713,10 +713,10 @@ body {
 }
 
 .profile-main-score{
-    margin-top:10px;
+    text-align:center;
     font-size:48px;
     font-weight:800;
     color:#22c55e;
     line-height:1;
-    text-align:center;
+    margin:10px 0;
 }
