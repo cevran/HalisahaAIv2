@@ -243,23 +243,19 @@ async function loadPlayerStats(ids) {
 
 function buildBalancedTeams(players) {
 
-    let best = null;
+    const candidates = [];
 
-    for (
-        let i = 0;
-        i < ITERATION_COUNT;
-        i++
-    ) {
+    for (let i = 0; i < ITERATION_COUNT; i++) {
 
         const shuffled =
-            [...players]
-            .sort(
-                () =>
-                    Math.random() - 0.5
+            [...players].sort(
+                () => Math.random() - 0.5
             );
 
         const half =
-            Math.floor(shuffled.length / 2);
+            Math.floor(
+                shuffled.length / 2
+            );
 
         const whiteTeam =
             shuffled.slice(
@@ -314,26 +310,84 @@ function buildBalancedTeams(players) {
                 redStats.teamplay
             );
 
+        candidates.push({
+            whiteTeam,
+            redTeam,
+            whiteStats,
+            redStats,
+            score
+        });
+    }
+
+    candidates.sort(
+        (a, b) =>
+            a.score - b.score
+    );
+
+    // İlk çalıştırma
+    if (!lastTeamSignature) {
+
+        const best =
+            candidates[0];
+
+        lastTeamSignature =
+            getTeamSignature(
+                best.whiteTeam,
+                best.redTeam
+            );
+
+        return best;
+    }
+
+    // Yeniden oluştur
+    for (const candidate of candidates) {
+
+        const signature =
+            getTeamSignature(
+                candidate.whiteTeam,
+                candidate.redTeam
+            );
+
         if (
-            !best ||
-            score < best.score
+            signature !==
+            lastTeamSignature
         ) {
 
-            best = {
+            lastTeamSignature =
+                signature;
 
-                whiteTeam,
-                redTeam,
-
-                whiteStats,
-                redStats,
-
-                score
-
-            };
+            return candidate;
         }
     }
 
-    return best;
+    return candidates[0];
+}
+
+
+function getTeamSignature(
+    whiteTeam,
+    redTeam
+) {
+
+    const whiteIds =
+        whiteTeam
+            .map(
+                p => p.id
+            )
+            .sort()
+            .join("-");
+
+    const redIds =
+        redTeam
+            .map(
+                p => p.id
+            )
+            .sort()
+            .join("-");
+
+    return [whiteIds, redIds]
+        .sort()
+        .join("|");
 }
 
 function teamStats(team) {
