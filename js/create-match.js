@@ -47,6 +47,36 @@ document.addEventListener(
                     .slice(0, 16);
         }
 
+
+async function loadGroupInfo() {
+
+    const { data, error } =
+        await supabaseClient
+            .from("groups")
+            .select("field_name")
+            .eq("id", currentGroupId)
+            .single();
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    const pitchInput =
+        document.getElementById(
+            "pitchName"
+        );
+
+    if (
+        pitchInput &&
+        data?.field_name
+    ) {
+        pitchInput.value =
+            data.field_name;
+    }
+}
+
+        await loadGroupInfo();
         await loadPlayers();
     }
 );
