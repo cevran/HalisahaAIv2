@@ -2,7 +2,7 @@ const ITERATION_COUNT = 5000;
 
 let selectedPlayers = [];
 let generatedMatch = null;
-
+let lastTeamSignature = null;
 
 const matchDateTime =
     sessionStorage.getItem("matchDateTime");
