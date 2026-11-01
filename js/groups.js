@@ -94,40 +94,44 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const card =
                     document.createElement("div");
 
-                card.style.border =
-                    "1px solid #ddd";
-
-                card.style.borderRadius =
-                    "10px";
-
-                card.style.padding =
-                    "15px";
-
-                card.style.marginBottom =
-                    "12px";
+                
+                card.className = "group-card";
 
                 card.innerHTML = `
-                    <h3>${group.name}</h3>
+                    <div class="group-icon">
+                        ⚽
+                    </div>
 
-                    <p>🏟️ ${group.field_name || "-"}</p>
-                    <p>📍 ${group.city || "-"}</p>
+                    <div class="group-title">
+                        ${group.name}
+                    </div>
 
-                    <p>
-                        👤 Rol:
-                        ${item.role}
-                    </p>
+                    <div class="group-info">
+                        🏟️ ${group.field_name || "-"}
+                    </div>
+
+                    <div class="group-info">
+                        📍 ${group.city || "-"}
+                    </div>
+
+                    <div class="group-role">
+                        ${
+                            item.role === "yonetici"
+                                ? "👑 Yönetici"
+                                : "👤 Oyuncu"
+                        }
+                    </div>
 
                     <button
                         class="group-detail-btn"
                         data-group-id="${group.id}"
-                        style="margin-top:10px;"
                     >
-                        ${item.role === "yonetici"
-                            ? "Yönet"
-                            : "Detay"
+                        ${
+                            item.role === "yonetici"
+                                ? "Yönet"
+                                : "Detay"
                         }
                     </button>
-
                 `;
 
                     card.querySelector(".group-detail-btn")

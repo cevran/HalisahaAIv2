@@ -30,20 +30,19 @@ body {
     box-shadow: 0 8px 25px rgba(0,0,0,.1);
 }
 
-.logo {
-    text-align: center;
-    margin-bottom: 25px;
+.logo{
+    text-align:center;
+    margin-bottom:24px;
 }
 
-.logo h1 {
-    color: #0d6efd;
-    font-size: 28px;
-    margin-bottom: 6px;
+.logo h1{
+    font-size:34px;
+    margin-bottom:4px;
 }
 
-.logo p {
-    color: #777;
-    font-size: 14px;
+.logo p{
+    color:#6b7280;
+    font-size:15px;
 }
 
 .form-group {
@@ -239,6 +238,63 @@ button:disabled {
     align-items: center;
     margin-bottom: 20px;
 }
+
+
+.group-card{
+    background:#fff;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:14px;
+    text-align:center;
+
+    border:1px solid #ececec;
+
+    box-shadow:
+        0 6px 18px rgba(0,0,0,.06);
+
+    transition:.2s;
+}
+
+.group-card:hover{
+    transform:translateY(-2px);
+}
+
+
+#searchText{
+    height:48px;
+    border-radius:14px;
+    border:1px solid #d1d5db;
+    padding:0 16px;
+    font-size:15px;
+}
+
+#searchText:focus{
+    border-color:#2563eb;
+    box-shadow:
+        0 0 0 4px rgba(37,99,235,.12);
+}
+
+
+#toggleCreateGroupBtn{
+    background:
+        linear-gradient(
+            135deg,
+            #16a34a,
+            #22c55e
+        );
+}
+
+#toggleCreateGroupBtn:hover{
+    opacity:.95;
+}
+
+
+.group-icon{
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+
 
 .group-info-card {
     background: white;
