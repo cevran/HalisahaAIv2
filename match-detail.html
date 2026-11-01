@@ -41,5 +41,54 @@ document.getElementById(
     renderBottomNav("groups");
 </script>
 
+<div id="scoreModal" class="modal-overlay hidden">
+
+    <div class="modal-card">
+
+        <h2>⚽ Maç Sonucu</h2>
+
+        <div class="form-group">
+            <label>⚪ Beyaz Takım</label>
+
+            <input
+                type="number"
+                id="whiteScoreInput"
+                min="0"
+                value="0"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>🔴 Kırmızı Takım</label>
+
+            <input
+                type="number"
+                id="redScoreInput"
+                min="0"
+                value="0"
+            >
+        </div>
+
+        <div class="modal-buttons">
+
+            <button
+                id="saveScoreBtn"
+            >
+                ✅ Kaydet
+            </button>
+
+            <button
+                id="cancelScoreBtn"
+                class="secondary-btn"
+            >
+                İptal
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

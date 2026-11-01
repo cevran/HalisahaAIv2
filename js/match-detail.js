@@ -287,6 +287,18 @@ function renderMatch(
                 }
             </div>
 
+            ${
+                match.status === "completed"
+                ? `
+                <div class="match-result">
+                    ⚪ ${match.white_score ?? 0}
+                    -
+                    ${match.red_score ?? 0} 🔴
+                </div>
+                `
+                : ""
+            }
+
         </div>
 
         ${renderTeam(
@@ -311,13 +323,188 @@ function renderMatch(
                 📤 Takımları Paylaş
             </button>
 
-            <button
-                id="enterScoreBtn"
-            >
-                ⚽ Maç Sonucu Gir
-            </button>
+            ${
+                match.status !== "completed"
+                ? `
+                <button
+                    id="enterScoreBtn"
+                >
+                    ⚽ Maç Sonucu Gir
+                </button>
+                `
+                : `
+                <button
+                    disabled
+                    style="
+                        background:#16a34a;
+                        opacity:.8;
+                    "
+                >
+                    ✅ Sonuç Kaydedildi
+                </button>
+                `
+            }
 
         </div>
 
     `;
+
+    const scoreBtn =
+        document.getElementById(
+            "enterScoreBtn"
+        );
+
+    if (scoreBtn) {
+
+        scoreBtn.addEventListener(
+            "click",
+            () => {
+                showScoreModal(
+                    match.id
+                );
+            }
+        );
+
+    }
+
+}
+
+
+
+function showScoreModal(
+    matchId
+) {
+
+    const modal =
+        document.getElementById(
+            "scoreModal"
+        );
+
+    modal.classList.remove(
+        "hidden"
+    );
+
+    document
+        .getElementById(
+            "saveScoreBtn"
+        )
+        .onclick =
+        async () => {
+
+            const whiteScore =
+                Number(
+                    document
+                    .getElementById(
+                        "whiteScoreInput"
+                    )
+                    .value
+                );
+
+            const redScore =
+                Number(
+                    document
+                    .getElementById(
+                        "redScoreInput"
+                    )
+                    .value
+                );
+
+            await saveScore(
+                matchId,
+                whiteScore,
+                redScore
+            );
+
+        };
+
+    document
+        .getElementById(
+            "cancelScoreBtn"
+        )
+        .onclick =
+        () => {
+
+            modal.classList.add(
+                "hidden"
+            );
+
+        };
+
+}
+
+
+async function saveScore(
+    matchId,
+    whiteScore,
+    redScore
+) {
+
+    try {
+
+        if (
+            isNaN(whiteScore) ||
+            isNaN(redScore)
+        ) {
+
+            alert(
+                "Lütfen geçerli skor girin."
+            );
+
+            return;
+        }
+
+        const { error } =
+            await supabaseClient
+                .from("matches")
+                .update({
+
+                    white_score:
+                        whiteScore,
+
+                    red_score:
+                        redScore,
+
+                    status:
+                        "completed",
+
+                    played_at:
+                        new Date()
+                            .toISOString()
+
+                })
+                .eq(
+                    "id",
+                    matchId
+                );
+
+        if (error) {
+            throw error;
+        }
+
+        document
+            .getElementById(
+                "scoreModal"
+            )
+            ?.classList.add(
+                "hidden"
+            );
+
+        alert(
+            "✅ Maç sonucu kaydedildi."
+        );
+
+        location.reload();
+
+    }
+    catch (err) {
+
+        console.error(err);
+
+        alert(
+            "Hata: " +
+            err.message
+        );
+
+    }
+
 }
