@@ -1,5 +1,6 @@
 const ITERATION_COUNT = 5000;
 
+let currentGroupId = null;
 let selectedPlayers = [];
 let generatedMatch = null;
 let lastTeamSignature = null;
@@ -48,13 +49,7 @@ document.addEventListener(
             )
             ?.addEventListener(
                 "click",
-                () => {
-
-                    console.log(
-                        "Maçı Kaydet"
-                    );
-
-                }
+                saveMatch
             );
         
 
@@ -79,6 +74,16 @@ document.addEventListener(
 
             pitchDisplay.innerHTML =
                 `🏟️ ${pitchName || "-"}`;
+
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        currentGroupId =
+            params.get("groupId");
+
 
         }    
         await generateTeams();
@@ -870,3 +875,199 @@ document
             }
         }
     );
+
+
+async function saveMatch() {
+
+    try {
+
+        const {
+            data: { user }
+        } =
+            await supabaseClient.auth.getUser();
+
+        if (!user) {
+            alert("Oturum bulunamadı.");
+            return;
+        }
+
+        if (!generatedMatch) {
+            alert("Önce takım oluşturun.");
+            return;
+        }
+
+        const title =
+            `${pitchName || "Halı Saha Maçı"}`;
+
+        const {
+            data: match,
+            error: matchError
+        } =
+            await supabaseClient
+                .from("matches")
+                .insert({
+                    group_id:
+                        currentGroupId,
+
+                    title,
+
+                    match_date:
+                        matchDateTime,
+
+                    created_by:
+                        user.id,
+
+                    status:
+                        "planned"
+                })
+                .select()
+                .single();
+
+        if (matchError) {
+            throw matchError;
+        }
+
+        const whiteCaptain =
+            getCaptain(
+                generatedMatch.whiteTeam
+            );
+
+        const redCaptain =
+            getCaptain(
+                generatedMatch.redTeam
+            );
+
+        const whiteFormation =
+            buildFormation(
+                generatedMatch.whiteTeam
+            );
+
+        const redFormation =
+            buildFormation(
+                generatedMatch.redTeam
+            );
+
+        const playerRows = [];
+
+        function addPlayers(
+            players,
+            teamColor,
+            position,
+            captain
+        ) {
+
+            players.forEach(player => {
+
+                playerRows.push({
+
+                    match_id:
+                        match.id,
+
+                    user_id:
+                        player.id,
+
+                    team_color:
+                        teamColor,
+
+                    position:
+                        position,
+
+                    is_captain:
+                        player.id === captain.id,
+
+                    is_goalkeeper:
+                        position === "GK"
+
+                });
+
+            });
+
+        }
+
+        addPlayers(
+            whiteFormation.goalkeepers,
+            "white",
+            "GK",
+            whiteCaptain
+        );
+
+        addPlayers(
+            whiteFormation.defenders,
+            "white",
+            "DEF",
+            whiteCaptain
+        );
+
+        addPlayers(
+            whiteFormation.midfielders,
+            "white",
+            "MID",
+            whiteCaptain
+        );
+
+        addPlayers(
+            whiteFormation.attackers,
+            "white",
+            "ATT",
+            whiteCaptain
+        );
+
+        addPlayers(
+            redFormation.goalkeepers,
+            "red",
+            "GK",
+            redCaptain
+        );
+
+        addPlayers(
+            redFormation.defenders,
+            "red",
+            "DEF",
+            redCaptain
+        );
+
+        addPlayers(
+            redFormation.midfielders,
+            "red",
+            "MID",
+            redCaptain
+        );
+
+        addPlayers(
+            redFormation.attackers,
+            "red",
+            "ATT",
+            redCaptain
+        );
+
+        const {
+            error: playerError
+        } =
+            await supabaseClient
+                .from(
+                    "match_players"
+                )
+                .insert(
+                    playerRows
+                );
+
+        if (playerError) {
+            throw playerError;
+        }
+
+        alert(
+            "✅ Maç başarıyla kaydedildi."
+        );
+
+    }
+    catch (err) {
+
+        console.error(err);
+
+        alert(
+            "Maç kaydedilemedi: " +
+            err.message
+        );
+
+    }
+}
