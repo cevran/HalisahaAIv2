@@ -921,3 +921,111 @@ body {
     line-height:1;
     margin:10px 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+.match-info-card{
+    background:#ffffff;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    margin-bottom:16px;
+
+    text-align:center;
+
+    border:1px solid #ececec;
+
+    box-shadow:
+        0 6px 18px rgba(0,0,0,.06);
+}
+
+.match-date{
+    font-size:15px;
+    color:#4b5563;
+    margin-bottom:8px;
+}
+
+.match-pitch{
+    font-size:15px;
+    color:#4b5563;
+}
+
+.team-card{
+    background:#ffffff;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    margin-bottom:16px;
+
+    border:1px solid #ececec;
+
+    box-shadow:
+        0 6px 18px rgba(0,0,0,.06);
+}
+
+.team-title{
+    text-align:center;
+
+    font-size:22px;
+
+    font-weight:800;
+
+    margin-bottom:15px;
+}
+
+.white-team-title{
+    color:#374151;
+}
+
+.red-team-title{
+    color:#dc2626;
+}
+
+.team-player{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:10px 0;
+
+    border-bottom:1px solid #f3f4f6;
+}
+
+.team-player:last-child{
+    border-bottom:none;
+}
+
+.player-name{
+    font-weight:600;
+}
+
+.player-position{
+    color:#6b7280;
+    font-size:13px;
+}
+
+.match-actions{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:20px;
+}
+
+.loading-box{
+    text-align:center;
+    padding:20px;
+}

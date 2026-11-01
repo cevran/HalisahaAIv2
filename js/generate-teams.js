@@ -1057,6 +1057,9 @@ async function saveMatch() {
             "✅ Maç başarıyla kaydedildi."
         );
 
+        window.location.href =
+            `match-detail.html?id=${match.id}`;
+
     }
     catch (err) {
 
