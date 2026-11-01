@@ -906,19 +906,17 @@ async function saveMatch() {
             await supabaseClient
                 .from("matches")
                 .insert({
-                    group_id:
-                        currentGroupId,
+                    group_id: currentGroupId,
 
                     title,
 
-                    match_date:
-                        matchDateTime,
+                    pitch_name: pitchName,
 
-                    created_by:
-                        user.id,
+                    match_date: matchDateTime,
 
-                    status:
-                        "planned"
+                    created_by: user.id,
+
+                    status: "planned"
                 })
                 .select()
                 .single();
