@@ -14,14 +14,16 @@
         <h1>⚽ Halı Saha AI</h1>
         <p>Gruplarım</p>
     </div>
-    
+
     <div id="groupsList">
         <p>Gruplar yükleniyor...</p>
     </div>
 
-    <hr style="margin:20px 0;">
+    <hr class="section-divider">
 
-    <h3>Grup Ara</h3>
+    <h3 class="section-title">
+        🔍 Grup Ara
+    </h3>
 
     <div class="form-group">
         <input
@@ -31,30 +33,47 @@
         >
     </div>
 
-    <button type="button" id="searchGroupBtn">
+    <button
+        type="button"
+        id="searchGroupBtn"
+    >
         Grup Ara
     </button>
 
-    <div id="searchResults" style="margin-top:15px;"></div>
+    <div id="searchResults" class="search-results">
+    </div>
 
-    <hr style="margin:20px 0;">
+    <hr class="section-divider">
 
-    <button type="button" id="toggleCreateGroupBtn">
-        + Yeni Grup Oluştur
+    <button
+        type="button"
+        id="toggleCreateGroupBtn"
+    >
+        ➕ Yeni Grup Oluştur
     </button>
 
-    <div id="createGroupArea" style="display:none;margin-top:15px;">
+    <div
+        id="createGroupArea"
+        style="display:none;margin-top:15px;"
+    >
 
         <form id="createGroupForm">
 
             <div class="form-group">
                 <label>Grup Adı</label>
-                <input type="text" id="groupName" required>
+                <input
+                    type="text"
+                    id="groupName"
+                    required
+                >
             </div>
 
             <div class="form-group">
                 <label>Şehir</label>
-                <input type="text" id="groupCity">
+                <input
+                    type="text"
+                    id="groupCity"
+                >
             </div>
 
             <div class="form-group">
@@ -63,7 +82,8 @@
                     type="text"
                     id="fieldName"
                     placeholder="Örn: Vodafone Plaza Halı Saha"
-                    required>
+                    required
+                >
             </div>
 
             <div class="form-group">
@@ -90,8 +110,10 @@
 <script src="js/bottom-nav.js"></script>
 
 <script>
-document.getElementById('bottom-nav-container').innerHTML =
-    renderBottomNav('groups');
+document.getElementById(
+    "bottom-nav-container"
+).innerHTML =
+    renderBottomNav("groups");
 </script>
 
 </body>

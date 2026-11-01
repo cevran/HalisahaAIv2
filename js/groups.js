@@ -410,42 +410,43 @@ document.addEventListener("DOMContentLoaded", async () => {
                             "div"
                         );
 
-                    div.style.border =
-                        "1px solid #ddd";
-
-                    div.style.borderRadius =
-                        "10px";
-
-                    div.style.padding =
-                        "15px";
-
-                    div.style.marginBottom =
-                        "10px";
+                    div.className =
+                        "search-group-card";
 
                     div.innerHTML = `
-                        <h4>${group.name}</h4>
+                        <div class="group-icon">
+                            ⚽
+                        </div>
 
-                        <p>🏟️ ${group.field_name || "-"}</p>
-                        <p>📍 ${group.city || "-"}</p>
+                        <div class="group-title">
+                            ${group.name}
+                        </div>
+
+                        <div class="group-info">
+                            🏟️ ${group.field_name || "-"}
+                        </div>
+
+                        <div class="group-info">
+                            📍 ${group.city || "-"}
+                        </div>
 
                         <button
                             class="join-btn"
                             data-group-id="${group.id}"
                         >
-                            Katılım Talebi Gönder
+                            ➕ Gruba Katıl
                         </button>
                     `;
-                    const btn =
-                        div.querySelector(".join-btn");
 
-                    btn.addEventListener(
-                        "click",
-                        () => sendJoinRequest(group.id)
-                    );
+                    div
+                        .querySelector(".join-btn")
+                        .addEventListener(
+                            "click",
+                            () => sendJoinRequest(group.id)
+                        );
 
                     searchResults.appendChild(div);
-                    
-                
+
                 });
 
             } catch (err) {
