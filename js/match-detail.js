@@ -557,7 +557,10 @@ function renderPitchLayout({
 
         <div class="player-card">
 
-            <div class="player-name">
+            <div
+                    class="player-name"
+                    title="${getName(player)}"
+                >
                 ${
                     player.is_captain
                         ? "👑 "
