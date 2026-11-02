@@ -22,9 +22,9 @@
 }
 
 .player-card{
-    width:56px;
+    width:95px;
     max-width:60px;
-    min-height:52px;
+    min-height:55px;
 
     background:#f3f4f6;
 
@@ -60,9 +60,9 @@
 
 .team-title{
     text-align:center;
-    font-size:16px;
+    font-size:20px;
     font-weight:800;
-    margin-bottom:10px;
+    margin-bottom:15px;
 }
 
 .white-team-title{

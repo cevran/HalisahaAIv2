@@ -243,90 +243,6 @@ function getPlayerName(
 
 
 
-
-function renderTeam(
-    title,
-    cssClass,
-    players,
-    profiles
-) {
-
-    const html =
-        players
-            .map(player => {
-
-                let position =
-                    player.position ||
-                    "-";
-
-                if (
-                    position === "GK"
-                ) {
-                    position =
-                        "🥅 Kaleci";
-                }
-
-                if (
-                    position === "DEF"
-                ) {
-                    position =
-                        "🛡️ Defans";
-                }
-
-                if (
-                    position === "MID"
-                ) {
-                    position =
-                        "⚙️ Orta Saha";
-                }
-
-                if (
-                    position === "ATT"
-                ) {
-                    position =
-                        "⚽ Forvet";
-                }
-
-                return `
-                    <div class="team-player">
-
-                        <div class="player-name">
-                            ${
-                                player.is_captain
-                                    ? "👑 "
-                                    : ""
-                            }
-
-                            ${getPlayerName(
-                                player,
-                                profiles
-                            )}
-                        </div>
-
-                        <div class="player-position">
-                            ${position}
-                        </div>
-
-                    </div>
-                `;
-
-            })
-            .join("");
-
-    return `
-        <div class="team-card">
-
-            <div class="team-title ${cssClass}">
-                ${title}
-            </div>
-
-            ${html}
-
-        </div>
-    `;
-}
-
-
 function renderMatch(
     match,
     whiteTeam,
@@ -469,7 +385,6 @@ function renderMatch(
 }
 
 
-
 function showScoreModal(
     matchId
 ) {
@@ -605,5 +520,126 @@ async function saveScore(
         );
 
     }
+
+}
+
+
+
+function renderPitchLayout({
+    attackers = [],
+    midfielders = [],
+    defenders = [],
+    goalkeepers = [],
+    profiles = []
+}) {
+
+    const getName = player => {
+
+        const profile =
+            profiles.find(
+                p =>
+                    p.id === player.user_id
+            );
+
+        return (
+            profile?.nickname ||
+            profile?.full_name ||
+            player.name ||
+            "Oyuncu"
+        );
+
+    };
+
+    const playerCard = (
+        player,
+        positionLabel
+    ) => `
+
+        <div class="player-card">
+
+            <div class="player-name">
+                ${
+                    player.is_captain
+                        ? "👑 "
+                        : ""
+                }
+                ${getName(player)}
+            </div>
+
+            <div class="player-rating">
+                ${
+                    player.overall
+                        ? `⚡ ${player.overall.toFixed(1)}`
+                        : ""
+                }
+            </div>
+
+            <div class="player-position">
+                ${positionLabel}
+            </div>
+
+        </div>
+
+    `;
+
+    let html = "";
+
+    if (attackers.length) {
+        html += `
+            <div class="position-row">
+                ${attackers.map(
+                    p => playerCard(
+                        p,
+                        "⚽ FORVET"
+                    )
+                ).join("")}
+            </div>
+        `;
+    }
+
+    if (midfielders.length) {
+        html += `
+            <div class="position-row">
+                ${midfielders.map(
+                    p => playerCard(
+                        p,
+                        "⚙️ ORTA SAHA"
+                    )
+                ).join("")}
+            </div>
+        `;
+    }
+
+    if (defenders.length) {
+        html += `
+            <div class="position-row">
+                ${defenders.map(
+                    p => playerCard(
+                        p,
+                        "🛡️ DEFANS"
+                    )
+                ).join("")}
+            </div>
+        `;
+    }
+
+    if (goalkeepers.length) {
+        html += `
+            <div class="position-row">
+                ${goalkeepers.map(
+                    p => playerCard(
+                        p,
+                        "🥅 KALECİ"
+                    )
+                ).join("")}
+            </div>
+        `;
+    }
+
+    return `
+        <div class="team-pitch">
+            ${html}
+        </div>
+    `;
 
 }
