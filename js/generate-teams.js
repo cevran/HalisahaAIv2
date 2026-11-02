@@ -1043,6 +1043,8 @@ async function saveMatch() {
             redCaptain
         );
 
+        console.log("PLAYER ROWS", playerRows);
+
         const {
             error: playerError
         } =
