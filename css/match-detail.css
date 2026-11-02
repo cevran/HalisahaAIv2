@@ -1,0 +1,76 @@
+.teams-layout{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.team-side{
+    min-width:0;
+}
+
+.team-formation{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.position-row{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    flex-wrap:wrap;
+}
+
+.player-card{
+    width:56px;
+    max-width:60px;
+    min-height:52px;
+
+    background:rgba(255,255,255,.12);
+
+    border-radius:12px;
+
+    padding:4px;
+
+    text-align:center;
+
+    box-shadow:
+        inset 0 0 0 1px
+        rgba(255,255,255,.08);
+}
+
+.player-name{
+    font-size:9px;
+    font-weight:700;
+    line-height:1.1;
+    word-break:break-word;
+    min-height:22px;
+    margin-bottom:2px;
+}
+
+.player-rating{
+    font-size:8px;
+    color:#ffd54f;
+    font-weight:800;
+    margin-bottom:2px;
+}
+
+.player-position{
+    font-size:6px;
+    opacity:.9;
+}
+
+.team-title{
+    text-align:center;
+    font-size:16px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.white-team-title{
+    color:#334155;
+}
+
+.red-team-title{
+    color:#dc2626;
+}
