@@ -958,23 +958,28 @@ async function saveMatch() {
                     );
                 playerRows.push({
 
-                    match_id:
-                        match.id,
+                    match_id: match.id,
 
-                    user_id:
-                        player.id,
+                    user_id: player.id,
 
-                    team_color:
-                        teamColor,
+                    team_color: teamColor,
 
-                    position:
-                        position,
+                    position: position,
 
                     is_captain:
                         player.id === captain.id,
 
                     is_goalkeeper:
-                        position === "GK"
+                        position === "GK",
+
+                    overall_score:
+                        player.overall || null,
+
+                    captain_score:
+                        player.captain || null,
+
+                    goalkeeper_score:
+                        player.goalkeeper || null
 
                 });
 
