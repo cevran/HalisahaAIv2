@@ -952,7 +952,10 @@ async function saveMatch() {
         ) {
 
             players.forEach(player => {
-
+                    console.log(
+                        "PLAYER OBJECT",
+                        player
+                    );
                 playerRows.push({
 
                     match_id:
