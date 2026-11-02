@@ -372,27 +372,39 @@ function renderMatch(
 
         <div class="team-card">
 
-            <div class="team-title white-team-title">
-                ⚪ Beyaz Takım
+            <div class="teams-layout">
+
+                <div class="team-side">
+
+                    <div
+                        class="team-title white-team-title"
+                    >
+                        ⚪ Beyaz Takım
+                    </div>
+
+                    <div
+                        id="whitePitch"
+                        class="team-formation"
+                    ></div>
+
+                </div>
+
+                <div class="team-side">
+
+                    <div
+                        class="team-title red-team-title"
+                    >
+                        🔴 Kırmızı Takım
+                    </div>
+
+                    <div
+                        id="redPitch"
+                        class="team-formation"
+                    ></div>
+
+                </div>
+
             </div>
-
-            <div
-                id="whitePitch"
-                class="team-formation"
-            ></div>
-
-        </div>
-
-        <div class="team-card">
-
-            <div class="team-title red-team-title">
-                🔴 Kırmızı Takım
-            </div>
-
-            <div
-                id="redPitch"
-                class="team-formation"
-            ></div>
 
         </div>
 

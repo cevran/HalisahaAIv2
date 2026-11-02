@@ -18,8 +18,8 @@
 
 .player-card{
 
-    width:85px;
-    min-height:88px;
+    width:56px;
+    min-height:60px;
 
     background:
         rgba(255,255,255,.08);
@@ -38,7 +38,7 @@
 
 .player-name{
 
-    font-size:12px;
+    font-size:9px;
 
     font-weight:700;
 
@@ -64,7 +64,7 @@
 
 .player-position{
 
-    font-size:8px;
+    font-size:6px;
 
     opacity:.9;
 
@@ -136,4 +136,20 @@
 
     transform:
         translate(-50%,-50%);
+}
+
+
+.teams-layout{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:12px;
+
+    margin-top:12px;
+}
+
+.team-side{
+    min-width:0;
 }
