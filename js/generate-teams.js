@@ -91,8 +91,6 @@ document.addEventListener(
 );
 
 
-
-
 function formatMatchDate(
     dateString
 ) {
@@ -115,7 +113,6 @@ function formatMatchDate(
         }
     );
 }
-
 
 
 async function generateTeams() {

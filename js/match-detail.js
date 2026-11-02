@@ -155,109 +155,6 @@ function formatDate(
 }
 
 
-function renderSavedPitch(
-    team,
-    profiles
-) {
-
-    const goalkeepers =
-        team.filter(
-            p => p.position === "GK"
-        );
-
-    const defenders =
-        team.filter(
-            p => p.position === "DEF"
-        );
-
-    const midfielders =
-        team.filter(
-            p => p.position === "MID"
-        );
-
-    const attackers =
-        team.filter(
-            p => p.position === "ATT"
-        );
-
-    const playerCard = player => `
-
-        <div class="player-card">
-
-            <div class="player-name">
-                ${
-                    player.is_captain
-                        ? "👑 "
-                        : ""
-                }
-                ${getPlayerName(
-                    player,
-                    profiles
-                )}
-            </div>
-
-            <div class="player-position">
-                ${
-                    player.position === "GK"
-                        ? "🥅 KALECİ"
-                    : player.position === "DEF"
-                        ? "🛡️ DEFANS"
-                    : player.position === "MID"
-                        ? "⚙️ ORTA SAHA"
-                    : "⚽ FORVET"
-                }
-            </div>
-
-        </div>
-
-    `;
-
-    let html = "";
-
-    if (attackers.length) {
-        html += `
-            <div class="position-row">
-                ${attackers
-                    .map(playerCard)
-                    .join("")}
-            </div>
-        `;
-    }
-
-    if (midfielders.length) {
-        html += `
-            <div class="position-row">
-                ${midfielders
-                    .map(playerCard)
-                    .join("")}
-            </div>
-        `;
-    }
-
-    if (defenders.length) {
-        html += `
-            <div class="position-row">
-                ${defenders
-                    .map(playerCard)
-                    .join("")}
-            </div>
-        `;
-    }
-
-    if (goalkeepers.length) {
-        html += `
-            <div class="position-row">
-                ${goalkeepers
-                    .map(playerCard)
-                    .join("")}
-            </div>
-        `;
-    }
-
-    return html;
-
-}
-
 
 function renderMatchPitches(
     whiteTeam,
@@ -268,18 +165,56 @@ function renderMatchPitches(
     document.getElementById(
         "whitePitch"
     ).innerHTML =
-        renderSavedPitch(
-            whiteTeam,
+        renderPitchLayout({
+            attackers:
+                whiteTeam.filter(
+                    p => p.position === "ATT"
+                ),
+
+            midfielders:
+                whiteTeam.filter(
+                    p => p.position === "MID"
+                ),
+
+            defenders:
+                whiteTeam.filter(
+                    p => p.position === "DEF"
+                ),
+
+            goalkeepers:
+                whiteTeam.filter(
+                    p => p.position === "GK"
+                ),
+
             profiles
-        );
+        });
 
     document.getElementById(
         "redPitch"
     ).innerHTML =
-        renderSavedPitch(
-            redTeam,
+        renderPitchLayout({
+            attackers:
+                redTeam.filter(
+                    p => p.position === "ATT"
+                ),
+
+            midfielders:
+                redTeam.filter(
+                    p => p.position === "MID"
+                ),
+
+            defenders:
+                redTeam.filter(
+                    p => p.position === "DEF"
+                ),
+
+            goalkeepers:
+                redTeam.filter(
+                    p => p.position === "GK"
+                ),
+
             profiles
-        );
+        });
 
 }
 
