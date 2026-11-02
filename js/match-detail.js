@@ -84,7 +84,7 @@ async function loadMatch(
     if (playerError) {
         throw playerError;
     }
-
+    console.log(players);
     const userIds =
         players.map(
             p => p.user_id
@@ -569,13 +569,13 @@ function renderPitchLayout({
                 ${getName(player)}
             </div>
 
-            <div class="player-rating">
-                ${
-                    player.overall
-                        ? `⚡ ${player.overall.toFixed(1)}`
-                        : ""
-                }
-            </div>
+                <div class="player-rating">
+                    ⚡ ${
+                        player.overall_score
+                            ? Number(player.overall_score).toFixed(1)
+                            : "-"
+                    }
+                </div>
 
             <div class="player-position">
                 ${positionLabel}
