@@ -370,7 +370,7 @@ function renderMatch(
 
         </div>
 
-        <div class="team-card">
+        <div class="match-pitch-area">
 
             <div class="teams-layout">
 
