@@ -1050,6 +1050,8 @@ async function saveMatch() {
                 );
 
         if (playerError) {
+            console.error("PLAYER ERROR", playerError);
+            alert(JSON.stringify(playerError));
             throw playerError;
         }
 

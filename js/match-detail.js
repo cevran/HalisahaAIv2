@@ -154,6 +154,136 @@ function formatDate(
     );
 }
 
+
+function renderSavedPitch(
+    team,
+    profiles
+) {
+
+    const goalkeepers =
+        team.filter(
+            p => p.position === "GK"
+        );
+
+    const defenders =
+        team.filter(
+            p => p.position === "DEF"
+        );
+
+    const midfielders =
+        team.filter(
+            p => p.position === "MID"
+        );
+
+    const attackers =
+        team.filter(
+            p => p.position === "ATT"
+        );
+
+    const playerCard = player => `
+
+        <div class="player-card">
+
+            <div class="player-name">
+                ${
+                    player.is_captain
+                        ? "👑 "
+                        : ""
+                }
+                ${getPlayerName(
+                    player,
+                    profiles
+                )}
+            </div>
+
+            <div class="player-position">
+                ${
+                    player.position === "GK"
+                        ? "🥅 KALECİ"
+                    : player.position === "DEF"
+                        ? "🛡️ DEFANS"
+                    : player.position === "MID"
+                        ? "⚙️ ORTA SAHA"
+                    : "⚽ FORVET"
+                }
+            </div>
+
+        </div>
+
+    `;
+
+    let html = "";
+
+    if (attackers.length) {
+        html += `
+            <div class="position-row">
+                ${attackers
+                    .map(playerCard)
+                    .join("")}
+            </div>
+        `;
+    }
+
+    if (midfielders.length) {
+        html += `
+            <div class="position-row">
+                ${midfielders
+                    .map(playerCard)
+                    .join("")}
+            </div>
+        `;
+    }
+
+    if (defenders.length) {
+        html += `
+            <div class="position-row">
+                ${defenders
+                    .map(playerCard)
+                    .join("")}
+            </div>
+        `;
+    }
+
+    if (goalkeepers.length) {
+        html += `
+            <div class="position-row">
+                ${goalkeepers
+                    .map(playerCard)
+                    .join("")}
+            </div>
+        `;
+    }
+
+    return html;
+
+}
+
+
+function renderMatchPitches(
+    whiteTeam,
+    redTeam,
+    profiles
+) {
+
+    document.getElementById(
+        "whitePitch"
+    ).innerHTML =
+        renderSavedPitch(
+            whiteTeam,
+            profiles
+        );
+
+    document.getElementById(
+        "redPitch"
+    ).innerHTML =
+        renderSavedPitch(
+            redTeam,
+            profiles
+        );
+
+}
+
+
 function getPlayerName(
     player,
     profiles
@@ -175,6 +305,88 @@ function getPlayerName(
         profile.full_name
     );
 }
+
+
+
+
+function renderMatchPitches(
+    whiteTeam,
+    redTeam,
+    profiles
+) {
+
+    const convertTeam = team =>
+        team.map(player => {
+
+            const profile =
+                profiles.find(
+                    p =>
+                        p.id ===
+                        player.user_id
+                );
+
+            return {
+                id: player.user_id,
+
+                name:
+                    profile?.nickname ||
+                    profile?.full_name ||
+                    "Oyuncu",
+
+                overall: 0,
+
+                attack: 0,
+                defense: 0,
+                teamplay: 0,
+                goalkeeper: 0
+            };
+
+        });
+
+    const whitePlayers =
+        convertTeam(whiteTeam);
+
+    const redPlayers =
+        convertTeam(redTeam);
+
+    const whiteCaptain =
+        whitePlayers.find(
+            p =>
+                whiteTeam.find(
+                    t =>
+                        t.user_id === p.id &&
+                        t.is_captain
+                )
+        ) || whitePlayers[0];
+
+    const redCaptain =
+        redPlayers.find(
+            p =>
+                redTeam.find(
+                    t =>
+                        t.user_id === p.id &&
+                        t.is_captain
+                )
+        ) || redPlayers[0];
+
+    document.getElementById(
+        "whitePitch"
+    ).innerHTML =
+        renderPitch(
+            whitePlayers,
+            whiteCaptain
+        );
+
+    document.getElementById(
+        "redPitch"
+    ).innerHTML =
+        renderPitch(
+            redPlayers,
+            redCaptain
+        );
+
+}
+
 
 function renderTeam(
     title,
@@ -258,6 +470,7 @@ function renderTeam(
     `;
 }
 
+
 function renderMatch(
     match,
     whiteTeam,
@@ -301,19 +514,31 @@ function renderMatch(
 
         </div>
 
-        ${renderTeam(
-            "⚪ Beyaz Takım",
-            "white-team-title",
-            whiteTeam,
-            profiles
-        )}
+        <div class="team-card">
 
-        ${renderTeam(
-            "🔴 Kırmızı Takım",
-            "red-team-title",
-            redTeam,
-            profiles
-        )}
+            <div class="team-title white-team-title">
+                ⚪ Beyaz Takım
+            </div>
+
+            <div
+                id="whitePitch"
+                class="team-formation"
+            ></div>
+
+        </div>
+
+        <div class="team-card">
+
+            <div class="team-title red-team-title">
+                🔴 Kırmızı Takım
+            </div>
+
+            <div
+                id="redPitch"
+                class="team-formation"
+            ></div>
+
+        </div>
 
         <div class="match-actions">
 
@@ -348,6 +573,12 @@ function renderMatch(
         </div>
 
     `;
+
+    renderMatchPitches(
+        whiteTeam,
+        redTeam,
+        profiles
+    );
 
     const scoreBtn =
         document.getElementById(

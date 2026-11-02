@@ -1121,3 +1121,50 @@ body {
     background:#e5e7eb !important;
     color:#374151 !important;
 }
+
+
+
+
+
+.team-formation{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.position-row{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.player-card{
+    width:72px;
+    min-height:68px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    border:1px solid
+        rgba(255,255,255,.08);
+
+    border-radius:12px;
+
+    padding:6px;
+
+    text-align:center;
+}
+
+.player-name{
+    font-size:11px;
+    font-weight:700;
+    line-height:1.2;
+    margin-bottom:6px;
+}
+
+.player-position{
+    font-size:9px;
+    color:#64748b;
+    font-weight:600;
+}
