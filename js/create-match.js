@@ -252,16 +252,6 @@ document
     .addEventListener(
         "click",
         () => {
-
-            const matchDateTime =
-                document
-    .getElementById(
-        "generateTeamsBtn"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
             const matchDateTime =
                 document
                     .getElementById(
