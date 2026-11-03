@@ -76,15 +76,41 @@
 
         <div class="form-group">
 
-            <label for="pitchName">
-                🏟️ Halı Saha
+    <label for="pitchName">
+        🏟️ Halı Saha
+    </label>
+
+    <input
+        type="text"
+        id="pitchName"
+        class="form-input"
+        placeholder="Örn: Beykoz Arena Halı Saha">
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="goalkeeperMode">
+                🧤 Kaleci Durumu
             </label>
 
-            <input
-                type="text"
-                id="pitchName"
-                class="form-input"
-                placeholder="Örn: Beykoz Arena Halı Saha">
+            <select
+                id="goalkeeperMode"
+                class="form-input">
+
+                <option value="team">
+                    Takımdan Seç
+                </option>
+
+                <option value="external">
+                    Dışarıdan Kaleci Gelecek
+                </option>
+
+                <option value="rotation">
+                    Kaleye Sırayla Geçilecek
+                </option>
+
+            </select>
 
         </div>
 

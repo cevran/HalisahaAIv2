@@ -255,6 +255,15 @@ document
 
             const matchDateTime =
                 document
+    .getElementById(
+        "generateTeamsBtn"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            const matchDateTime =
+                document
                     .getElementById(
                         "matchDateTime"
                     )
@@ -267,6 +276,13 @@ document
                     )
                     ?.value
                     .trim();
+
+            const goalkeeperMode =
+                document
+                    .getElementById(
+                        "goalkeeperMode"
+                    )
+                    ?.value || "team";
 
             if (!matchDateTime) {
 
@@ -349,6 +365,11 @@ document
             sessionStorage.setItem(
                 "pitchName",
                 pitchName
+            );
+
+            sessionStorage.setItem(
+                "goalkeeperMode",
+                goalkeeperMode
             );
 
             window.location.href =

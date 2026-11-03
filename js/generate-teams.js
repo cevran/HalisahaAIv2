@@ -1,3 +1,5 @@
+const goalkeeperMode =
+    sessionStorage.getItem("goalkeeperMode") || "team";
 const ITERATION_COUNT = 5000;
 
 let currentGroupId = null;
@@ -461,61 +463,92 @@ function getCaptain(team) {
         })[0];
 }
 
+function getPositionQuota(teamSize, goalkeeperMode) {
+
+    const fieldPlayers =
+        goalkeeperMode === "team"
+            ? teamSize - 1
+            : teamSize;
+
+    switch (fieldPlayers) {
+
+        case 4:
+            return { def: 2, mid: 1, att: 1 };
+
+        case 5:
+            return { def: 2, mid: 2, att: 1 };
+
+        case 6:
+            return { def: 3, mid: 2, att: 1 };
+
+        case 7:
+            return { def: 3, mid: 3, att: 1 };
+
+        case 8:
+            return { def: 4, mid: 3, att: 1 };
+
+        case 9:
+            return { def: 4, mid: 4, att: 1 };
+
+        case 10:
+            return { def: 4, mid: 4, att: 2 };
+
+        default:
+            return { def: 4, mid: 4, att: 2 };
+    }
+}
+
+
 function buildFormation(team) {
 
-    const available =
-        [...team];
+    const available = [...team];
 
     const goalkeepers = [];
     const defenders = [];
     const midfielders = [];
     const attackers = [];
 
-    available.sort(
-        (a, b) =>
-            b.goalkeeper -
-            a.goalkeeper
-    );
+    if (goalkeeperMode === "team") {
 
-    goalkeepers.push(
-        available.shift()
-    );
+        available.sort(
+            (a, b) =>
+                b.goalkeeper -
+                a.goalkeeper
+        );
 
-    let defenderCount = 2;
-    let midfielderCount = 2;
-
-    if (
-        team.length <= 6
-    ) {
-
-        defenderCount = 1;
-        midfielderCount = 1;
+        goalkeepers.push(
+            available.shift()
+        );
     }
 
-    const pickBest =
-        (
-            pool,
-            field
-        ) => {
+    const quota =
+        getPositionQuota(
+            team.length,
+            goalkeeperMode
+        );
 
-            pool.sort(
-                (a, b) =>
-                    b[field] -
-                    a[field]
-            );
+    const pickBest = (
+        pool,
+        field
+    ) => {
 
-            return pool.shift();
-        };
+        pool.sort(
+            (a, b) =>
+                b[field] -
+                a[field]
+        );
+
+        return pool.shift();
+
+    };
 
     for (
         let i = 0;
-        i < defenderCount;
+        i < quota.def;
         i++
     ) {
 
-        if (
-            !available.length
-        ) {
+        if (!available.length) {
             break;
         }
 
@@ -529,13 +562,11 @@ function buildFormation(team) {
 
     for (
         let i = 0;
-        i < midfielderCount;
+        i < quota.mid;
         i++
     ) {
 
-        if (
-            !available.length
-        ) {
+        if (!available.length) {
             break;
         }
 
@@ -556,12 +587,10 @@ function buildFormation(team) {
     );
 
     return {
-
         goalkeepers,
         defenders,
         midfielders,
         attackers
-
     };
 }
  
@@ -904,15 +933,10 @@ async function saveMatch() {
                 .from("matches")
                 .insert({
                     group_id: currentGroupId,
-
                     title,
-
                     pitch_name: pitchName,
-
                     match_date: matchDateTime,
-
                     created_by: user.id,
-
                     status: "planned"
                 })
                 .select()
