@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Halı Saha AI - Maçlarım</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/matches.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="page-header">
+
+        <h1>⚽ Maçlarım</h1>
+
+        <div class="match-count">
+            Toplam 24 maç
+        </div>
+
+    </div>
+
+    <div class="segment-control">
+
+        <button class="segment-btn active">
+            Yaklaşan
+        </button>
+
+        <button class="segment-btn">
+            Geçmiş
+        </button>
+
+        <button class="segment-btn">
+            Tümü
+        </button>
+
+    </div>
+
+    <div id="matchesContainer">
+
+        <!-- PLANLANAN MAÇ -->
+
+        <div
+            class="match-card"
+            onclick="location.href='match-detail.html?id=1'">
+
+            <div class="match-card-top">
+
+                <div>
+
+                    <div class="group-name">
+                        ⚽ Vodafone VAS Team
+                    </div>
+
+                    <div class="pitch-name">
+                        🏟️ Beykoz Arena
+                    </div>
+
+                    <div class="match-date">
+                        📅 12 Kasım 2026 · 21:00
+                    </div>
+
+                </div>
+
+                <div class="status-badge planned">
+                    Planlandı
+                </div>
+
+            </div>
+
+            <div class="match-info-row">
+
+                <div class="info-chip">
+                    👥 20 Oyuncu
+                </div>
+
+                <div class="info-chip">
+                    🧤 Dışarıdan Kaleci
+                </div>
+
+            </div>
+
+            <div class="team-powers">
+
+                <div class="team-power white">
+                    ⚪ 84.2
+                </div>
+
+                <div class="vs">
+                    VS
+                </div>
+
+                <div class="team-power red">
+                    🔴 83.9
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- TAMAMLANMIŞ MAÇ -->
+
+        <div
+            class="match-card"
+            onclick="location.href='match-detail.html?id=2'">
+
+            <div class="match-card-top">
+
+                <div>
+
+                    <div class="group-name">
+                        ⚽ Cumartesi Ekibi
+                    </div>
+
+                    <div class="pitch-name">
+                        🏟️ Vodafone Arena
+                    </div>
+
+                    <div class="match-date">
+                        📅 05 Kasım 2026 · 20:30
+                    </div>
+
+                </div>
+
+                <div class="status-badge completed">
+                    Tamamlandı
+                </div>
+
+            </div>
+
+            <div class="score-row">
+
+                <div class="score-team">
+                    ⚪ Beyaz
+                </div>
+
+                <div class="final-score">
+                    6 - 5
+                </div>
+
+                <div class="score-team">
+                    🔴 Kırmızı
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="bottom-nav-container"></div>
+<script src="js/bottom-nav.js"></script>
+<script>
+document.getElementById(
+    "bottom-nav-container"
+).innerHTML =
+    renderBottomNav("groups");
+</script>
+
+</body>
+
+</html>
