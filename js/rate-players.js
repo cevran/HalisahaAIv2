@@ -1,4 +1,3 @@
-
 let players = [];
 let currentUserId = null;
 let currentGroupId = null;
@@ -72,14 +71,15 @@ async function loadPlayersAndRatings() {
                     member.profiles?.nickname ||
                     member.profiles?.full_name ||
                     'Oyuncu',
+
                 rating: existingRating || {
-                    condition_score: 3,
-                    technique_score: 3,
-                    attack_score: 3,
-                    defense_score: 3,
-                    teamplay_score: 3,
-                    goalkeeper_score: 3,
-                    captain_score: 3
+                    condition_score: null,
+                    technique_score: null,
+                    attack_score: null,
+                    defense_score: null,
+                    teamplay_score: null,
+                    goalkeeper_score: null,
+                    captain_score: null
                 }
             };
         });
@@ -96,7 +96,7 @@ function createStars(container, selectedValue, callback) {
         const star = document.createElement('span');
 
         star.className =
-            i <= selectedValue
+            selectedValue && i <= selectedValue
                 ? 'star active'
                 : 'star';
 
@@ -124,6 +124,7 @@ function updateStars(container, value) {
             } else {
                 star.classList.remove('active');
             }
+
         });
 }
 
@@ -143,7 +144,7 @@ function renderPlayers() {
         clone.querySelectorAll('.star-rating').forEach(starContainer => {
 
             const field = starContainer.dataset.field;
-            const value = player.rating[field] || 3;
+            const value = player.rating[field] ?? 0;
 
             createStars(
                 starContainer,
@@ -162,18 +163,39 @@ async function saveRatings() {
 
     try {
 
-        const records = players.map(player => ({
-            group_id: currentGroupId,
-            rater_user_id: currentUserId,
-            target_user_id: player.user_id,
-            condition_score: player.rating.condition_score,
-            technique_score: player.rating.technique_score,
-            attack_score: player.rating.attack_score,
-            defense_score: player.rating.defense_score,
-            teamplay_score: player.rating.teamplay_score,
-            goalkeeper_score: player.rating.goalkeeper_score,
-            captain_score: player.rating.captain_score
-        }));
+        const records = players
+            .filter(player => {
+
+                const r = player.rating;
+
+                return (
+                    r.condition_score != null ||
+                    r.technique_score != null ||
+                    r.attack_score != null ||
+                    r.defense_score != null ||
+                    r.teamplay_score != null ||
+                    r.goalkeeper_score != null ||
+                    r.captain_score != null
+                );
+            })
+            .map(player => ({
+                group_id: currentGroupId,
+                rater_user_id: currentUserId,
+                target_user_id: player.user_id,
+
+                condition_score: player.rating.condition_score,
+                technique_score: player.rating.technique_score,
+                attack_score: player.rating.attack_score,
+                defense_score: player.rating.defense_score,
+                teamplay_score: player.rating.teamplay_score,
+                goalkeeper_score: player.rating.goalkeeper_score,
+                captain_score: player.rating.captain_score
+            }));
+
+        if (records.length === 0) {
+            alert('Kaydedilecek değerlendirme bulunamadı.');
+            return;
+        }
 
         const { error } = await supabaseClient
             .from('player_ratings')
@@ -189,5 +211,6 @@ async function saveRatings() {
 
         console.error(err);
         alert(err.message);
+
     }
 }
