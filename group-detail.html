@@ -277,12 +277,17 @@
             color:#111;
         }
 
-                .settings-modal{
+        .settings-modal{
             position:fixed;
             inset:0;
+
             background:rgba(0,0,0,.45);
+
             display:none;
-            align-items:flex-end;
+
+            align-items:center;
+            justify-content:center;
+
             z-index:9999;
         }
 
@@ -291,11 +296,21 @@
         }
 
         .settings-sheet{
-            width:100%;
+            width:calc(100% - 24px);
+            max-width:520px;
+
             background:#fff;
-            border-radius:24px 24px 0 0;
-            padding:24px;
+
+            border-radius:18px;
+
+            padding:20px;
+
+            margin:0 auto 16px auto;
+
             box-sizing:border-box;
+
+            border:1px solid #e5e7eb;
+
             animation:slideUp .25s ease;
         }
 
