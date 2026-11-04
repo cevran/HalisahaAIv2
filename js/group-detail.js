@@ -71,8 +71,10 @@ async function loadGroup() {
             .single();
 
     if (error) {
+
         console.error(error);
         return;
+
     }
 
     const roleResult =
@@ -104,25 +106,28 @@ async function loadGroup() {
         ${
             currentUserRole === "yonetici"
             ? `
-            <div style="
-                display:flex;
-                justify-content:flex-end;
-                margin-bottom:10px;
-            ">
-                <button
-                    id="groupSettingsBtn"
-                    style="
-                        width:42px;
-                        height:42px;
-                        border:none;
-                        border-radius:12px;
-                        background:#f3f4f6;
-                        cursor:pointer;
-                        font-size:20px;
-                    ">
-                    ⚙️
-                </button>
-            </div>
+                <div style="
+                    display:flex;
+                    justify-content:flex-end;
+                    margin-bottom:10px;
+                ">
+                    <button
+                        id="groupSettingsBtn"
+                        style="
+                            width:42px;
+                            height:42px;
+                            border:none;
+                            border-radius:12px;
+                            background:#f3f4f6;
+                            cursor:pointer;
+                            font-size:20px;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                        ">
+                        ⚙️
+                    </button>
+                </div>
             `
             : ""
         }
@@ -162,13 +167,12 @@ async function loadGroup() {
             ?.addEventListener(
                 "click",
                 () => {
-
-                    showGroupSettings(data);
-
+                    openGroupSettings(data);
                 }
             );
 
     }
+
 }
 
 async function loadPlayers() {
@@ -654,6 +658,135 @@ Devam edilsin mi?`
     );
 
     window.location.href =
+        "groups.html";
+
+}
+
+
+function openGroupSettings(group){
+
+    document
+        .getElementById("fieldNameInput")
+        .value =
+        group.field_name || "";
+
+    document
+        .getElementById("cityInput")
+        .value =
+        group.city || "";
+
+    document
+        .getElementById("descriptionInput")
+        .value =
+        group.description || "";
+
+    document
+        .getElementById("groupSettingsModal")
+        .classList.add("show");
+
+    document
+        .getElementById("saveGroupBtn")
+        .onclick =
+        () => saveGroupSettings();
+
+    document
+        .getElementById("deleteGroupBtn")
+        .onclick =
+        () => deleteGroup();
+
+    document
+        .getElementById("closeGroupModalBtn")
+        .onclick =
+        () => {
+
+            document
+                .getElementById("groupSettingsModal")
+                .classList.remove("show");
+
+        };
+
+}
+
+
+async function saveGroupSettings(){
+
+    const field_name =
+        document.getElementById(
+            "fieldNameInput"
+        ).value.trim();
+
+    const city =
+        document.getElementById(
+            "cityInput"
+        ).value.trim();
+
+    const description =
+        document.getElementById(
+            "descriptionInput"
+        ).value.trim();
+
+    const { error } =
+        await supabaseClient
+            .from("groups")
+            .update({
+                field_name,
+                city,
+                description
+            })
+            .eq(
+                "id",
+                currentGroupId
+            );
+
+    if(error){
+
+        alert(error.message);
+        return;
+
+    }
+
+    document
+        .getElementById(
+            "groupSettingsModal"
+        )
+        .classList.remove("show");
+
+    await loadGroup();
+
+    alert(
+        "✅ Grup güncellendi"
+    );
+
+}
+
+
+async function deleteGroup(){
+
+    const ok = confirm(
+        "Grup silinsin mi?\n\nBu işlem geri alınamaz."
+    );
+
+    if(!ok) return;
+
+    const { error } =
+        await supabaseClient
+            .from("groups")
+            .delete()
+            .eq(
+                "id",
+                currentGroupId
+            );
+
+    if(error){
+
+        alert(error.message);
+        return;
+
+    }
+
+    alert("✅ Grup silindi");
+
+    location.href =
         "groups.html";
 
 }

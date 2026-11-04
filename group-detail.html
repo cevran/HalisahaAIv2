@@ -276,6 +276,94 @@
             background:#f3f4f6;
             color:#111;
         }
+
+                .settings-modal{
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,.45);
+            display:none;
+            align-items:flex-end;
+            z-index:9999;
+        }
+
+        .settings-modal.show{
+            display:flex;
+        }
+
+        .settings-sheet{
+            width:100%;
+            background:#fff;
+            border-radius:24px 24px 0 0;
+            padding:24px;
+            box-sizing:border-box;
+            animation:slideUp .25s ease;
+        }
+
+        @keyframes slideUp{
+            from{
+                transform:translateY(100%);
+            }
+            to{
+                transform:translateY(0);
+            }
+        }
+
+        .sheet-handle{
+            width:60px;
+            height:6px;
+            border-radius:20px;
+            background:#d1d5db;
+            margin:0 auto 20px;
+        }
+
+        .settings-sheet h3{
+            text-align:center;
+            margin-bottom:20px;
+        }
+
+        .form-group{
+            margin-bottom:15px;
+        }
+
+        .form-group label{
+            display:block;
+            margin-bottom:6px;
+            font-size:14px;
+            font-weight:600;
+        }
+
+        .form-group input,
+        .form-group textarea{
+            width:100%;
+            box-sizing:border-box;
+            padding:12px;
+            border:1px solid #d1d5db;
+            border-radius:12px;
+            font-size:15px;
+        }
+
+        .danger-sheet-btn{
+            width:100%;
+            height:48px;
+            margin-top:12px;
+            border:none;
+            border-radius:12px;
+            background:#dc2626;
+            color:#fff;
+            font-size:15px;
+            font-weight:600;
+        }
+
+        .cancel-sheet-btn{
+            width:100%;
+            height:48px;
+            margin-top:10px;
+            border:none;
+            border-radius:12px;
+            background:#f3f4f6;
+            font-size:15px;
+            font-weight:600;
+        }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -380,6 +468,57 @@ document.getElementById('bottom-nav-container').innerHTML =
         </button>
 
     </div>
+</div>
+
+<div id="groupSettingsModal" class="settings-modal">
+
+    <div class="settings-sheet">
+
+        <div class="sheet-handle"></div>
+
+        <h3>⚙️ Grup Ayarları</h3>
+
+        <div class="form-group">
+            <label>🏟️ Halı Saha</label>
+            <input
+                id="fieldNameInput"
+                type="text">
+        </div>
+
+        <div class="form-group">
+            <label>📍 Şehir</label>
+            <input
+                id="cityInput"
+                type="text">
+        </div>
+
+        <div class="form-group">
+            <label>📝 Açıklama</label>
+            <textarea
+                id="descriptionInput"
+                rows="4"></textarea>
+        </div>
+
+        <button
+            id="saveGroupBtn"
+            class="primary-btn">
+            Kaydet
+        </button>
+
+        <button
+            id="deleteGroupBtn"
+            class="danger-sheet-btn">
+            🗑️ Grubu Sil
+        </button>
+
+        <button
+            id="closeGroupModalBtn"
+            class="cancel-sheet-btn">
+            Vazgeç
+        </button>
+
+    </div>
+
 </div>
 
 </body>
