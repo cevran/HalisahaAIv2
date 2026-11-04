@@ -71,10 +71,20 @@ async function loadGroup() {
             .single();
 
     if (error) {
-
         console.error(error);
         return;
     }
+
+    const roleResult =
+        await supabaseClient
+            .from("group_members")
+            .select("role")
+            .eq("group_id", currentGroupId)
+            .eq("user_id", currentUserId)
+            .single();
+
+    currentUserRole =
+        roleResult.data?.role;
 
     const {
         count: playerCount
@@ -91,15 +101,41 @@ async function loadGroup() {
         "groupInfo"
     ).innerHTML = `
 
+        ${
+            currentUserRole === "yonetici"
+            ? `
+            <div style="
+                display:flex;
+                justify-content:flex-end;
+                margin-bottom:10px;
+            ">
+                <button
+                    id="groupSettingsBtn"
+                    style="
+                        width:42px;
+                        height:42px;
+                        border:none;
+                        border-radius:12px;
+                        background:#f3f4f6;
+                        cursor:pointer;
+                        font-size:20px;
+                    ">
+                    ⚙️
+                </button>
+            </div>
+            `
+            : ""
+        }
+
         <div class="group-name">
             ${data.name}
         </div>
 
         <div class="group-info">
-        🏟️ ${data.field_name || "-"}
-         </div>
-        
-         <div class="group-info">
+            🏟️ ${data.field_name || "-"}
+        </div>
+
+        <div class="group-info">
             📍 ${data.city || "-"}
         </div>
 
@@ -113,28 +149,26 @@ async function loadGroup() {
                 <div class="group-description">
                     ${data.description}
                 </div>
-              `
+            `
             : ""
         }
 
     `;
 
-    const roleResult =
-        await supabaseClient
-            .from("group_members")
-            .select("role")
-            .eq(
-                "group_id",
-                currentGroupId
-            )
-            .eq(
-                "user_id",
-                currentUserId
-            )
-            .single();
+    if (currentUserRole === "yonetici") {
 
-    currentUserRole =
-        roleResult.data?.role;
+        document
+            .getElementById("groupSettingsBtn")
+            ?.addEventListener(
+                "click",
+                () => {
+
+                    showGroupSettings(data);
+
+                }
+            );
+
+    }
 }
 
 async function loadPlayers() {
@@ -498,5 +532,128 @@ async function loadRatingProgress() {
         ).innerHTML =
             "Hesaplama hatası";
     }
+
+}
+
+function showGroupSettings(group) {
+
+    const action = prompt(
+`Grup Ayarları
+
+1 = Grup Bilgilerini Düzenle
+2 = Grubu Sil
+
+Seçiminiz:`
+    );
+
+    if (action === "1") {
+
+        editGroup(group);
+
+    }
+
+    if (action === "2") {
+
+        deleteGroup();
+
+    }
+
+}
+
+
+
+async function editGroup(group) {
+
+    const fieldName =
+        prompt(
+            "Halı Saha",
+            group.field_name || ""
+        );
+
+    if (fieldName === null) return;
+
+    const city =
+        prompt(
+            "Şehir",
+            group.city || ""
+        );
+
+    if (city === null) return;
+
+    const description =
+        prompt(
+            "Açıklama",
+            group.description || ""
+        );
+
+    if (description === null) return;
+
+    const { error } =
+        await supabaseClient
+            .from("groups")
+            .update({
+                field_name: fieldName,
+                city,
+                description
+            })
+            .eq(
+                "id",
+                currentGroupId
+            );
+
+    if (error) {
+
+        alert(error.message);
+        return;
+
+    }
+
+    alert(
+        "✅ Grup bilgileri güncellendi"
+    );
+
+    await loadGroup();
+
+}
+
+
+async function deleteGroup() {
+
+    const ok = confirm(
+`Grup silinecek.
+
+• Maçlar silinecek
+• Oyuncu değerlendirmeleri silinecek
+• Üyeler gruptan çıkarılacak
+
+Devam edilsin mi?`
+    );
+
+    if (!ok) {
+        return;
+    }
+
+    const { error } =
+        await supabaseClient
+            .from("groups")
+            .delete()
+            .eq(
+                "id",
+                currentGroupId
+            );
+
+    if (error) {
+
+        alert(error.message);
+        return;
+
+    }
+
+    alert(
+        "✅ Grup silindi"
+    );
+
+    window.location.href =
+        "groups.html";
 
 }

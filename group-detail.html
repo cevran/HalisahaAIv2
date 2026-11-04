@@ -199,6 +199,83 @@
 
         }
 
+        .group-card-header{
+            display:flex;
+            justify-content:flex-end;
+            margin-bottom:10px;
+        }
+
+        .group-settings-btn{
+            width:40px;
+            height:40px;
+            border:none;
+            background:#f3f4f6;
+            border-radius:12px;
+            font-size:20px;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .group-settings-btn:hover{
+            background:#e5e7eb;
+        }
+
+        /* Modal */
+        .modal-overlay{
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,.5);
+            display:none;
+            align-items:flex-end;
+            z-index:9999;
+        }
+
+        .modal-overlay.active{
+            display:flex;
+        }
+
+        .modal-sheet{
+            width:100%;
+            background:#fff;
+            border-radius:20px 20px 0 0;
+            padding:20px;
+            box-sizing:border-box;
+        }
+
+        .modal-title{
+            font-size:20px;
+            font-weight:700;
+            margin-bottom:20px;
+            text-align:center;
+        }
+
+        .sheet-btn{
+            width:100%;
+            height:48px;
+            border:none;
+            border-radius:12px;
+            margin-bottom:10px;
+            font-size:15px;
+            font-weight:600;
+            cursor:pointer;
+        }
+
+        .sheet-primary{
+            background:#2563eb;
+            color:white;
+        }
+
+        .sheet-danger{
+            background:#ef4444;
+            color:white;
+        }
+
+        .sheet-gray{
+            background:#f3f4f6;
+            color:#111;
+        }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -276,6 +353,34 @@
 document.getElementById('bottom-nav-container').innerHTML =
     renderBottomNav('groups');
 </script>
+
+<div id="groupSettingsModal" class="modal-overlay">
+    <div class="modal-sheet">
+
+        <div class="modal-title">
+            ⚙️ Grup Ayarları
+        </div>
+
+        <button
+            id="editGroupBtn"
+            class="sheet-btn sheet-primary">
+            ✏️ Grup Bilgilerini Düzenle
+        </button>
+
+        <button
+            id="deleteGroupBtn"
+            class="sheet-btn sheet-danger">
+            🗑️ Grubu Sil
+        </button>
+
+        <button
+            id="closeSettingsBtn"
+            class="sheet-btn sheet-gray">
+            Vazgeç
+        </button>
+
+    </div>
+</div>
 
 </body>
 </html>
