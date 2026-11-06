@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 const email =
                     prompt(
-                        "Kayıtlı e-posta adresinizi girin"
+                        "Kayıtlı e-posta adresinizi girin."
                     );
 
                 if (!email) {
