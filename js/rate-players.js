@@ -68,8 +68,8 @@ async function loadPlayersAndRatings() {
             return {
                 user_id: member.user_id,
                 full_name:
-                    member.profiles?.nickname ||
                     member.profiles?.full_name ||
+                    member.profiles?.nickname ||
                     'Oyuncu',
 
                 rating: existingRating || {
