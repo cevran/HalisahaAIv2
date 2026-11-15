@@ -68,9 +68,7 @@ async function loadPlayersAndRatings() {
 
     if (guestError) throw guestError;
 
-    console.log("guests", guests);
-
-    players = members
+    const memberPlayers = members
         .filter(m => m.user_id !== currentUserId)
         .map(member => {
 
@@ -100,6 +98,37 @@ async function loadPlayersAndRatings() {
             };
 
         });
+
+    const guestPlayers = guests.map(guest => {
+
+        const existingRating = ratings.find(
+            r => r.target_guest_id === guest.id
+        );
+
+        return {
+            type: "guest",
+
+            guest_id: guest.id,
+
+            full_name: guest.full_name,
+
+            rating: existingRating || {
+                condition_score: null,
+                technique_score: null,
+                attack_score: null,
+                defense_score: null,
+                teamplay_score: null,
+                goalkeeper_score: null,
+                captain_score: null
+            }
+        };
+
+    });
+
+    players = [
+        ...memberPlayers,
+        ...guestPlayers
+    ];
 
     renderPlayers();
 
