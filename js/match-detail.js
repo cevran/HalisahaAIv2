@@ -193,7 +193,8 @@ function formatDate(
 function renderMatchPitches(
     whiteTeam,
     redTeam,
-    profiles
+    profiles,
+    guests
 ) {
 
     document.getElementById(
@@ -220,7 +221,8 @@ function renderMatchPitches(
                     p => p.position === "GK"
                 ),
 
-            profiles
+            profiles,
+            guests
         });
 
     document.getElementById(
@@ -247,7 +249,8 @@ function renderMatchPitches(
                     p => p.position === "GK"
                 ),
 
-            profiles
+            profiles,
+            guests
         });
 
 }
@@ -296,7 +299,8 @@ function renderMatch(
     match,
     whiteTeam,
     redTeam,
-    profiles
+    profiles,
+    guests
 ) {
 
     const container =
@@ -410,7 +414,8 @@ function renderMatch(
     renderMatchPitches(
         whiteTeam,
         redTeam,
-        profiles
+        profiles,
+        guests
     );
 
     const scoreBtn =
@@ -579,22 +584,37 @@ function renderPitchLayout({
     midfielders = [],
     defenders = [],
     goalkeepers = [],
-    profiles = []
+    profiles = [],
+    guests = []
 }) {
 
     const getName = player => {
 
-        const profile =
-            profiles.find(
-                p =>
-                    p.id === player.user_id
+        if (player.user_id) {
+
+            const profile =
+                profiles.find(
+                    p =>
+                        p.id === player.user_id
+                );
+
+            return (
+                profile?.nickname ||
+                profile?.full_name ||
+                "Oyuncu"
+            );
+
+        }
+
+        const guest =
+            guests.find(
+                g =>
+                    g.id === player.guest_id
             );
 
         return (
-            profile?.nickname ||
-            profile?.full_name ||
-            player.name ||
-            "Oyuncu"
+            guest?.full_name ||
+            "Misafir Oyuncu"
         );
 
     };
@@ -607,24 +627,27 @@ function renderPitchLayout({
         <div class="player-card">
 
             <div
-                    class="player-name"
-                    title="${getName(player)}"
-                >
+                class="player-name"
+                title="${getName(player)}"
+            >
                 ${
                     player.is_captain
                         ? "👑 "
                         : ""
                 }
+
                 ${getName(player)}
             </div>
 
-                <div class="player-rating">
-                    ⚡ ${
-                        player.overall_score
-                            ? Number(player.overall_score).toFixed(1)
-                            : "-"
-                    }
-                </div>
+            <div class="player-rating">
+                ⚡ ${
+                    player.overall_score
+                        ? Number(
+                            player.overall_score
+                        ).toFixed(1)
+                        : "-"
+                }
+            </div>
 
             <div class="player-position">
                 ${positionLabel}
