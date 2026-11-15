@@ -131,118 +131,256 @@ async function generateTeams() {
 
 async function loadPlayerStats(ids) {
 
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from(
-            "player_rating_summary"
-        )
-        .select(`
-            target_user_id,
-            overall_score,
-            condition_score,
-            technique_score,
-            attack_score,
-            defense_score,
-            teamplay_score,
-            goalkeeper_score,
-            captain_score
-        `)
-        .in(
-            "target_user_id",
-            ids
-        );
+    const playerIds = ids
+        .filter(x => x.startsWith("player:"))
+        .map(x => x.replace("player:", ""));
 
-    if (error) {
-        throw error;
-    }
+    const guestIds = ids
+        .filter(x => x.startsWith("guest:"))
+        .map(x => x.replace("guest:", ""));
 
-    const profileIds =
-        data.map(
-            x => x.target_user_id
-        );
+    const players = [];
 
-    const {
-        data: profiles,
-        error: profileError
-    } = await supabaseClient
-        .from("profiles")
-        .select(`
-            id,
-            full_name,
-            nickname
-        `)
-        .in(
-            "id",
-            profileIds
-        );
+    if (playerIds.length > 0) {
 
-    if (profileError) {
-        throw profileError;
-    }
-
-    return data.map(rating => {
-
-        const profile =
-            profiles.find(
-                p =>
-                    p.id ===
-                    rating.target_user_id
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from(
+                "player_rating_summary"
+            )
+            .select(`
+                target_user_id,
+                overall_score,
+                condition_score,
+                technique_score,
+                attack_score,
+                defense_score,
+                teamplay_score,
+                goalkeeper_score,
+                captain_score
+            `)
+            .in(
+                "target_user_id",
+                playerIds
             );
 
-        return {
+        if (error) {
+            throw error;
+        }
 
-            id:
-                rating.target_user_id,
+        const profileIds =
+            data.map(
+                x => x.target_user_id
+            );
 
-            name:
-                profile?.nickname ||
-                profile?.full_name ||
-                "Oyuncu",
+        const {
+            data: profiles,
+            error: profileError
+        } = await supabaseClient
+            .from("profiles")
+            .select(`
+                id,
+                full_name,
+                nickname
+            `)
+            .in(
+                "id",
+                profileIds
+            );
 
-            overall:
-                Number(
-                    rating.overall_score || 0
-                ),
+        if (profileError) {
+            throw profileError;
+        }
 
-            condition:
-                Number(
-                    rating.condition_score || 0
-                ),
+        players.push(
+            ...data.map(rating => {
 
-            technique:
-                Number(
-                    rating.technique_score || 0
-                ),
+                const profile =
+                    profiles.find(
+                        p =>
+                            p.id ===
+                            rating.target_user_id
+                    );
 
-            attack:
-                Number(
-                    rating.attack_score || 0
-                ),
+                return {
 
-            defense:
-                Number(
-                    rating.defense_score || 0
-                ),
+                    id:
+                        rating.target_user_id,
 
-            teamplay:
-                Number(
-                    rating.teamplay_score || 0
-                ),
+                    type:
+                        "player",
 
-            goalkeeper:
-                Number(
-                    rating.goalkeeper_score || 0
-                ),
+                    name:
+                        profile?.nickname ||
+                        profile?.full_name ||
+                        "Oyuncu",
 
-            captain:
-                Number(
-                    rating.captain_score || 0
-                )
+                    overall:
+                        Number(
+                            rating.overall_score || 0
+                        ),
 
-        };
-    });
+                    condition:
+                        Number(
+                            rating.condition_score || 0
+                        ),
+
+                    technique:
+                        Number(
+                            rating.technique_score || 0
+                        ),
+
+                    attack:
+                        Number(
+                            rating.attack_score || 0
+                        ),
+
+                    defense:
+                        Number(
+                            rating.defense_score || 0
+                        ),
+
+                    teamplay:
+                        Number(
+                            rating.teamplay_score || 0
+                        ),
+
+                    goalkeeper:
+                        Number(
+                            rating.goalkeeper_score || 0
+                        ),
+
+                    captain:
+                        Number(
+                            rating.captain_score || 0
+                        )
+
+                };
+
+            })
+        );
+
+    }
+
+    if (guestIds.length > 0) {
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from(
+                "guest_player_rating_summary"
+            )
+            .select(`
+                target_guest_id,
+                overall_score,
+                condition_score,
+                technique_score,
+                attack_score,
+                defense_score,
+                teamplay_score,
+                goalkeeper_score,
+                captain_score
+            `)
+            .in(
+                "target_guest_id",
+                guestIds
+            );
+
+        if (error) {
+            throw error;
+        }
+
+        const {
+            data: guests,
+            error: guestError
+        } = await supabaseClient
+            .from("guest_players")
+            .select(`
+                id,
+                full_name
+            `)
+            .in(
+                "id",
+                guestIds
+            );
+
+        if (guestError) {
+            throw guestError;
+        }
+
+        players.push(
+            ...data.map(rating => {
+
+                const guest =
+                    guests.find(
+                        g =>
+                            g.id ===
+                            rating.target_guest_id
+                    );
+
+                return {
+
+                    id:
+                        rating.target_guest_id,
+
+                    type:
+                        "guest",
+
+                    name:
+                        `${guest?.full_name || "Misafir"} (Misafir)`,
+
+                    overall:
+                        Number(
+                            rating.overall_score || 0
+                        ),
+
+                    condition:
+                        Number(
+                            rating.condition_score || 0
+                        ),
+
+                    technique:
+                        Number(
+                            rating.technique_score || 0
+                        ),
+
+                    attack:
+                        Number(
+                            rating.attack_score || 0
+                        ),
+
+                    defense:
+                        Number(
+                            rating.defense_score || 0
+                        ),
+
+                    teamplay:
+                        Number(
+                            rating.teamplay_score || 0
+                        ),
+
+                    goalkeeper:
+                        Number(
+                            rating.goalkeeper_score || 0
+                        ),
+
+                    captain:
+                        Number(
+                            rating.captain_score || 0
+                        )
+
+                };
+
+            })
+        );
+
+    }
+
+    return players;
+
 }
 
 function buildBalancedTeams(players) {
