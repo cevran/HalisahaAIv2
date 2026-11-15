@@ -255,24 +255,39 @@ function renderMatchPitches(
 
 function getPlayerName(
     player,
-    profiles
+    profiles,
+    guests = []
 ) {
 
-    const profile =
-        profiles.find(
-            p =>
-                p.id ===
-                player.user_id
+    if (player.user_id) {
+
+        const profile =
+            profiles.find(
+                p =>
+                    p.id ===
+                    player.user_id
+            );
+
+        return (
+            profile?.nickname ||
+            profile?.full_name ||
+            "Oyuncu"
         );
 
-    if (!profile) {
-        return "Oyuncu";
     }
 
+    const guest =
+        guests.find(
+            g =>
+                g.id ===
+                player.guest_id
+        );
+
     return (
-        profile.nickname ||
-        profile.full_name
+        guest?.full_name ||
+        "Misafir Oyuncu"
     );
+
 }
 
 
