@@ -57,6 +57,19 @@ async function loadPlayersAndRatings() {
 
     if (ratingError) throw ratingError;
 
+    const { data: guests, error: guestError } = await supabaseClient
+        .from('guest_players')
+        .select(`
+            id,
+            full_name
+        `)
+        .eq('group_id', currentGroupId)
+        .eq('active', true);
+
+    if (guestError) throw guestError;
+
+    console.log("guests", guests);
+
     players = members
         .filter(m => m.user_id !== currentUserId)
         .map(member => {
@@ -66,7 +79,10 @@ async function loadPlayersAndRatings() {
             );
 
             return {
+                type: "player",
+
                 user_id: member.user_id,
+
                 full_name:
                     member.profiles?.full_name ||
                     member.profiles?.nickname ||
@@ -82,9 +98,11 @@ async function loadPlayersAndRatings() {
                     captain_score: null
                 }
             };
+
         });
 
     renderPlayers();
+
 }
 
 function createStars(container, selectedValue, callback) {
