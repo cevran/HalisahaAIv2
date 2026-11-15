@@ -186,7 +186,10 @@ function renderPlayers() {
 
         const clone = template.content.cloneNode(true);
 
-        clone.querySelector('.player-name').textContent = player.full_name;
+        clone.querySelector('.player-name').textContent = 
+            player.type === "guest"
+                ? `${player.full_name} (Misafir)`
+                : player.full_name;
 
         clone.querySelectorAll('.star-rating').forEach(starContainer => {
 
