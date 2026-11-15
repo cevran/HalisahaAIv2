@@ -817,3 +817,42 @@ async function loadGuestPlayers() {
     });
 
 }
+
+
+
+async function removeGuestPlayer(
+    guestId
+) {
+
+    const ok = confirm(
+        "Misafir oyuncu gruptan çıkarılsın mı?"
+    );
+
+    if (!ok) {
+        return;
+    }
+
+    const { error } =
+        await supabaseClient
+            .from("guest_players")
+            .update({
+                active: false
+            })
+            .eq(
+                "id",
+                guestId
+            );
+
+    if (error) {
+
+        alert(
+            error.message
+        );
+
+        return;
+
+    }
+
+    await loadGuestPlayers();
+
+}
