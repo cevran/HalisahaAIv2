@@ -714,7 +714,7 @@ async function loadGuestPlayers() {
 
                 <img
                     class="player-avatar"
-                    src="assets/default-avatar.png"
+                    src="assets/default-guest-avatar.png"
                     alt="Misafir Oyuncu">
 
                 <div class="player-info">
@@ -725,11 +725,7 @@ async function loadGuestPlayers() {
 
                     <div class="player-role">
                         👤 Misafir Oyuncu
-                        ${
-                            player.position
-                                ? ` • ${player.position}`
-                                : ""
-                        }
+
                     </div>
 
                 </div>
