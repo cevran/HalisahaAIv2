@@ -795,17 +795,24 @@ async function loadGuestPlayers() {
 
                     <div class="player-role">
                         👤 Misafir Oyuncu
-
                     </div>
 
                 </div>
 
             </div>
-        `;
 
-        guestPlayersList.appendChild(
-            div
-        );
+            <div class="player-actions">
+
+                <button
+                    class="danger-btn"
+                    onclick="removeGuestPlayer('${player.id}')">
+
+                    Gruptan Çıkar
+
+                </button>
+
+            </div>
+        `;
 
     });
 
