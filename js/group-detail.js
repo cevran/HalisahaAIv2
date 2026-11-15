@@ -673,12 +673,11 @@ async function deleteGroup(){
 }
 
 async function loadGuestPlayers() {
-    
 
     const guestActions =
-    document.getElementById(
-        "guestPlayersActions"
-    );
+        document.getElementById(
+            "guestPlayersActions"
+        );
 
     guestActions.innerHTML = `
         <button
@@ -690,59 +689,58 @@ async function loadGuestPlayers() {
     `;
 
     document
-    .getElementById(
-        "addGuestPlayerBtn"
-    )
-    ?.addEventListener(
-        "click",
-        async () => {
+        .getElementById(
+            "addGuestPlayerBtn"
+        )
+        ?.addEventListener(
+            "click",
+            async () => {
 
-            const fullName =
-                prompt(
-                    "Misafir oyuncu adı soyadı"
-                );
+                const fullName =
+                    prompt(
+                        "Misafir oyuncu adı soyadı"
+                    );
 
-            if (
-                !fullName ||
-                !fullName.trim()
-            ) {
-                return;
-            }
+                if (
+                    !fullName ||
+                    !fullName.trim()
+                ) {
+                    return;
+                }
 
-            const { error } =
-                await supabaseClient
-                    .from(
-                        "guest_players"
-                    )
-                    .insert({
-                        group_id:
-                            currentGroupId,
+                const { error } =
+                    await supabaseClient
+                        .from(
+                            "guest_players"
+                        )
+                        .insert({
+                            group_id:
+                                currentGroupId,
 
-                        full_name:
-                            fullName.trim(),
+                            full_name:
+                                fullName.trim(),
 
-                        active: true,
+                            active: true,
 
-                        created_by:
-                            currentUserId
-                    });
+                            created_by:
+                                currentUserId
+                        });
 
-            if (error) {
+                if (error) {
+                    alert(
+                        error.message
+                    );
+                    return;
+                }
+
+                await loadGuestPlayers();
+
                 alert(
-                    error.message
+                    "✅ Misafir oyuncu eklendi"
                 );
-                return;
+
             }
-
-            await loadGuestPlayers();
-
-            alert(
-                "✅ Misafir oyuncu eklendi"
-            );
-
-        }
-    );
-
+        );
 
     const { data, error } =
         await supabaseClient
@@ -751,6 +749,7 @@ async function loadGuestPlayers() {
             .eq("group_id", currentGroupId)
             .eq("active", true)
             .order("full_name");
+
     console.log("guest data", data);
 
     if (error) {
@@ -814,10 +813,13 @@ async function loadGuestPlayers() {
             </div>
         `;
 
+        guestPlayersList.appendChild(
+            div
+        );
+
     });
 
 }
-
 
 
 async function removeGuestPlayer(
