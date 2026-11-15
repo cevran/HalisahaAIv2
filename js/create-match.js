@@ -83,7 +83,7 @@ async function loadGroupInfo() {
 
 async function loadPlayers() {
 
-    const { data, error } =
+    const { data: members, error: memberError } =
         await supabaseClient
             .from("group_members")
             .select(`
@@ -101,8 +101,8 @@ async function loadPlayers() {
                 true
             );
 
-    if (error) {
-        console.error(error);
+    if (memberError) {
+        console.error(memberError);
         return;
     }
 
@@ -120,18 +120,69 @@ async function loadPlayers() {
         );
 
     if (ratedError) {
-
         console.error(
             "player_rating_summary",
             ratedError
         );
     }
 
-    const ratedSet =
+    const {
+        data: guests,
+        error: guestError
+    } = await supabaseClient
+        .from("guest_players")
+        .select(`
+            id,
+            full_name
+        `)
+        .eq(
+            "group_id",
+            currentGroupId
+        )
+        .eq(
+            "active",
+            true
+        );
+
+    if (guestError) {
+        console.error(guestError);
+        return;
+    }
+
+    const {
+        data: ratedGuests,
+        error: ratedGuestError
+    } = await supabaseClient
+        .from("guest_player_rating_summary")
+        .select(`
+            target_guest_id
+        `)
+        .eq(
+            "group_id",
+            currentGroupId
+        );
+
+    if (ratedGuestError) {
+        console.error(
+            "guest_player_rating_summary",
+            ratedGuestError
+        );
+    }
+
+    const ratedPlayerSet =
         new Set(
-            (ratedPlayers || []).map(
-                p => p.target_user_id
-            )
+            (ratedPlayers || [])
+                .map(
+                    p => p.target_user_id
+                )
+        );
+
+    const ratedGuestSet =
+        new Set(
+            (ratedGuests || [])
+                .map(
+                    g => g.target_guest_id
+                )
         );
 
     const playersList =
@@ -141,12 +192,40 @@ async function loadPlayers() {
 
     playersList.innerHTML = "";
 
-    data.forEach(player => {
+    const allPlayers = [];
 
-        const isRated =
-            ratedSet.has(
-                player.user_id
-            );
+    members.forEach(player => {
+
+        allPlayers.push({
+            id: player.user_id,
+            type: "player",
+            name:
+                player.profiles?.full_name ||
+                "İsimsiz Oyuncu",
+            isRated:
+                ratedPlayerSet.has(
+                    player.user_id
+                )
+        });
+
+    });
+
+    guests.forEach(guest => {
+
+        allPlayers.push({
+            id: guest.id,
+            type: "guest",
+            name:
+                `${guest.full_name} (Misafir)`,
+            isRated:
+                ratedGuestSet.has(
+                    guest.id
+                )
+        });
+
+    });
+
+    allPlayers.forEach(player => {
 
         const card =
             document.createElement(
@@ -154,22 +233,25 @@ async function loadPlayers() {
             );
 
         card.className =
-            isRated
+            player.isRated
                 ? "match-player-card"
                 : "match-player-card disabled-player";
 
-        card.dataset.userId =
-            player.user_id;
+        const playerKey =
+            `${player.type}:${player.id}`;
+
+        card.dataset.playerKey =
+            playerKey;
 
         card.innerHTML = `
             <div class="player-check"></div>
 
             <div class="player-name">
-                ${player.profiles?.full_name || "İsimsiz Oyuncu"}
+                ${player.name}
             </div>
 
             <div class="player-status">
-                ${isRated ? "🟢" : "🔴"}
+                ${player.isRated ? "🟢" : "🔴"}
             </div>
         `;
 
@@ -177,7 +259,7 @@ async function loadPlayers() {
             "click",
             () => {
 
-                if (!isRated) {
+                if (!player.isRated) {
 
                     document.getElementById(
                         "validationMessage"
@@ -191,9 +273,6 @@ async function loadPlayers() {
                     return;
                 }
 
-                const userId =
-                    player.user_id;
-
                 const check =
                     card.querySelector(
                         ".player-check"
@@ -201,12 +280,12 @@ async function loadPlayers() {
 
                 if (
                     selectedPlayers.has(
-                        userId
+                        playerKey
                     )
                 ) {
 
                     selectedPlayers.delete(
-                        userId
+                        playerKey
                     );
 
                     card.classList.remove(
@@ -218,7 +297,7 @@ async function loadPlayers() {
                 } else {
 
                     selectedPlayers.add(
-                        userId
+                        playerKey
                     );
 
                     card.classList.add(
@@ -226,6 +305,7 @@ async function loadPlayers() {
                     );
 
                     check.innerHTML = "✓";
+
                 }
 
                 document.getElementById(
@@ -236,13 +316,16 @@ async function loadPlayers() {
                     "selectedCount"
                 ).innerText =
                     `Seçilen Oyuncu: ${selectedPlayers.size}`;
+
             }
         );
 
         playersList.appendChild(
             card
         );
+
     });
+
 }
 
 document
