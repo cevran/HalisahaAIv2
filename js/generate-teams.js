@@ -1118,32 +1118,41 @@ async function saveMatch() {
                         "PLAYER OBJECT",
                         player
                     );
-                playerRows.push({
 
-                    match_id: match.id,
+                    playerRows.push({
 
-                    user_id: player.id,
+                        match_id: match.id,
 
-                    team_color: teamColor,
+                        user_id:
+                            player.type === "player"
+                                ? player.id
+                                : null,
 
-                    position: position,
+                        guest_id:
+                            player.type === "guest"
+                                ? player.id
+                                : null,
 
-                    is_captain:
-                        player.id === captain.id,
+                        team_color: teamColor,
 
-                    is_goalkeeper:
-                        position === "GK",
+                        position: position,
 
-                    overall_score:
-                        player.overall || null,
+                        is_captain:
+                            player.id === captain.id,
 
-                    captain_score:
-                        player.captain || null,
+                        is_goalkeeper:
+                            position === "GK",
 
-                    goalkeeper_score:
-                        player.goalkeeper || null
+                        overall_score:
+                            player.overall || null,
 
-                });
+                        captain_score:
+                            player.captain || null,
+
+                        goalkeeper_score:
+                            player.goalkeeper || null
+
+                    });
 
             });
 
