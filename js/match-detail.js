@@ -385,6 +385,17 @@ function renderMatch(
                 📤 Takımları Paylaş
             </button>
 
+            <button
+                id="deleteMatchBtn"
+                style="
+                    background:#dc2626;
+                    color:white;
+                    margin-top:10px;
+                "
+            >
+                🗑️ Maçı Sil
+            </button>
+
             ${
                 match.status !== "completed"
                 ? `
@@ -438,6 +449,18 @@ function renderMatch(
 
 }
 
+document
+    .getElementById(
+        "deleteMatchBtn"
+    )
+    ?.addEventListener(
+        "click",
+        () => {
+            deleteMatch(
+                match.id
+            );
+        }
+    );
 
 function showScoreModal(
     matchId
@@ -716,5 +739,76 @@ function renderPitchLayout({
             ${html}
         </div>
     `;
+
+}
+
+
+async function deleteMatch(
+    matchId
+) {
+
+    const ok = confirm(
+        "Maç silinsin mi?\n\nBu işlem geri alınamaz."
+    );
+
+    if (!ok) {
+        return;
+    }
+
+    try {
+
+        const {
+            error: playerError
+        } =
+            await supabaseClient
+                .from(
+                    "match_players"
+                )
+                .delete()
+                .eq(
+                    "match_id",
+                    matchId
+                );
+
+        if (playerError) {
+            throw playerError;
+        }
+
+        const {
+            error: matchError
+        } =
+            await supabaseClient
+                .from(
+                    "matches"
+                )
+                .delete()
+                .eq(
+                    "id",
+                    matchId
+                );
+
+        if (matchError) {
+            throw matchError;
+        }
+
+        alert(
+            "✅ Maç silindi."
+        );
+
+        window.location.href =
+            "matches.html";
+
+    }
+    catch (err) {
+
+        console.error(
+            err
+        );
+
+        alert(
+            err.message
+        );
+
+    }
 
 }
