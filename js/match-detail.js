@@ -72,9 +72,7 @@ async function loadMatch(
         error: playerError
     } =
         await supabaseClient
-            .from(
-                "match_players"
-            )
+            .from("match_players")
             .select("*")
             .eq(
                 "match_id",
@@ -84,11 +82,26 @@ async function loadMatch(
     if (playerError) {
         throw playerError;
     }
+
     console.log(players);
+
     const userIds =
-        players.map(
-            p => p.user_id
-        );
+        players
+            .filter(
+                p => p.user_id
+            )
+            .map(
+                p => p.user_id
+            );
+
+    const guestIds =
+        players
+            .filter(
+                p => p.guest_id
+            )
+            .map(
+                p => p.guest_id
+            );
 
     const {
         data: profiles,
@@ -110,6 +123,25 @@ async function loadMatch(
         throw profileError;
     }
 
+    const {
+        data: guests,
+        error: guestError
+    } =
+        await supabaseClient
+            .from("guest_players")
+            .select(`
+                id,
+                full_name
+            `)
+            .in(
+                "id",
+                guestIds
+            );
+
+    if (guestError) {
+        throw guestError;
+    }
+
     const whiteTeam =
         players.filter(
             p =>
@@ -128,8 +160,10 @@ async function loadMatch(
         match,
         whiteTeam,
         redTeam,
-        profiles
+        profiles,
+        guests
     );
+
 }
 
 function formatDate(
