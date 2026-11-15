@@ -224,40 +224,93 @@ async function saveRatings() {
                     r.goalkeeper_score != null ||
                     r.captain_score != null
                 );
+
             })
             .map(player => ({
                 group_id: currentGroupId,
-                rater_user_id: currentUserId,
-                target_user_id: player.user_id,
 
-                condition_score: player.rating.condition_score,
-                technique_score: player.rating.technique_score,
-                attack_score: player.rating.attack_score,
-                defense_score: player.rating.defense_score,
-                teamplay_score: player.rating.teamplay_score,
-                goalkeeper_score: player.rating.goalkeeper_score,
-                captain_score: player.rating.captain_score
+                rater_user_id: currentUserId,
+
+                target_user_id:
+                    player.type === "player"
+                        ? player.user_id
+                        : null,
+
+                target_guest_id:
+                    player.type === "guest"
+                        ? player.guest_id
+                        : null,
+
+                condition_score:
+                    player.rating.condition_score,
+
+                technique_score:
+                    player.rating.technique_score,
+
+                attack_score:
+                    player.rating.attack_score,
+
+                defense_score:
+                    player.rating.defense_score,
+
+                teamplay_score:
+                    player.rating.teamplay_score,
+
+                goalkeeper_score:
+                    player.rating.goalkeeper_score,
+
+                captain_score:
+                    player.rating.captain_score
             }));
 
         if (records.length === 0) {
-            alert('Kaydedilecek değerlendirme bulunamadı.');
+
+            alert(
+                'Kaydedilecek değerlendirme bulunamadı.'
+            );
+
             return;
+
         }
 
-        const { error } = await supabaseClient
-            .from('player_ratings')
-            .upsert(records, {
-                onConflict: 'group_id,rater_user_id,target_user_id'
-            });
+        const { error: deleteError } =
+            await supabaseClient
+                .from('player_ratings')
+                .delete()
+                .eq(
+                    'group_id',
+                    currentGroupId
+                )
+                .eq(
+                    'rater_user_id',
+                    currentUserId
+                );
+
+        if (deleteError) {
+            throw deleteError;
+        }
+
+        const { error } =
+            await supabaseClient
+                .from('player_ratings')
+                .insert(
+                    records
+                );
 
         if (error) throw error;
 
-        alert('Değerlendirmeler başarıyla kaydedildi.');
+        alert(
+            'Değerlendirmeler başarıyla kaydedildi.'
+        );
 
     } catch (err) {
 
         console.error(err);
-        alert(err.message);
+
+        alert(
+            err.message
+        );
 
     }
+
 }
