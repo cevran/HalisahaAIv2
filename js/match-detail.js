@@ -447,24 +447,29 @@ function renderMatch(
 
     }
 
+    const deleteBtn =
+    document.getElementById(
+        "deleteMatchBtn"
+    );
+
+    if (deleteBtn) {
+
+        deleteBtn.addEventListener(
+            "click",
+            () => {
+
+                deleteMatch(
+                    match.id
+                );
+
+            }
+        );
+
+    }
+
 }
 
-document
-    .getElementById(
-        "deleteMatchBtn"
-    )
-    ?.addEventListener(
-        "click",
-        () => {
 
-            alert("Delete button clicked");
-
-            deleteMatch(
-                match.id
-            );
-
-        }
-    );
 
 function showScoreModal(
     matchId
