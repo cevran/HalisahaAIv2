@@ -756,8 +756,7 @@ async function deleteMatch(
     matchId
 ) {
 
-    alert("deleteMatch fonksiyonuna girildi");
-
+    
     const ok = confirm(
         "Maç silinsin mi?\n\nBu işlem geri alınamaz."
     );
