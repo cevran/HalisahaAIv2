@@ -681,7 +681,8 @@ async function loadGuestPlayers() {
             .eq("group_id", currentGroupId)
             .eq("active", true)
             .order("full_name");
-
+    console.log("guest data", data);
+    
     if (error) {
         console.error(error);
         return;
