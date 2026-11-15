@@ -673,7 +673,7 @@ async function deleteGroup(){
 }
 
 async function loadGuestPlayers() {
-
+    console.log("loadGuestPlayers CALISTI");
     const { data, error } =
         await supabaseClient
             .from("guest_players")
@@ -682,7 +682,7 @@ async function loadGuestPlayers() {
             .eq("active", true)
             .order("full_name");
     console.log("guest data", data);
-    
+
     if (error) {
         console.error(error);
         return;
