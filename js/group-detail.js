@@ -690,17 +690,58 @@ async function loadGuestPlayers() {
     `;
 
     document
-        .getElementById(
-            "addGuestPlayerBtn"
-        )
-        ?.addEventListener(
-            "click",
-            () => {
-                alert(
-                    "Misafir ekleme ekranı gelecek."
+    .getElementById(
+        "addGuestPlayerBtn"
+    )
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const fullName =
+                prompt(
+                    "Misafir oyuncu adı soyadı"
                 );
+
+            if (
+                !fullName ||
+                !fullName.trim()
+            ) {
+                return;
             }
-        );
+
+            const { error } =
+                await supabaseClient
+                    .from(
+                        "guest_players"
+                    )
+                    .insert({
+                        group_id:
+                            currentGroupId,
+
+                        full_name:
+                            fullName.trim(),
+
+                        active: true,
+
+                        created_by:
+                            currentUserId
+                    });
+
+            if (error) {
+                alert(
+                    error.message
+                );
+                return;
+            }
+
+            await loadGuestPlayers();
+
+            alert(
+                "✅ Misafir oyuncu eklendi"
+            );
+
+        }
+    );
 
 
     const { data, error } =
