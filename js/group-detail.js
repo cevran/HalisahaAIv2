@@ -30,6 +30,7 @@ document.addEventListener(
 
         await loadGroup();
         await loadPlayers();
+        await loadGuestPlayers();
         await loadRatingProgress();
 
         document
@@ -668,5 +669,77 @@ async function deleteGroup(){
 
     location.href =
         "groups.html";
+
+}
+
+async function loadGuestPlayers() {
+
+    const { data, error } =
+        await supabaseClient
+            .from("guest_players")
+            .select("*")
+            .eq("group_id", currentGroupId)
+            .eq("active", true)
+            .order("full_name");
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    const guestPlayersList =
+        document.getElementById(
+            "guestPlayersList"
+        );
+
+    if (!guestPlayersList) {
+        return;
+    }
+
+    guestPlayersList.innerHTML = "";
+
+    data.forEach(player => {
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+        div.className =
+            "player-row";
+
+        div.innerHTML = `
+            <div class="player-left">
+
+                <img
+                    class="player-avatar"
+                    src="assets/default-avatar.png"
+                    alt="Misafir Oyuncu">
+
+                <div class="player-info">
+
+                    <div class="player-name">
+                        ${player.full_name}
+                    </div>
+
+                    <div class="player-role">
+                        👤 Misafir Oyuncu
+                        ${
+                            player.position
+                                ? ` • ${player.position}`
+                                : ""
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+        guestPlayersList.appendChild(
+            div
+        );
+
+    });
 
 }
