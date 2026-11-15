@@ -673,7 +673,36 @@ async function deleteGroup(){
 }
 
 async function loadGuestPlayers() {
-    console.log("loadGuestPlayers CALISTI");
+    
+
+    const guestActions =
+    document.getElementById(
+        "guestPlayersActions"
+    );
+
+    guestActions.innerHTML = `
+        <button
+            id="addGuestPlayerBtn"
+            class="primary-btn"
+            style="margin-bottom:15px;">
+            ➕ Misafir Oyuncu Ekle
+        </button>
+    `;
+
+    document
+        .getElementById(
+            "addGuestPlayerBtn"
+        )
+        ?.addEventListener(
+            "click",
+            () => {
+                alert(
+                    "Misafir ekleme ekranı gelecek."
+                );
+            }
+        );
+
+
     const { data, error } =
         await supabaseClient
             .from("guest_players")
