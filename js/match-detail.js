@@ -456,9 +456,13 @@ document
     ?.addEventListener(
         "click",
         () => {
+
+            alert("Delete button clicked");
+
             deleteMatch(
                 match.id
             );
+
         }
     );
 
@@ -747,6 +751,8 @@ async function deleteMatch(
     matchId
 ) {
 
+    alert("deleteMatch fonksiyonuna girildi");
+
     const ok = confirm(
         "Maç silinsin mi?\n\nBu işlem geri alınamaz."
     );
@@ -806,6 +812,7 @@ async function deleteMatch(
         );
 
         alert(
+            "Hata: " +
             err.message
         );
 
