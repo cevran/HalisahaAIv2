@@ -161,6 +161,10 @@ async function loadPlayerStats(ids) {
                 goalkeeper_score,
                 captain_score
             `)
+            .eq(
+                "group_id",
+                currentGroupId
+            )
             .in(
                 "target_user_id",
                 playerIds
@@ -284,14 +288,14 @@ async function loadPlayerStats(ids) {
                 goalkeeper_score,
                 captain_score
             `)
+            .eq(
+                "group_id",
+                currentGroupId
+            )
             .in(
                 "target_guest_id",
                 guestIds
             );
-
-        if (error) {
-            throw error;
-        }
 
         const {
             data: guests,
