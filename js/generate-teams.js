@@ -447,15 +447,20 @@ function buildBalancedTeams(players) {
         }
     });
 
-    const targetSize =
+    const whiteTargetSize =
+    Math.ceil(
+        players.length / 2
+    );
+
+    const redTargetSize =
         Math.floor(
             players.length / 2
         );
 
     if (
-        forcedWhite.length > targetSize ||
-        forcedRed.length > targetSize
-    ) {
+    forcedWhite.length > whiteTargetSize ||
+    forcedRed.length > redTargetSize
+) {
 
         throw new Error(
             "Bir takım için çok fazla sabit oyuncu seçildi."
@@ -485,7 +490,7 @@ function buildBalancedTeams(players) {
 
             if (
                 whiteTeam.length <
-                targetSize
+                whiteTargetSize
             ) {
 
                 whiteTeam.push(

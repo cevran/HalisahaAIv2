@@ -515,22 +515,7 @@ document
                 return;
             }
 
-            if (
-                selectedPlayers.size % 2 !== 0
-            ) {
-
-                document.getElementById(
-                    "validationMessage"
-                ).innerHTML =
-                    `
-                    <div class="warning">
-                        Oyuncu sayısı çift olmalıdır.
-                    </div>
-                    `;
-
-                return;
-            }
-
+            
             document.getElementById(
                 "validationMessage"
             ).innerHTML = "";
