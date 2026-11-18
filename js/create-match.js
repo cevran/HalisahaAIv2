@@ -1,4 +1,5 @@
 const selectedPlayers = new Set();
+const teamPreferences = new Map();
 
 let currentGroupId = null;
 
@@ -15,10 +16,7 @@ document.addEventListener(
             return;
         }
 
-        document.getElementById(
-            "selectedCount"
-        ).innerText =
-            "Seçilen Oyuncu: 0";
+        updateSelectedSummary();
 
         const params =
             new URLSearchParams(
@@ -80,6 +78,37 @@ async function loadGroupInfo() {
         await loadPlayers();
     }
 );
+
+function updateSelectedSummary() {
+
+    let whiteCount = 0;
+    let redCount = 0;
+    let aiCount = 0;
+
+    selectedPlayers.forEach(playerKey => {
+
+        const pref =
+            teamPreferences.get(playerKey) || "ai";
+
+        if (pref === "white") {
+            whiteCount++;
+        } else if (pref === "red") {
+            redCount++;
+        } else {
+            aiCount++;
+        }
+    });
+
+    document.getElementById(
+        "selectedCount"
+    ).innerHTML = `
+        <strong>👥 Toplam Oyuncu: ${selectedPlayers.size}</strong><br>
+        ⚪ Beyaz Takım: ${whiteCount} |
+        🔴 Kırmızı Takım: ${redCount} |
+        🤖 AI: ${aiCount}
+    `;
+}
+
 
 async function loadPlayers() {
 
@@ -250,10 +279,76 @@ async function loadPlayers() {
                 ${player.name}
             </div>
 
+            <div class="player-team-pref"
+                data-player-key="${playerKey}"
+                style="
+                    display:none;
+                    min-width:42px;
+                    text-align:center;
+                    font-size:18px;
+                    cursor:pointer;
+                    margin-right:8px;
+                ">
+                🤖
+            </div>
+
             <div class="player-status">
                 ${player.isRated ? "🟢" : "🔴"}
             </div>
         `;
+
+        const teamPrefElement =
+            card.querySelector(
+                ".player-team-pref"
+            );
+
+        teamPrefElement.addEventListener(
+            "click",
+            (e) => {
+
+                e.stopPropagation();
+
+                if (
+                    !selectedPlayers.has(
+                        playerKey
+                    )
+                ) {
+                    return;
+                }
+
+                const current =
+                    teamPreferences.get(
+                        playerKey
+                    ) || "ai";
+
+                let next;
+
+                if (current === "ai") {
+                    next = "white";
+                    teamPrefElement.style.background = "#dbeafe";
+                    teamPrefElement.style.borderRadius = "20px";
+                    teamPrefElement.innerHTML = "⚪";
+                }
+                else if (current === "white") {
+                    next = "red";
+                    teamPrefElement.style.background = "#fee2e2";
+                    teamPrefElement.style.borderRadius = "20px";
+                    teamPrefElement.innerHTML = "🔴";
+                }
+                else {
+                    next = "ai";
+                    teamPrefElement.style.background = "transparent";
+                    teamPrefElement.innerHTML = "🤖";
+                }
+
+                teamPreferences.set(
+                    playerKey,
+                    next
+                );
+
+                updateSelectedSummary();
+            }
+        );
 
         card.addEventListener(
             "click",
@@ -288,16 +383,32 @@ async function loadPlayers() {
                         playerKey
                     );
 
+                    teamPreferences.delete(
+                        playerKey
+                    );
+
                     card.classList.remove(
                         "selected"
                     );
 
                     check.innerHTML = "";
 
+                    teamPrefElement.style.display =
+                        "none";
+
+                    teamPrefElement.innerHTML =
+                        "🤖";
+
+
                 } else {
 
                     selectedPlayers.add(
                         playerKey
+                    );
+
+                    teamPreferences.set(
+                        playerKey,
+                        "ai"
                     );
 
                     card.classList.add(
@@ -306,16 +417,19 @@ async function loadPlayers() {
 
                     check.innerHTML = "✓";
 
+                    teamPrefElement.style.display =
+                        "block";
+
+                    teamPrefElement.innerHTML =
+                        "🤖";
+
                 }
 
                 document.getElementById(
                     "validationMessage"
                 ).innerHTML = "";
 
-                document.getElementById(
-                    "selectedCount"
-                ).innerText =
-                    `Seçilen Oyuncu: ${selectedPlayers.size}`;
+                updateSelectedSummary();
 
             }
         );
@@ -426,6 +540,15 @@ document
                 JSON.stringify(
                     Array.from(
                         selectedPlayers
+                    )
+                )
+            );
+
+            sessionStorage.setItem(
+                "teamPreferences",
+                JSON.stringify(
+                    Object.fromEntries(
+                        teamPreferences
                     )
                 )
             );
