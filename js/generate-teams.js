@@ -421,30 +421,84 @@ async function loadPlayerStats(ids) {
 
 function buildBalancedTeams(players) {
 
+    const forcedWhite = [];
+    const forcedRed = [];
+    const freePlayers = [];
+
+    players.forEach(player => {
+
+        const playerKey =
+            `${player.type}:${player.id}`;
+
+        const pref =
+            teamPreferences[playerKey] || "ai";
+
+        if (pref === "white") {
+
+            forcedWhite.push(player);
+
+        } else if (pref === "red") {
+
+            forcedRed.push(player);
+
+        } else {
+
+            freePlayers.push(player);
+        }
+    });
+
+    const targetSize =
+        Math.floor(
+            players.length / 2
+        );
+
+    if (
+        forcedWhite.length > targetSize ||
+        forcedRed.length > targetSize
+    ) {
+
+        throw new Error(
+            "Bir takım için çok fazla sabit oyuncu seçildi."
+        );
+    }
+
     const candidates = [];
 
-    for (let i = 0; i < ITERATION_COUNT; i++) {
+    for (
+        let i = 0;
+        i < ITERATION_COUNT;
+        i++
+    ) {
 
         const shuffled =
-            [...players].sort(
+            [...freePlayers].sort(
                 () => Math.random() - 0.5
             );
 
-        const half =
-            Math.floor(
-                shuffled.length / 2
-            );
-
         const whiteTeam =
-            shuffled.slice(
-                0,
-                half
-            );
+            [...forcedWhite];
 
         const redTeam =
-            shuffled.slice(
-                half
-            );
+            [...forcedRed];
+
+        shuffled.forEach(player => {
+
+            if (
+                whiteTeam.length <
+                targetSize
+            ) {
+
+                whiteTeam.push(
+                    player
+                );
+
+            } else {
+
+                redTeam.push(
+                    player
+                );
+            }
+        });
 
         const whiteStats =
             teamStats(
@@ -502,7 +556,6 @@ function buildBalancedTeams(players) {
             a.score - b.score
     );
 
-    // İlk çalıştırma
     if (!lastTeamSignature) {
 
         const best =
@@ -517,8 +570,10 @@ function buildBalancedTeams(players) {
         return best;
     }
 
-    // Yeniden oluştur
-    for (const candidate of candidates) {
+    for (
+        const candidate
+        of candidates
+    ) {
 
         const signature =
             getTeamSignature(
