@@ -7,6 +7,13 @@ let selectedPlayers = [];
 let generatedMatch = null;
 let lastTeamSignature = null;
 
+const teamPreferences =
+    JSON.parse(
+        sessionStorage.getItem(
+            "teamPreferences"
+        ) || "{}"
+    );
+
 const matchDateTime =
     sessionStorage.getItem("matchDateTime");
 
@@ -118,14 +125,39 @@ function formatMatchDate(
 
 
 async function generateTeams() {
+
     try {
-        const players = await loadPlayerStats(selectedPlayers);
-        const result = buildBalancedTeams(players);
-        generatedMatch = result;
-        renderMatch(result);
-    } catch (err) {
+
+        console.log(
+            "TEAM PREFERENCES",
+            teamPreferences
+        );
+
+        const players =
+            await loadPlayerStats(
+                selectedPlayers
+            );
+
+        const result =
+            buildBalancedTeams(
+                players
+            );
+
+        generatedMatch =
+            result;
+
+        renderMatch(
+            result
+        );
+
+    }
+    catch (err) {
+
         console.error(err);
-        alert("Takımlar oluşturulamadı.");
+
+        alert(
+            "Takımlar oluşturulamadı."
+        );
     }
 }
 
