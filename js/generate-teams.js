@@ -249,8 +249,8 @@ async function loadPlayerStats(ids) {
                         "player",
 
                     name:
-                        profile?.nickname ||
                         profile?.full_name ||
+                        profile?.nickname ||
                         "Oyuncu",
 
                     overall:
